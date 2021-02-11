@@ -5,5 +5,5 @@ jobs:
     runs-on: ubuntu-latest
     name: A job to say hello
     steps:
-    - run: echo random-number ${{ steps.foo.outputs.random-number }}
+    - run: Hello World
       shell: bash
