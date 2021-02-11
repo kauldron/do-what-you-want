@@ -1,9 +1,21 @@
-on: [push]
+name: ktlint
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/main.yml
+      - 'src/**/*.kt'
+      - '**.kts'
 
 jobs:
-  hello_world_job:
+  ktlint:
     runs-on: ubuntu-latest
-    name: A job to say hello
     steps:
-    - run: echo "Hello World"
-      shell: bash
+      - uses: actions/checkout@v2
+      - run: brew install ktlint
+      - name: run ktlint
+        run: |
+          ktlint --reporter=checkstyle,output=build/ktlint-report-in-checkstyle-format.xml
+      - uses: yutailang0119/action-ktlint@v1.0.0
+        with:
+          xml_path: build/ktlint-report-in-checkstyle-format.xml
