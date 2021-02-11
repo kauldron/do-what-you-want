@@ -5,7 +5,7 @@ on:
 
 jobs:
   ktlint:
-    runs-on: ubuntu-latest
+    runs-on: runboy
     steps:
       - uses: actions/checkout@v2
       - run: brew install ktlint
