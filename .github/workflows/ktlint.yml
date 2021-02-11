@@ -5,7 +5,7 @@ on:
 
 jobs:
   ktlint:
-    runs-on: runboy
+    runs-on: [self-hosted, linux, ARM64]
     steps:
       - uses: actions/checkout@v2
       - run: brew install ktlint
