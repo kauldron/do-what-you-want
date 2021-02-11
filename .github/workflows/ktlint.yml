@@ -2,6 +2,9 @@ name: ktlint
 
 on:
   pull_request:
+    paths:
+      - 'app/src/**/*.kt'
+      - '**.kts'
 
 jobs:
   ktlint:
