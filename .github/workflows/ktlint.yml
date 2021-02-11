@@ -5,7 +5,7 @@ on:
 
 jobs:
   ktlint:
-    runs-on: [self-hosted, linux, ARM64]
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v2
       - run: brew install ktlint
