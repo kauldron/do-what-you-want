@@ -2,7 +2,7 @@ name: gradlew_assemble_feature_to_dev
 
 on:   
   pull_request:
-    branches: [feature, dev]
+    branches: [dev]
 
 jobs:
   build:
