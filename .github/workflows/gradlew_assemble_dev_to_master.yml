@@ -1,4 +1,4 @@
-name: gradlew_assemble_feature_to_dev
+name: gradlew_assemble_dec_to_master
 
 on:   
   pull_request:

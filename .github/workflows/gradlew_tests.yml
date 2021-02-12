@@ -1,4 +1,4 @@
-name: gradlew_assemble_feature_to_dev
+name: gradle_tests
 
 on:   
   push:
