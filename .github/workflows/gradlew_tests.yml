@@ -13,9 +13,5 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Assemble with Gradle
-        run: gradle assembleDebug
-      - name: Set date variable
-        run: CURR_DATE=$(date '+%Y-%m-%d-%H-%M')
-      - name: Upload APK
-        run: curl --upload-file app/build/outputs/apk/debug/app-debug.apk https://transfer.sh/debug_app.apk
+      - name: Test with Gradle
+        run: gradle test
