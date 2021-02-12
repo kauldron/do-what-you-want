@@ -24,14 +24,3 @@ jobs:
         run: CURR_DATE=$(date)
       - name: Upload APK
         run: curl --upload-file app/build/outputs/apk/app-debug.txt https://transfer.sh/$RAND_STR_$CURR_DATE.apk
-      
-      
-
-
-
-
-
-
-
-
-curl --upload-file ./tecmint.txt https://transfer.sh/tecmint.txt
