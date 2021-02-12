@@ -18,9 +18,7 @@ jobs:
         run: chmod +x ./gradlew
       - name: Assemble with Gradle
         run: ./gradlew assembleDebug
-      - name: set string variable
-        run: RAND_STR=$(openssl rand -base64 12)
       - name: Set date variable
-        run: CURR_DATE=$(date)
+        run: CURR_DATE=$(date '+%Y-%m-%d-%H-%M')
       - name: Upload APK
-        run: curl --upload-file app/build/outputs/apk/app-debug.txt https://transfer.sh/$RAND_STR_$CURR_DATE.apk
+        run: curl --upload-file app/build/outputs/apk/app-debug.apk https://transfer.sh/$CURR_DATE.apk
