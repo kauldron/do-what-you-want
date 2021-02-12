@@ -1,0 +1,22 @@
+name: gradlew_assemble_feature_to_dev
+
+on:   
+  pull_request:
+    branches: [master, dev]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - name: Assemble with Gradle
+        run: gradle assembleRelease
+      - name: Set date variable
+        run: CURR_DATE=$(date '+%Y-%m-%d-%H-%M')
+      - name: Upload APK
+        run: curl --upload-file app/build/outputs/apk/debug/app-debug.apk https://transfer.sh/debug_app.apk
