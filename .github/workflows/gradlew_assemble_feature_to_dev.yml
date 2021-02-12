@@ -18,6 +18,8 @@ jobs:
         run: chmod +x ./gradlew
       - name: Assemble with Gradle
         run: ./gradlew assembleDebug
+      - name: Assemble with Gradle
+        run: ls -la
       - name: Set date variable
         run: CURR_DATE=$(date '+%Y-%m-%d-%H-%M')
       - name: Upload APK
