@@ -16,9 +16,7 @@ jobs:
           java-version: 1.8
       - name: Assemble with Gradle
         run: gradle assembleDebug
-      - name: Debug
-        run: ls -la app/build/outputs/apk/debug/app-debug.apk
       - name: Set date variable
         run: CURR_DATE=$(date '+%Y-%m-%d-%H-%M')
       - name: Upload APK
-        run: curl --upload-file app/build/outputs/apk/app-debug.apk https://transfer.sh/$CURR_DATE.apk
+        run: curl --upload-file app/build/outputs/apk/debug/app-debug.apk https://transfer.sh/$CURR_DATE.apk
