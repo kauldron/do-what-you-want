@@ -10,9 +10,5 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Give run perm to script
-        run: chmod +x ./gradlew
-      - name: Build with Gradle
-        run: brew install gradle
       - name: Build with Gradle
         run: gradle test
