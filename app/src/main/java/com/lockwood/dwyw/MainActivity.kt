@@ -1,10 +1,6 @@
 package com.lockwood.dwyw
 
 import android.Manifest
-import android.annotation.SuppressLint
-import android.content.IntentFilter
-import android.content.pm.PackageManager
-import android.net.wifi.WifiManager
 import android.net.wifi.p2p.WifiP2pDeviceList
 import android.net.wifi.p2p.WifiP2pManager
 import android.net.wifi.p2p.WifiP2pManager.ChannelListener
@@ -14,25 +10,21 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.lockwood.room.p2p.manager.ReceiverManager
+import com.lockwood.room.p2p.manager.WifiDirectManager
+import com.lockwood.room.p2p.manager.WifiDirectManagerImpl
+import com.lockwood.room.p2p.manager.WifiDirectReceiverManager
 
-class MainActivity : AppCompatActivity(), ActivityResultCallback<Boolean>, ChannelListener, WifiP2pManager.PeerListListener {
-
-	private val isSupportWifiDirect: Boolean
-		get() = packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI_DIRECT)
-
-	private val isP2pSupported: Boolean
-		get() = (applicationContext.getSystemService(WIFI_SERVICE) as WifiManager).isP2pSupported
+class MainActivity : AppCompatActivity(), ActivityResultCallback<Boolean>, ChannelListener,
+	WifiP2pManager.PeerListListener {
 
 	// TODO: add getSystemService ktx
-	// TODO: move to p2p package
-	private val wifiP2pManager by lazy(LazyThreadSafetyMode.NONE) {
-		getSystemService(WIFI_P2P_SERVICE) as WifiP2pManager
+	// TODO: move to application feature
+	private val wifiDirectManager: WifiDirectManager by lazy(LazyThreadSafetyMode.NONE) {
+		WifiDirectManagerImpl(this)
 	}
-	private val retryChannel by lazy(LazyThreadSafetyMode.NONE) {
-		wifiP2pManager.initialize(this, mainLooper, this)
-	}
-	private val receiver by lazy(LazyThreadSafetyMode.NONE) {
-		WiFiDirectBroadcastReceiver(wifiP2pManager, retryChannel, this)
+	private val wifiDirectReceiver: ReceiverManager by lazy(LazyThreadSafetyMode.NONE) {
+		WifiDirectReceiverManager(wifiDirectManager)
 	}
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,25 +35,21 @@ class MainActivity : AppCompatActivity(), ActivityResultCallback<Boolean>, Chann
 
 	override fun onResume() {
 		super.onResume()
-		registerWiFiDirectReceiver()
+		wifiDirectReceiver.registerReceiver(this)
 	}
 
 	override fun onPause() {
 		super.onPause()
-		unregisterWiFiDirectReceiver()
+		wifiDirectReceiver.unregisterReceiver(this)
 	}
 
 	override fun onActivityResult(isGranted: Boolean) {
 		// TODO: add Timber for logging
 		Log.d(TAG, "onActivityResult: $isGranted")
 
-		if (isGranted) {
-			if (initP2p()) {
-				// TODO: add and Use Toaster
-				discoverPeers()
-			} else {
-				showToast("P2p is not supported")
-			}
+		if (isGranted && initP2p()) {
+			// TODO: add and Use Toaster
+			discoverPeers()
 		}
 	}
 
@@ -73,56 +61,33 @@ class MainActivity : AppCompatActivity(), ActivityResultCallback<Boolean>, Chann
 	}
 
 	private fun requestPermissions() {
-		val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission(), this)
+		val requestPermissionLauncher =
+			registerForActivityResult(ActivityResultContracts.RequestPermission(), this)
 		requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
 	}
 
 	private fun initP2p(): Boolean {
-		if (!isSupportWifiDirect) {
-			return false
-		}
-
-		if (!isP2pSupported) {
-			return false
-		}
-
 		try {
-			// init WifiP2pManager Channel
-			retryChannel
+			wifiDirectManager.init()
 		} catch (e: Exception) {
-			Log.e(TAG, "Cannot initialize Wi-Fi Direct", e)
+			showToast(e.message.toString())
 			return false
 		}
 
 		return true
 	}
 
-	private fun registerWiFiDirectReceiver() {
-		val intentFilter = IntentFilter().apply {
-			addAction(WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION)
-			addAction(WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION)
-			addAction(WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION)
-			addAction(WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION)
-		}
-		registerReceiver(receiver, intentFilter)
-	}
-
-	private fun unregisterWiFiDirectReceiver() {
-		unregisterReceiver(receiver)
-	}
-
-	@SuppressLint("MissingPermission")
 	private fun discoverPeers() {
-		wifiP2pManager.discoverPeers(retryChannel, object : WifiP2pManager.ActionListener {
+		wifiDirectManager.discoverPeers(object : WifiP2pManager.ActionListener {
 
-            override fun onSuccess() {
-                showToast("discoverPeers: onSuccess")
-            }
+			override fun onSuccess() {
+				showToast("discoverPeers: onSuccess")
+			}
 
-            override fun onFailure(reasonCode: Int) {
-                showToast("discoverPeers: onFailure with $reasonCode code")
-            }
-        })
+			override fun onFailure(reasonCode: Int) {
+				showToast("discoverPeers: onFailure with $reasonCode code")
+			}
+		})
 	}
 
 	private fun showToast(message: String) {
