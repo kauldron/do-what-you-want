@@ -1,6 +1,7 @@
 package com.lockwood.travis
 
 import android.Manifest
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.net.wifi.WifiManager
 import android.net.wifi.p2p.WifiP2pManager
@@ -22,16 +23,30 @@ class MainActivity : AppCompatActivity(), ActivityResultCallback<Boolean>, Chann
 
     // TODO: add getSystemService ktx
     // TODO: move to p2p package
-    private val wifiP2pManager by lazy { getSystemService(WIFI_P2P_SERVICE) as WifiP2pManager }
-    private val retryChannel by lazy { wifiP2pManager.initialize(this, mainLooper, null) }
-
-    private val requestPermissionLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission(), this)
+    private val wifiP2pManager by lazy(LazyThreadSafetyMode.NONE) {
+        getSystemService(WIFI_P2P_SERVICE) as WifiP2pManager
+    }
+    private val retryChannel by lazy(LazyThreadSafetyMode.NONE) {
+        wifiP2pManager.initialize(this, mainLooper, this)
+    }
+    private val receiver by lazy(LazyThreadSafetyMode.NONE) {
+        WiFiDirectBroadcastReceiver(wifiP2pManager, retryChannel, this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         requestPermissions()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        registerWiFiDirectReceiver()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        unregisterWiFiDirectReceiver()
     }
 
     override fun onActivityResult(isGranted: Boolean) {
@@ -49,6 +64,7 @@ class MainActivity : AppCompatActivity(), ActivityResultCallback<Boolean>, Chann
     }
 
     private fun requestPermissions() {
+        val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission(), this)
         requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
     }
 
@@ -73,6 +89,20 @@ class MainActivity : AppCompatActivity(), ActivityResultCallback<Boolean>, Chann
         }
 
         return true
+    }
+
+    private fun registerWiFiDirectReceiver() {
+        val intentFilter = IntentFilter().apply {
+            addAction(WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION)
+            addAction(WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION)
+            addAction(WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION)
+            addAction(WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION)
+        }
+        registerReceiver(receiver, intentFilter)
+    }
+
+    private fun unregisterWiFiDirectReceiver() {
+        unregisterReceiver(receiver)
     }
 
     private companion object {
