@@ -1,4 +1,4 @@
-package com.lockwood.travis
+package com.lockwood.dwyw
 
 import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
@@ -14,15 +14,15 @@ class WiFiDirectBroadcastReceiver(
         private val activity: MainActivity
 ) : BroadcastReceiver() {
 
-    private val Intent.isWifiDirectEnabled: Boolean
-        get() {
-            val state = getIntExtra(WifiP2pManager.EXTRA_WIFI_STATE, -1)
-            return state == WifiP2pManager.WIFI_P2P_STATE_ENABLED
-        }
+	private val Intent.isWifiDirectEnabled: Boolean
+		get() {
+			val state = getIntExtra(WifiP2pManager.EXTRA_WIFI_STATE, -1)
+			return state == WifiP2pManager.WIFI_P2P_STATE_ENABLED
+		}
 
-    @SuppressLint("MissingPermission")
-    override fun onReceive(context: Context, intent: Intent) {
-        when (intent.action) {
+	@SuppressLint("MissingPermission")
+	override fun onReceive(context: Context, intent: Intent) {
+		when (intent.action) {
             WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION -> {
                 if (intent.isWifiDirectEnabled) {
                     Log.d("WiFiDirectBroadcast", "Wifi P2P is enabled")
@@ -33,10 +33,10 @@ class WiFiDirectBroadcastReceiver(
             WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION -> {
                 manager.requestPeers(channel, activity)
             }
-            else -> {
-                // do nothing
-            }
-        }
-    }
+			else -> {
+				// do nothing
+			}
+		}
+	}
 
 }
