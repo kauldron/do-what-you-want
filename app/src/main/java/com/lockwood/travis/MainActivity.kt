@@ -1,9 +1,11 @@
 package com.lockwood.travis
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.net.wifi.WifiManager
+import android.net.wifi.p2p.WifiP2pDeviceList
 import android.net.wifi.p2p.WifiP2pManager
 import android.net.wifi.p2p.WifiP2pManager.ChannelListener
 import android.os.Bundle
@@ -13,7 +15,7 @@ import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 
-class MainActivity : AppCompatActivity(), ActivityResultCallback<Boolean>, ChannelListener {
+class MainActivity : AppCompatActivity(), ActivityResultCallback<Boolean>, ChannelListener, WifiP2pManager.PeerListListener {
 
     private val isSupportWifiDirect: Boolean
         get() = packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI_DIRECT)
@@ -56,19 +58,23 @@ class MainActivity : AppCompatActivity(), ActivityResultCallback<Boolean>, Chann
         if (isGranted) {
             if (initP2p()) {
                 // TODO: add and Use Toaster
-                Toast.makeText(this, "P2p is supported", Toast.LENGTH_LONG).show()
+                discoverPeers()
             } else {
-                Toast.makeText(this, "P2p is not supported", Toast.LENGTH_LONG).show()
+                showToast("P2p is not supported")
             }
         }
+    }
+
+    override fun onChannelDisconnected() {
+    }
+
+    override fun onPeersAvailable(peers: WifiP2pDeviceList) {
+        showToast(peers.toString())
     }
 
     private fun requestPermissions() {
         val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission(), this)
         requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
-    }
-
-    override fun onChannelDisconnected() {
     }
 
     private fun initP2p(): Boolean {
@@ -103,6 +109,24 @@ class MainActivity : AppCompatActivity(), ActivityResultCallback<Boolean>, Chann
 
     private fun unregisterWiFiDirectReceiver() {
         unregisterReceiver(receiver)
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun discoverPeers() {
+        wifiP2pManager.discoverPeers(retryChannel, object : WifiP2pManager.ActionListener {
+
+            override fun onSuccess() {
+                showToast("discoverPeers: onSuccess")
+            }
+
+            override fun onFailure(reasonCode: Int) {
+                showToast("discoverPeers: onFailure with $reasonCode code")
+            }
+        })
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 
     private companion object {

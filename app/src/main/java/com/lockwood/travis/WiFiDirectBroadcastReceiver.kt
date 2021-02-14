@@ -30,6 +30,9 @@ class WiFiDirectBroadcastReceiver(
                     Log.d("WiFiDirectBroadcast", "Wi-Fi P2P is not enabled")
                 }
             }
+            WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION -> {
+                manager.requestPeers(channel, activity)
+            }
             else -> {
                 // do nothing
             }
