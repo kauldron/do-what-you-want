@@ -1,4 +1,4 @@
-package com.lockwood.room.p2p.manager
+package com.lockwood.direct.reciver
 
 import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
@@ -6,9 +6,10 @@ import android.content.Context
 import android.content.Intent
 import android.net.wifi.p2p.WifiP2pManager
 import android.util.Log
+import com.lockwood.direct.WifiDirectManager
 
 class WiFiDirectBroadcastReceiver(
-    private val directManager: WifiDirectManager,
+        private val directManager: WifiDirectManager,
 ) : BroadcastReceiver() {
 
     private val Intent.isWifiDirectEnabled: Boolean

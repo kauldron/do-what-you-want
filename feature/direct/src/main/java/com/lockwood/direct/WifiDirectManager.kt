@@ -1,6 +1,5 @@
-package com.lockwood.room.p2p.manager
+package com.lockwood.direct
 
-import android.content.Context
 import android.net.wifi.p2p.WifiP2pManager
 
 interface WifiDirectManager {
@@ -13,12 +12,4 @@ interface WifiDirectManager {
     fun init(): WifiP2pManager.Channel
 
     fun discoverPeers(listener: WifiP2pManager.ActionListener)
-}
-
-// TODO: move to separate class
-interface ReceiverManager {
-
-    fun registerReceiver(context: Context)
-
-    fun unregisterReceiver(context: Context)
 }
