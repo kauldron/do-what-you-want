@@ -10,10 +10,10 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import com.lockwood.room.p2p.manager.ReceiverManager
-import com.lockwood.room.p2p.manager.WifiDirectManager
-import com.lockwood.room.p2p.manager.WifiDirectManagerImpl
-import com.lockwood.room.p2p.manager.WifiDirectReceiverManager
+import com.lockwood.core.ReceiverManager
+import com.lockwood.direct.WifiDirectManager
+import com.lockwood.direct.WifiDirectManagerImpl
+import com.lockwood.direct.reciver.WifiDirectReceiverManager
 
 class MainActivity : AppCompatActivity(), ActivityResultCallback<Boolean>, ChannelListener,
 	WifiP2pManager.PeerListListener {

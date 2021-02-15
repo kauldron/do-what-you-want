@@ -1,2 +1,4 @@
-include ':app', ':room'
+include ':core'
+include ':app'
+include 'feature:direct', ':feature:room'
 rootProject.name = "do-what-you-want"
