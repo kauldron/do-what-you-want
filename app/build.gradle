@@ -8,7 +8,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.lockwood.travis"
+        applicationId "com.lockwood.dwyw"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
@@ -17,27 +17,45 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    android {
-        buildTypes {
-            debug {
-                minifyEnabled true
-                shrinkResources true
-                signingConfig signingConfigs.debug
-                proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            }
-            release {
-                minifyEnabled true
-                shrinkResources true
-                debuggable false
-                jniDebuggable false
-                renderscriptDebuggable false
-                pseudoLocalesEnabled false
-                zipAlignEnabled true
-                signingConfig signingConfigs.debug
-                proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            }
+    buildTypes {
+        debug {
+            minifyEnabled true
+            shrinkResources true
+            signingConfig signingConfigs.debug
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        release {
+            minifyEnabled true
+            shrinkResources true
+            debuggable false
+            jniDebuggable false
+            renderscriptDebuggable false
+            pseudoLocalesEnabled false
+            zipAlignEnabled true
+            signingConfig signingConfigs.debug
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    flavorDimensions "stage"
+
+    productFlavors {
+        dev {
+            dimension "stage"
+            versionNameSuffix "-dev"
+            applicationIdSuffix '.dev'
+            resConfigs "en", "xxhdpi"
+            ndk {
+                abiFilters 'arm64-v8a'
+            }
+            getIsDefault().set(true)
+        }
+
+        prod {
+            dimension "stage"
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
