@@ -1,4 +1,4 @@
-package com.lockwood.replicant.res
+package com.lockwood.replicant.resources
 
 import android.graphics.drawable.Drawable
 import androidx.annotation.ColorRes

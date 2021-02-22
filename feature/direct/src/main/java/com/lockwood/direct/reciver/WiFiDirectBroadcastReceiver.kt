@@ -9,7 +9,7 @@ import android.util.Log
 import com.lockwood.direct.WifiDirectManager
 
 class WiFiDirectBroadcastReceiver(
-        private val directManager: WifiDirectManager,
+    private val directManager: WifiDirectManager,
 ) : BroadcastReceiver() {
 
     private val Intent.isWifiDirectEnabled: Boolean

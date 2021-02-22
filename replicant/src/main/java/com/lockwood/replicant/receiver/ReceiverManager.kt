@@ -1,4 +1,4 @@
-package com.lockwood.core
+package com.lockwood.replicant.receiver
 
 import android.content.Context
 
