@@ -3,26 +3,8 @@ plugins {
     id 'kotlin-android'
 }
 
-android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.3"
-
-    defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
-    }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = '1.8'
-        useIR = true
-    }
-}
+apply from: rootProject.file('gradle/config.gradle')
+apply from: rootProject.file('gradle/kotlin.gradle')
 
 dependencies {
     implementation project(':automata:core')

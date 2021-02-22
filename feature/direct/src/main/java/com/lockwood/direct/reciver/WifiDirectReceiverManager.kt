@@ -3,8 +3,8 @@ package com.lockwood.direct.reciver
 import android.content.Context
 import android.content.IntentFilter
 import android.net.wifi.p2p.WifiP2pManager
-import com.lockwood.core.ReceiverManager
 import com.lockwood.direct.WifiDirectManager
+import com.lockwood.replicant.receiver.ReceiverManager
 
 class WifiDirectReceiverManager(wifiDirectManager: WifiDirectManager) : ReceiverManager {
 

@@ -10,21 +10,22 @@ import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import com.lockwood.core.ReceiverManager
+import com.lockwood.automata.core.notSafeLazy
 import com.lockwood.direct.WifiDirectManager
 import com.lockwood.direct.WifiDirectManagerImpl
 import com.lockwood.direct.reciver.WifiDirectReceiverManager
+import com.lockwood.replicant.receiver.ReceiverManager
 
-class RoomActivity : AppCompatActivity(R.layout.layout_container),
-		ActivityResultCallback<Boolean>,
-		WifiP2pManager.ChannelListener, WifiP2pManager.PeerListListener {
+class RoomActivity : AppCompatActivity(R.layout.fragment_container),
+	ActivityResultCallback<Boolean>,
+	WifiP2pManager.ChannelListener, WifiP2pManager.PeerListListener {
 
 	// TODO: add getSystemService ktx
 	// TODO: move to application feature
-	private val wifiDirectManager: WifiDirectManager by lazy(LazyThreadSafetyMode.NONE) {
+	private val wifiDirectManager: WifiDirectManager by notSafeLazy {
 		WifiDirectManagerImpl(this)
 	}
-	private val wifiDirectReceiver: ReceiverManager by lazy(LazyThreadSafetyMode.NONE) {
+	private val wifiDirectReceiver: ReceiverManager by notSafeLazy {
 		WifiDirectReceiverManager(wifiDirectManager)
 	}
 
@@ -38,6 +39,7 @@ class RoomActivity : AppCompatActivity(R.layout.layout_container),
 
 	override fun onResume() {
 		super.onResume()
+		// TODO: Replace with receiver callbacks handler
 		wifiDirectReceiver.registerReceiver(this)
 	}
 
@@ -65,7 +67,7 @@ class RoomActivity : AppCompatActivity(R.layout.layout_container),
 
 	private fun requestPermissions() {
 		val requestPermissionLauncher: ActivityResultLauncher<String> =
-				registerForActivityResult(ActivityResultContracts.RequestPermission(), this)
+			registerForActivityResult(ActivityResultContracts.RequestPermission(), this)
 		requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
 	}
 

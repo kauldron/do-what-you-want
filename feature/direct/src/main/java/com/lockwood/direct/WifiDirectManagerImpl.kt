@@ -4,11 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Context.WIFI_P2P_SERVICE
 import android.content.Context.WIFI_SERVICE
-import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.net.wifi.WifiManager
 import android.net.wifi.p2p.WifiP2pManager
-import com.lockwood.direct.reciver.WiFiDirectBroadcastReceiver
 
 // TODO: make internal
 class WifiDirectManagerImpl(
