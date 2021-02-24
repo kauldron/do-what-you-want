@@ -67,7 +67,7 @@ class RoomActivity : AppCompatActivity(R.layout.fragment_container),
 
 	private fun requestPermissions() {
 		val requestPermissionLauncher: ActivityResultLauncher<String> =
-			registerForActivityResult(ActivityResultContracts.RequestPermission(), this)
+				registerForActivityResult(ActivityResultContracts.RequestPermission(), this)
 		requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
 	}
 

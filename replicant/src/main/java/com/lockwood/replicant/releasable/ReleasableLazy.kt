@@ -6,13 +6,6 @@ fun <T : Any> releasableLazy(initializer: () -> T): ReadOnlyProperty<Any?, T> {
 	return SynchronizedReleasableLazy(initializer)
 }
 
-fun <T : Any> releasableLazy(
-	mode: LazyThreadSafetyMode,
-	initializer: () -> T,
-): ReadOnlyProperty<Any?, T> {
-	return when (mode) {
-		LazyThreadSafetyMode.SYNCHRONIZED -> SynchronizedReleasableLazy(initializer)
-		LazyThreadSafetyMode.NONE -> UnsafeReleasableLazy(initializer)
-		else -> error("Unknown mode: $mode")
-	}
+fun <T : Any> notSafeReleasableLazy(initializer: () -> T): ReadOnlyProperty<Any?, T> {
+	return SynchronizedReleasableLazy(initializer)
 }
