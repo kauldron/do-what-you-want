@@ -27,7 +27,7 @@
         </activity>
 
         <activity
-            android:name="com.lockwood.room.RoomActivity"
+            android:name="com.lockwood.room.ui.activity.RoomActivity"
             android:launchMode="singleInstance" />
 
     </application>

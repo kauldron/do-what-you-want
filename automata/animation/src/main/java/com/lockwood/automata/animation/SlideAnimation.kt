@@ -10,9 +10,7 @@ fun View.slide(
     val translateDuration = duration.toLong()
 
     startAnimation {
-        animate {
-            translationY(translation).duration = translateDuration
-        }
+        translationY(translation).duration = translateDuration
     }
 }
 

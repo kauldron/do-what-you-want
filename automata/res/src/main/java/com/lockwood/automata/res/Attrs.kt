@@ -1,47 +1,55 @@
 package com.lockwood.automata.res
 
-import android.content.res.TypedArray
-import android.util.AttributeSet
-import android.view.View
-import androidx.annotation.AttrRes
-import androidx.annotation.StyleRes
 import com.lockwood.automata.core.ZERO
 
-inline fun View.obtainThemeStyledAttributes(
-    attrs: IntArray,
-    set: AttributeSet? = null,
-    @AttrRes defStyleAttr: Int = Int.ZERO,
-    @StyleRes defStyleRes: Int = Int.ZERO,
-    fetch: TypedArray .() -> Unit = {},
-) {
-    val typedArray = context.theme.obtainStyledAttributes(
-        set,
-        attrs,
-        defStyleAttr,
-        defStyleRes
-    )
+inline class IdRes(val value: Int) : Res {
 
-    with(typedArray) {
-        try {
-            fetch()
-        } finally {
-            recycle()
-        }
+    companion object {
+
+        val DEFAULT: IdRes
+            @JvmStatic
+            get() = IdRes(Int.ZERO)
+
+        @JvmStatic
+        fun Int.toIdRes() = IdRes(this)
     }
 }
 
-inline fun View.obtainStyledAttributes(
-    vararg attrs: Int,
-    set: AttributeSet? = null,
-    fetch: TypedArray .() -> Unit = {},
-) {
-    val typedArray = context.obtainStyledAttributes(set, attrs)
+inline class StyleRes(val value: Int) : Res {
 
-    with(typedArray) {
-        try {
-            fetch()
-        } finally {
-            recycle()
-        }
+    companion object {
+
+        val DEFAULT: StyleRes
+            @JvmStatic
+            get() = StyleRes(Int.ZERO)
+
+        @JvmStatic
+        fun Int.toStyleRes() = StyleRes(this)
+    }
+}
+
+inline class AttrRes(val value: Int) : Res {
+
+    companion object {
+
+        val DEFAULT: AttrRes
+            @JvmStatic
+            get() = AttrRes(Int.ZERO)
+
+        @JvmStatic
+        fun Int.toAttrRes() = AttrRes(this)
+    }
+}
+
+inline class DimenRes(val value: Int) : Res {
+
+    companion object {
+
+        val DEFAULT: DimenRes
+            @JvmStatic
+            get() = DimenRes(Int.ZERO)
+
+        @JvmStatic
+        fun Int.toDimenRes() = DimenRes(this)
     }
 }

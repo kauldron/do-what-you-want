@@ -13,19 +13,19 @@ import kotlin.reflect.jvm.javaType
 var features: Map<Type, KProperty1<out Application, *>>? = null
 
 inline fun <reified T : Feature> Application.getProperty(): KProperty1<Application, T> {
-	if (features.isNullOrEmpty()) {
-		features = this::class.declaredMemberProperties
-			.map { it.returnType.javaType to it }
-			.toMap()
-	}
+    if (features.isNullOrEmpty()) {
+        features = this::class.declaredMemberProperties
+            .map { it.returnType.javaType to it }
+            .toMap()
+    }
 
-	return requireNotNull(features)[T::class.javaObjectType] as KProperty1<Application, T>
+    return requireNotNull(features)[T::class.javaObjectType] as KProperty1<Application, T>
 }
 
 inline fun <reified T : Feature> Application.getFeature(): T {
-	return getProperty<T>().get(this)
+    return getProperty<T>().get(this)
 }
 
 inline fun <reified T : ReleasableFeature> Application.releaseFeature() {
-	getFeature<T>().release()
+    getFeature<T>().release()
 }

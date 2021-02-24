@@ -6,8 +6,8 @@ import android.graphics.Rect
 import android.os.Build
 import android.view.View
 import android.view.ViewTreeObserver
-import androidx.annotation.ColorInt
 import com.lockwood.automata.core.ZERO
+import com.lockwood.automata.res.ColorInt
 import com.lockwood.automata.screen.screenHeight
 import com.lockwood.automata.screen.screenWidth
 
@@ -22,16 +22,21 @@ val View.isVisibleOnScreen: Boolean
 
         val activity = (context as Activity)
 
-        val screen = Rect(Int.ZERO, Int.ZERO, activity.screenWidth, activity.screenHeight)
+        val screen = Rect(
+            Int.ZERO,
+            Int.ZERO,
+            activity.screenWidth.value.toInt(),
+            activity.screenHeight.value.toInt()
+        )
         return actualPosition.intersect(screen)
     }
 
 fun View.updateBackgroundColor(
-    @ColorInt backgroundColor: Int,
+    backgroundColor: ColorInt,
 ) = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-    backgroundTintList = ColorStateList.valueOf(backgroundColor)
+    backgroundTintList = ColorStateList.valueOf(backgroundColor.value)
 } else {
-    setBackgroundColor(backgroundColor)
+    setBackgroundColor(backgroundColor.value)
 }
 
 inline fun <T : View> T.afterMeasured(

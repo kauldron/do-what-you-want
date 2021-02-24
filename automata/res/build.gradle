@@ -3,13 +3,11 @@ plugins {
     id 'kotlin-android'
 }
 
-apply from: rootProject.file('gradle/config.gradle')
-apply from: rootProject.file('gradle/kotlin.gradle')
+apply from: rootProject.file('gradle/android/config.gradle')
+apply from: rootProject.file('gradle/android/kotlin.gradle')
 
 dependencies {
     implementation project(':automata:core')
-    implementation project(':automata:graphics')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.2.0'
 }

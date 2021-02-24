@@ -7,6 +7,7 @@ import android.content.Context.WIFI_SERVICE
 import android.content.pm.PackageManager
 import android.net.wifi.WifiManager
 import android.net.wifi.p2p.WifiP2pManager
+import com.lockwood.automata.core.notSafeLazy
 
 // TODO: make internal
 class WifiDirectManagerImpl(
@@ -15,10 +16,10 @@ class WifiDirectManagerImpl(
 
     private val appContext: Context = context.applicationContext
 
-    private val wifiP2pManager by lazy(LazyThreadSafetyMode.NONE) {
+    private val wifiP2pManager by notSafeLazy {
         appContext.getSystemService(WIFI_P2P_SERVICE) as WifiP2pManager
     }
-    private val channel by lazy(LazyThreadSafetyMode.NONE) {
+    private val channel by notSafeLazy {
         wifiP2pManager.initialize(context, context.mainLooper, null)
     }
 

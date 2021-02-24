@@ -1,17 +1,16 @@
 package com.lockwood.replicant.launcher
 
 import android.content.Context
-import android.content.Intent
+import android.os.Bundle
 import com.lockwood.replicant.launcher.args.LaunchArgs
 
 abstract class ContextLauncher<C : Context, T : LaunchArgs>(
-	protected val context: C,
+    protected val context: C,
 ) : Launcher<T> {
 
-	protected companion object {
-
-		val EMPTY_INTENT: Intent
-			get() = Intent()
-	}
-
+    protected abstract fun buildBundle(launchArgs: T): Bundle
 }
+
+abstract class ContextNoArgsLauncher<C : Context>(
+    protected val context: C,
+) : NoArgsLauncher

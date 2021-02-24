@@ -3,7 +3,8 @@ package com.lockwood.automata.screen
 import android.app.Activity
 import android.os.Build
 import android.util.DisplayMetrics
-import androidx.annotation.Px
+import com.lockwood.automata.res.Px
+import com.lockwood.automata.res.toPx
 
 @Suppress("DEPRECATION")
 val Activity.displayMetrics: DisplayMetrics
@@ -21,10 +22,8 @@ val Activity.displayMetrics: DisplayMetrics
         return displayMetrics
     }
 
-val Activity.screenWidth: Int
-    @Px
-    get() = displayMetrics.widthPixels
+val Activity.screenWidth: Px
+    get() = displayMetrics.widthPixels.toPx()
 
-val Activity.screenHeight: Int
-    @Px
-    get() = displayMetrics.heightPixels
+val Activity.screenHeight: Px
+    get() = displayMetrics.heightPixels.toPx()

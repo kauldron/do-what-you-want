@@ -1,10 +1,11 @@
 package com.lockwood.automata.android
 
 import android.content.Context
-import android.content.res.Resources
 import android.util.DisplayMetrics
-import androidx.annotation.Px
-import com.lockwood.automata.core.ZERO
+import com.lockwood.automata.res.Dp
+import com.lockwood.automata.res.Px
+import com.lockwood.automata.res.toDp
+import com.lockwood.automata.res.toPx
 
 private val Context.densityDpi: Float
     get() = resources.displayMetrics.densityDpi.toFloat()
@@ -12,18 +13,6 @@ private val Context.densityDpi: Float
 private val Context.densityScale: Float
     get() = densityDpi / DisplayMetrics.DENSITY_DEFAULT
 
-val Resources.navBarHeight: Int
-    @Px
-    get() {
-        val resourceId: Int = getIdentifier(
-            "navigation_bar_height",
-            "dimen",
-            "android"
-        )
+fun Context.dpToPx(dp: Dp): Px = (dp.value.toFloat() * densityScale).toPx()
 
-        return resourceId.takeIf { it.isValidResource } ?: Int.ZERO
-    }
-
-fun Context.dpToPx(dp: Number): Number = dp.toFloat() * densityScale
-
-fun Context.pxToDp(px: Number): Number = px.toFloat() / densityScale
+fun Context.pxToDp(px: Px): Dp = (px.value.toFloat() / densityScale).toDp()

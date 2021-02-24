@@ -2,14 +2,16 @@ package com.lockwood.automata.file
 
 import android.content.ContentResolver
 import android.net.Uri
+import com.lockwood.automata.core.NotEmptyString
+import com.lockwood.automata.core.notEmptyString
 import java.io.FileDescriptor
 
 inline fun ContentResolver.openFileDescriptor(
     uri: Uri,
-    mode: String,
+    mode: NotEmptyString,
     action: FileDescriptor.() -> Unit,
 ) {
-    val parcelFileDescriptor = requireNotNull(openFileDescriptor(uri, mode))
+    val parcelFileDescriptor = requireNotNull(openFileDescriptor(uri, mode.value))
     val fileDescriptor = requireNotNull(parcelFileDescriptor.fileDescriptor)
 
     fileDescriptor.action()
@@ -22,7 +24,7 @@ inline fun ContentResolver.openWriteFileDescriptor(
     action: FileDescriptor.() -> Unit,
 ) = openFileDescriptor(
     uri = uri,
-    mode = "w",
+    mode = "w".notEmptyString(),
     action = action
 )
 
@@ -31,6 +33,6 @@ inline fun ContentResolver.openReadFileDescriptor(
     action: FileDescriptor.() -> Unit,
 ) = openFileDescriptor(
     uri = uri,
-    mode = "r",
+    mode = "r".notEmptyString(),
     action = action
 )

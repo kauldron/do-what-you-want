@@ -1,7 +1,7 @@
 package com.lockwood.replicant.locale
 
 import android.content.Context
-import java.util.Locale
+import java.util.*
 
 interface LocaleManager {
 
