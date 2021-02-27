@@ -1,26 +1,26 @@
 package com.lockwood.replicant.resources
 
 import android.content.Context
-import androidx.annotation.ColorRes
-import androidx.annotation.DimenRes
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
-import com.lockwood.automata.res.color
-import com.lockwood.automata.res.dimenPx
-import com.lockwood.automata.res.drawable
+import com.lockwood.automata.res.ColorRes
+import com.lockwood.automata.res.DimenRes
+import com.lockwood.automata.res.DrawableRes
+import com.lockwood.automata.res.StringRes
+import com.lockwood.automata.res.ext.color
+import com.lockwood.automata.res.ext.dimenPx
+import com.lockwood.automata.res.ext.drawable
 
 class AndroidResourceReader(
     private val context: Context,
 ) : ResourceReader {
 
-    override fun color(@ColorRes res: Int) = context.color(res)
+    override fun color(res: ColorRes) = context.color(res)
 
-    override fun string(@StringRes res: Int) = context.getString(res)
+    override fun string(res: StringRes) = context.getString(res.value)
 
-    override fun string(@StringRes res: Int, vararg args: String) = context.getString(res, args)
+    override fun string(res: StringRes, vararg args: String) = context.getString(res.value, args)
 
-    override fun drawable(@DrawableRes res: Int) = context.drawable(res)
+    override fun drawable(res: DrawableRes) = context.drawable(res)
 
-    override fun dimenInPx(@DimenRes res: Int) = context.dimenPx(res)
+    override fun dimenInPx(res: DimenRes) = context.dimenPx(res)
 
 }

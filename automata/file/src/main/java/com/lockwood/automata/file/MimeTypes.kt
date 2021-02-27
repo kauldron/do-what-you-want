@@ -1,6 +1,8 @@
 package com.lockwood.automata.file
 
 import android.webkit.MimeTypeMap
+import com.lockwood.automata.core.NotEmptyString
+import com.lockwood.automata.core.notEmptyString
 
 object MimeTypes {
 
@@ -16,8 +18,9 @@ object MimeTypes {
             ?: error("There is no extension from mimeType: $mimeType")
     }
 
-    fun getMimeTypeFromExtension(extension: String): String {
-        return MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension) ?: WILDCARD
+    fun getMimeTypeFromExtension(extension: String): NotEmptyString {
+        val type = MimeTypeMap.getSingleton().getExtensionFromMimeType(extension) ?: WILDCARD
+        return type.notEmptyString()
     }
 
 }

@@ -11,5 +11,6 @@ fun Context.shareText(
     type = "text/plain"
     putExtra(Intent.EXTRA_TEXT, text)
 
-    startActivity(wrapWithChooser())
+    val chooserIntent = wrapWithChooser()
+    startActivity(chooserIntent)
 }

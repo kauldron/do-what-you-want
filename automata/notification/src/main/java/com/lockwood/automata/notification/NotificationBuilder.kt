@@ -10,9 +10,10 @@ private const val NOTIFICATION_MAX_LENGTH = 250
 
 inline fun Context.buildNotification(
     channelId: String,
+    priority: Int = NotificationCompat.PRIORITY_DEFAULT,
     onBuild: NotificationCompat.Builder.() -> NotificationCompat.Builder = { this },
 ): Notification = NotificationCompat.Builder(this, channelId)
-    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+    .setPriority(priority)
     .onBuild()
     .build()
 

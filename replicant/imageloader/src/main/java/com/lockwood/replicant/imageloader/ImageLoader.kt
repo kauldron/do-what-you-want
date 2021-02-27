@@ -7,7 +7,7 @@ import com.lockwood.replicant.imageloader.target.ViewTarget
 
 interface ImageLoader {
 
-	fun <V : View> execute(request: Request, view: V)
+    fun <V : View> execute(request: Request, view: V)
 
-	fun <T : View> buildViewTarget(view: T, callbacks: Array<Target>): ViewTarget<T>
+    fun <T : View> buildViewTarget(view: T, callbacks: Array<Target>): ViewTarget<T>
 }

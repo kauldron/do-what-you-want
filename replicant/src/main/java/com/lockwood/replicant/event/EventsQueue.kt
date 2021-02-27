@@ -3,8 +3,7 @@ package com.lockwood.replicant.event
 import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
-import java.util.Queue
-import java.util.LinkedList
+import java.util.*
 
 interface Event
 

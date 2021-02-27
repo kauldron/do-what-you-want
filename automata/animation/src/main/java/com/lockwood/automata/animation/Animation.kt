@@ -21,19 +21,17 @@ inline fun View.animate(
 }
 
 inline fun View.startAnimation(
-    animation: () -> Unit,
+    animation: ViewPropertyAnimatorCompat.() -> Unit,
 ) {
     clearAnimation()
-    animation()
+    animate(animation)
 }
 
 @RequiresApi(Build.VERSION_CODES.KITKAT)
 fun View.beginDelayedTransition(
     transition: Transition = AutoTransition(),
-) {
-    try {
-        TransitionManager.beginDelayedTransition(rootView as ViewGroup, transition)
-    } catch (e: Throwable) {
-        Log.e("Animation", "Check is rootView is ViewGroup for this view")
-    }
+) = try {
+    TransitionManager.beginDelayedTransition(rootView as ViewGroup, transition)
+} catch (e: Throwable) {
+    Log.e("Animation", "Check is rootView is ViewGroup for this view")
 }

@@ -1,15 +1,22 @@
 package com.lockwood.dwyw
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import com.lockwood.automata.android.launchActivity
-import com.lockwood.room.RoomActivity
+import com.lockwood.dwyw.core.ui.BaseActivity
+import com.lockwood.room.ui.launcher.RoomsLauncher
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-		launchActivity<RoomActivity>()
-	}
+    override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppTheme)
+        super.onCreate(savedInstanceState)
+
+        launchRooms()
+    }
+
+    private fun launchRooms() {
+        // TODO: Use get feature
+        RoomsLauncher(this).launch()
+        finish()
+    }
 
 }

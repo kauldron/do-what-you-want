@@ -4,20 +4,25 @@ import android.util.Log
 import androidx.annotation.CallSuper
 import androidx.fragment.app.Fragment
 import com.lockwood.automata.android.application
-import com.lockwood.replicant.event.*
+import com.lockwood.replicant.event.ErrorMessageEvent
+import com.lockwood.replicant.event.Event
+import com.lockwood.replicant.event.MessageEvent
 import com.lockwood.replicant.ext.getFeature
 import com.lockwood.replicant.ext.releaseFeature
 import com.lockwood.replicant.feature.Feature
 import com.lockwood.replicant.feature.ReleasableFeature
 import com.lockwood.replicant.view.MessageView
-import com.lockwood.replicant.view.ext.requireScreenView
 
-abstract class ReplicantFragment() : Fragment(), MessageView {
+abstract class ReplicantFragment : Fragment(), MessageView {
 
     private companion object {
 
         private val TAG = ReplicantFragment::class.simpleName
     }
+
+    override fun showMessage(message: String) = Unit
+
+    override fun showError(message: String) = Unit
 
     @CallSuper
     protected open fun onOnEvent(event: Event) {
@@ -25,8 +30,8 @@ abstract class ReplicantFragment() : Fragment(), MessageView {
         when (event) {
             is MessageEvent -> showMessage(event.message)
             is ErrorMessageEvent -> showError(event.message)
-            is GoToBackEvent -> requireScreenView().goBack()
-            is ShowScreenEvent -> requireScreenView().showScreen(event.screen)
+//            is GoToBackEvent -> requireScreenView().goBack()
+//            is ShowScreenEvent -> requireScreenView().showScreen(event.screen)
         }
     }
 

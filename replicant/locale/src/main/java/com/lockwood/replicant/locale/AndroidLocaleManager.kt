@@ -3,7 +3,7 @@ package com.lockwood.replicant.locale
 import android.content.Context
 import android.content.res.Configuration
 import androidx.core.os.ConfigurationCompat
-import java.util.Locale
+import java.util.*
 
 class AndroidLocaleManager(
     private val context: Context,

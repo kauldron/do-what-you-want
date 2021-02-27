@@ -4,13 +4,17 @@ import android.app.Application
 import android.content.Context
 
 inline class ApplicationContext(
-    private val value: Application,
+    private val application: Application,
 ) {
 
     val context: Context
-        get() = value.applicationContext
-}
+        get() = application.applicationContext
 
-fun Application.toContext(): ApplicationContext {
-    return ApplicationContext(this)
+    companion object {
+
+        @JvmStatic
+        fun Application.toContext(): ApplicationContext {
+            return ApplicationContext(this)
+        }
+    }
 }

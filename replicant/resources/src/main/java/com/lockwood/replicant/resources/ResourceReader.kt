@@ -1,21 +1,18 @@
 package com.lockwood.replicant.resources
 
 import android.graphics.drawable.Drawable
-import androidx.annotation.ColorRes
-import androidx.annotation.DimenRes
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
+import com.lockwood.automata.res.*
 
 interface ResourceReader {
 
-    fun color(@ColorRes res: Int): Int
+    fun color(res: ColorRes): Int
 
-    fun string(@StringRes res: Int): String
+    fun string(res: StringRes): String
 
-    fun string(@StringRes res: Int, vararg args: String): String
+    fun string(res: StringRes, vararg args: String): String
 
-    fun drawable(@DrawableRes res: Int): Drawable?
+    fun drawable(res: DrawableRes): Drawable?
 
-    fun dimenInPx(@DimenRes res: Int): Int
+    fun dimenInPx(res: DimenRes): Px
 
 }

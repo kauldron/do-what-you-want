@@ -3,8 +3,8 @@ plugins {
     id 'kotlin-android'
 }
 
-apply from: rootProject.file('gradle/config.gradle')
-apply from: rootProject.file('gradle/kotlin.gradle')
+apply from: rootProject.file('gradle/android/config.gradle')
+apply from: rootProject.file('gradle/android/kotlin.gradle')
 
 dependencies {
 
