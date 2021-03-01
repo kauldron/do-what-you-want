@@ -15,4 +15,4 @@ jobs:
         with:
           java-version: 1.8
       - name: Can I Drop Jetifier
-        run: gradlew -Pandroid.enableJetifier=false canIDropJetifier
+        run: gradle -Pandroid.enableJetifier=false canIDropJetifier
