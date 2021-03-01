@@ -1,4 +1,4 @@
-name: gradlew_canidropjetifier_feature_to_dev
+name: gradlew_depUpdate_feature_dev
 
 on:   
   pull_request:
@@ -14,5 +14,5 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: s
-        run: gradlew -Pandroid.enableJetifier=false canIDropJetifier
+      - name: Check Dependencies
+        run: gradle dependencyUpdates -Drevision=release
