@@ -15,10 +15,10 @@ jobs:
         with:
           java-version: 1.8
       - name: clone EarlyBird
-        run: git clone https://github.com/americanexpress/earlybird.git && ls
+        run: git clone https://github.com/americanexpress/earlybird.git
       - name: install EarlyBird
         working-directory: ./earlybird/
-        run: ls && ./build.sh && ./install.sh
+        run: ./build.sh && ./install.sh
       - name: EarlyBird launch
-        working-directory: ./earlybird
-        run: go-earlybird --path=$GITHUB_WORKSPACE
+        working-directory: ./earlybird/
+        run: ./go-earlybird --path=$GITHUB_WORKSPACE
