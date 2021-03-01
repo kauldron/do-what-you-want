@@ -21,7 +21,7 @@ jobs:
         run: ./build.sh && sudo ./install.sh
       - name: EarlyBird launch
         working-directory: ./earlybird/
-        run: sudo go-earlybird --path=$GITHUB_WORKSPACE
+        run: sudo go-earlybird --path=$GITHUB_WORKSPACE > > earlybird_report.txt
         continue-on-error: true
       - name: Tests results
         uses: actions/upload-artifact@v1
