@@ -21,4 +21,4 @@ jobs:
         run: ./build.sh && sudo ./install.sh
       - name: EarlyBird launch
         working-directory: ./earlybird/
-        run: go-earlybird --path=$GITHUB_WORKSPACE
+        run: sudo go-earlybird --path=$GITHUB_WORKSPACE
