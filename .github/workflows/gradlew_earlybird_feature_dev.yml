@@ -19,4 +19,4 @@ jobs:
       - name: install EarlyBird
         run: $GITHUB_WORKSPACE/earlybird/build.sh && $GITHUB_WORKSPACE/earlybird/install.sh
       - name: EarlyBird launch
-        run: ./go-earlybird --path=$GITHUB_WORKSPACE
+        run: $GITHUB_WORKSPACE/earlybird/go-earlybird --path=$GITHUB_WORKSPACE
