@@ -1,2 +1,9 @@
-include ':app'
 rootProject.name = "do-what-you-want"
+include ':app'
+include ':core'
+include 'feature:direct', ':feature:room'
+include ':automata:android', ':automata:animation', ':automata:core', ':automata:file',
+        ':automata:intent', ':automata:notification', ':automata:res', ':automata:text',
+        ':automata:view', ':automata:screen'
+include ':replicant', ':replicant:delegate', ':replicant:executor', ':replicant:resources',
+        ':replicant:imageloader', ':replicant:imageloader:glide', ':replicant:locale'
