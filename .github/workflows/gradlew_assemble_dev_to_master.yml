@@ -15,7 +15,7 @@ jobs:
         with:
           java-version: 1.8
       - name: Assemble with Gradle
-        run: gradle assembleRelease
+        run: gradle assembleProdRelease
       - name: Set date variable
         run: CURR_DATE=$(date '+%Y-%m-%d-%H-%M')
       - uses: actions/upload-artifact@v1
