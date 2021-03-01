@@ -17,8 +17,10 @@ jobs:
       - name: clone EarlyBird
         run: git clone https://github.com/americanexpress/earlybird.git && ls
       - name: install EarlyBird
-        working-directory: $GITHUB_WORKSPACE/earlybird
-        run: ./build.sh && ./install.sh
+        working-directory: ./earlybird/
+        run: |
+        ls
+        ./build.sh && ./install.sh
       - name: EarlyBird launch
-        working-directory: $GITHUB_WORKSPACE/earlybird
+        working-directory: ./earlybird
         run: go-earlybird --path=$GITHUB_WORKSPACE
