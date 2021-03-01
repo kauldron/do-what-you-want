@@ -15,4 +15,9 @@ jobs:
         with:
           java-version: 1.8
       - name: Can I Drop Jetifier
-        run: gradle -Pandroid.enableJetifier=false canIDropJetifier
+        run: gradle -Pandroid.enableJetifier=false canIDropJetifier > jetifier.txt
+      - name: Tests results
+        uses: actions/upload-artifact@v1
+        with:
+          name: earlybird_report
+          path: ./jetifier.txt

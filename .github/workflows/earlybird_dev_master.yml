@@ -17,6 +17,14 @@ jobs:
       - name: clone EarlyBird
         run: git clone https://github.com/americanexpress/earlybird.git
       - name: install EarlyBird
-        run: $GITHUB_WORKSPACE/earlybird/build.sh && $GITHUB_WORKSPACE/earlybird/install.sh
+        working-directory: ./earlybird/
+        run: ./build.sh && sudo ./install.sh
       - name: EarlyBird launch
-        run: go-earlybird --path=$GITHUB_WORKSPACE
+        working-directory: ./earlybird/
+        run: sudo go-earlybird --path=$GITHUB_WORKSPACE > earlybird_report.txt
+        continue-on-error: true
+      - name: Tests results
+        uses: actions/upload-artifact@v1
+        with:
+          name: earlybird_report
+          path: ./earlybird/earlybird_report.txt

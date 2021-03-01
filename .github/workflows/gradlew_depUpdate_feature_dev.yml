@@ -15,4 +15,9 @@ jobs:
         with:
           java-version: 1.8
       - name: Check Dependencies
-        run: gradle dependencyUpdates -Drevision=release
+        run: gradle dependencyUpdates -Drevision=release > dep_update.txt
+      - name: Tests results
+        uses: actions/upload-artifact@v1
+        with:
+          name: earlybird_report
+          path: ./dep_update.txt

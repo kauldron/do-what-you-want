@@ -22,3 +22,9 @@ jobs:
       - name: EarlyBird launch
         working-directory: ./earlybird/
         run: sudo go-earlybird --path=$GITHUB_WORKSPACE
+        continue-on-error: true
+      - name: Tests results
+        uses: actions/upload-artifact@v1
+        with:
+          name: earlybird_report
+          path: ./earlybird/earlybird_report.txt
