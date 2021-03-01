@@ -1,4 +1,4 @@
-name: gradlew_assemble_dev_to_master
+name: gradlew_assemble_dec_to_master
 
 on:   
   pull_request:
@@ -15,7 +15,7 @@ jobs:
         with:
           java-version: 1.8
       - name: Assemble with Gradle
-        run: gradle assembleProdRelease
+        run: gradle assembleRelease
       - name: Set date variable
         run: CURR_DATE=$(date '+%Y-%m-%d-%H-%M')
       - uses: actions/upload-artifact@v1
