@@ -11,6 +11,7 @@ data class RoomsViewState(
     companion object {
 
         val initialState: RoomsViewState
+            @JvmStatic
             get() = RoomsViewState(
                 rooms = emptyList(),
                 isLoading = true

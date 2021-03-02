@@ -1,8 +1,7 @@
 package com.lockwood.dwyw.core.screen
 
-sealed class Screen
+import com.lockwood.replicant.screen.Screen
 
-object OnboardingScreen : Screen()
-object RoomsScreen : Screen()
-class RoomScreen(val id: Int) : Screen()
-object SettingsScreen : Screen()
+object OnboardingScreen : Screen
+object RoomsScreen : Screen
+class RoomScreen(val id: Int) : Screen

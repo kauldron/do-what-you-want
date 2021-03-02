@@ -1,10 +1,10 @@
 package com.lockwood.replicant.view
 
-//import com.lockwood.dwyw.core.screen.Screen
+import com.lockwood.replicant.screen.Screen
 
 interface ScreenView {
 
     fun goBack()
 
-//    fun showScreen(screen: Screen)
+    fun showScreen(screen: Screen)
 }

@@ -5,9 +5,12 @@ plugins {
 }
 
 apply from: rootProject.file('gradle/android/config.gradle')
+apply from: rootProject.file('gradle/android/kotlin.gradle')
 
 dependencies {
     implementation project(':replicant')
+    implementation project(':automata:android')
+    implementation project(':automata:res')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.fragment:fragment-ktx:1.3.0'

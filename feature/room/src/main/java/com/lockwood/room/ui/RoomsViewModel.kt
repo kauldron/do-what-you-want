@@ -17,7 +17,7 @@ class RoomsViewModel(
 
     fun fetchRooms() {
         val roomsList = repository.fetchRooms()
-        TimeUnit.SECONDS.sleep(15)
+        TimeUnit.SECONDS.sleep(5)
         state = state.copy(rooms = roomsList, isLoading = false)
     }
 

@@ -6,6 +6,9 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
         useIR = true
-        freeCompilerArgs += "-XXLanguage:+InlineClasses"
+        freeCompilerArgs += [
+                "-XXLanguage:+InlineClasses",
+                "-Xjvm-default=compatibility"
+        ]
     }
 }
