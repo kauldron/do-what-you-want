@@ -7,5 +7,7 @@ inline class RoomArgs(val roomId: Int) : LaunchArgs {
     companion object {
 
         const val ROOM_ID = "roomId"
+
+        fun Int.toRoomArgs(): RoomArgs = RoomArgs(this)
     }
 }

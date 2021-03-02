@@ -12,6 +12,7 @@ dependencies {
     implementation project(':replicant')
     implementation project(':automata:core')
     implementation project(':automata:android')
+    implementation project(':automata:res')
     implementation project(':feature:direct')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"

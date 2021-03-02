@@ -3,12 +3,20 @@ package com.lockwood.room.ui.activity
 import android.Manifest
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.Fragment
+import com.lockwood.automata.res.IdRes.Companion.toIdRes
+import com.lockwood.dwyw.core.screen.RoomScreen
+import com.lockwood.dwyw.core.screen.RoomsScreen
 import com.lockwood.dwyw.core.ui.BaseActivity
+import com.lockwood.replicant.screen.Screen
 import com.lockwood.replicant.view.ProgressView
 import com.lockwood.room.R
+import com.lockwood.room.ui.fragment.RoomDetailFragment
+import com.lockwood.room.ui.fragment.RoomsFragment
 
 class RoomActivity : BaseActivity(), ProgressView, ActivityResultCallback<Boolean> {
 
@@ -21,12 +29,18 @@ class RoomActivity : BaseActivity(), ProgressView, ActivityResultCallback<Boolea
         }
     }
 
+    override fun showScreen(screen: Screen) = when (screen) {
+        is RoomsScreen -> showFragment(RoomsFragment.newInstance())
+        is RoomScreen -> showFragment(RoomDetailFragment.newInstance(screen.id))
+        else -> Unit
+    }
+
     override fun showProgress() {
-        TODO("Not yet implemented")
+        findViewById<View>(R.id.progress_bar).visibility = View.VISIBLE
     }
 
     override fun hideProgress() {
-        TODO("Not yet implemented")
+        findViewById<View>(R.id.progress_bar).visibility = View.GONE
     }
 
     override fun onActivityResult(isGranted: Boolean) {
@@ -34,7 +48,8 @@ class RoomActivity : BaseActivity(), ProgressView, ActivityResultCallback<Boolea
         Log.d(TAG, "onActivityResult: $isGranted")
 
         if (isGranted) {
-//            showScreen(RoomsScreen)
+            // TODO: Handle intent
+            showScreen(RoomsScreen)
         }
     }
 
@@ -42,6 +57,10 @@ class RoomActivity : BaseActivity(), ProgressView, ActivityResultCallback<Boolea
         val requestPermissionLauncher: ActivityResultLauncher<String> =
             registerForActivityResult(ActivityResultContracts.RequestPermission(), this)
         requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+    }
+
+    private fun showFragment(fragment: Fragment) {
+        showFragment(R.id.fragment_container.toIdRes(), fragment)
     }
 
     private companion object {

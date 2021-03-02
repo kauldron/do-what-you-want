@@ -32,6 +32,16 @@ fun FragmentManager.replaceFragmentWithBackStack(
     }
 }
 
+fun FragmentManager.replaceFragment(
+    container: IdRes,
+    fragment: Fragment,
+    tag: String = requireNotNull(fragment::class.simpleName),
+) {
+    transact {
+        replace(container.value, fragment, tag)
+    }
+}
+
 inline fun FragmentManager.transact(
     action: FragmentTransaction.() -> Unit,
 ) {
