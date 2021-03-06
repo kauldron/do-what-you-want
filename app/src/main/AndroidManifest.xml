@@ -3,7 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.lockwood.dwyw">
 
+    <uses-feature android:name="android.hardware.audio.output" />
+    <uses-feature android:name="android.hardware.screen.portrait" />
+    <uses-feature android:name="android.hardware.touchscreen" />
+
     <application
+        android:name="com.lockwood.dwyw.MainApplication"
         android:allowBackup="false"
         android:extractNativeLibs="true"
         android:icon="@mipmap/ic_launcher"
@@ -14,7 +19,8 @@
         tools:targetApi="m">
 
         <activity
-            android:name="com.lockwood.dwyw.MainActivity"
+            android:name="com.lockwood.dwyw.activity.MainActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Launcher">
 
             <intent-filter>
@@ -28,7 +34,8 @@
 
         <activity
             android:name="com.lockwood.room.ui.activity.RoomActivity"
-            android:launchMode="singleInstance" />
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait" />
 
     </application>
 

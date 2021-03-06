@@ -11,7 +11,7 @@ import com.lockwood.replicant.ext.observe
 import com.lockwood.replicant.view.ext.requireProgressView
 import com.lockwood.room.R
 import com.lockwood.room.data.Room
-import com.lockwood.room.data.RoomRepository
+import com.lockwood.room.feature.RoomsFeature
 import com.lockwood.room.ui.RoomsViewModel
 import com.lockwood.room.ui.RoomsViewState
 
@@ -19,8 +19,7 @@ import com.lockwood.room.ui.RoomsViewState
 class RoomsFragment : BaseFragment() {
 
     private val viewModel: RoomsViewModel by lazyViewModel {
-        // TODO: Move RoomRepository to RoomsFeature
-        RoomsViewModel(RoomRepository())
+        RoomsViewModel(getFeature<RoomsFeature>().roomRepository)
     }
 
     override fun onCreateView(

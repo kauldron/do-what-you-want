@@ -14,7 +14,7 @@ import com.lockwood.dwyw.core.screen.RoomsScreen
 import com.lockwood.dwyw.core.ui.BaseActivity
 import com.lockwood.replicant.screen.Screen
 import com.lockwood.replicant.view.ProgressView
-import com.lockwood.room.R
+import com.lockwood.room.feature.RoomsFeature
 import com.lockwood.room.ui.fragment.RoomDetailFragment
 import com.lockwood.room.ui.fragment.RoomsFragment
 
@@ -22,11 +22,16 @@ class RoomActivity : BaseActivity(), ProgressView, ActivityResultCallback<Boolea
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment_container_progress)
+        setContentView(com.lockwood.replicant.R.layout.fragment_container_progress)
 
         if (savedInstanceState == null) {
             requestPermissions()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        releaseFeature<RoomsFeature>()
     }
 
     override fun showScreen(screen: Screen) = when (screen) {
@@ -36,11 +41,11 @@ class RoomActivity : BaseActivity(), ProgressView, ActivityResultCallback<Boolea
     }
 
     override fun showProgress() {
-        findViewById<View>(R.id.progress_bar).visibility = View.VISIBLE
+        findViewById<View>(com.lockwood.replicant.R.id.progress_bar).visibility = View.VISIBLE
     }
 
     override fun hideProgress() {
-        findViewById<View>(R.id.progress_bar).visibility = View.GONE
+        findViewById<View>(com.lockwood.replicant.R.id.progress_bar).visibility = View.GONE
     }
 
     override fun onActivityResult(isGranted: Boolean) {
@@ -60,7 +65,7 @@ class RoomActivity : BaseActivity(), ProgressView, ActivityResultCallback<Boolea
     }
 
     private fun showFragment(fragment: Fragment) {
-        showFragment(R.id.fragment_container.toIdRes(), fragment)
+        showFragment(com.lockwood.replicant.R.id.fragment_container.toIdRes(), fragment)
     }
 
     private companion object {
