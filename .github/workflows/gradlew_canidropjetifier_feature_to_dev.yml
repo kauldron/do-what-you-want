@@ -19,5 +19,5 @@ jobs:
       - name: Tests results
         uses: actions/upload-artifact@v1
         with:
-          name: earlybird_report
+          name: jetifier_report
           path: ./jetifier.txt

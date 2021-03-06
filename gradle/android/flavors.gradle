@@ -1,12 +1,16 @@
 android {
     flavorDimensions "stage"
 
+    defaultConfig {
+        resConfigs "en", "ldltr", "notround", "port", "night"
+    }
+
     productFlavors {
         dev {
             dimension "stage"
             versionNameSuffix "-dev"
             applicationIdSuffix '.dev'
-            resConfigs "en", "xxhdpi"
+            resConfigs "xxhdpi"
             ndk {
                 abiFilters 'arm64-v8a'
             }

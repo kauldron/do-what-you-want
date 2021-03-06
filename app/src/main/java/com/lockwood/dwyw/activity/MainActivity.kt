@@ -1,14 +1,15 @@
-package com.lockwood.dwyw
+package com.lockwood.dwyw.activity
 
 import android.os.Bundle
+import com.lockwood.dwyw.R
 import com.lockwood.dwyw.core.screen.OnboardingScreen
 import com.lockwood.dwyw.core.screen.RoomScreen
 import com.lockwood.dwyw.core.screen.RoomsScreen
 import com.lockwood.dwyw.core.ui.BaseActivity
 import com.lockwood.replicant.screen.Screen
+import com.lockwood.room.feature.RoomsFeature
+import com.lockwood.room.ui.launcher.RoomArgs
 import com.lockwood.room.ui.launcher.RoomArgs.Companion.toRoomArgs
-import com.lockwood.room.ui.launcher.RoomLauncher
-import com.lockwood.room.ui.launcher.RoomsLauncher
 
 class MainActivity : BaseActivity() {
 
@@ -20,13 +21,20 @@ class MainActivity : BaseActivity() {
     }
 
     override fun showScreen(screen: Screen) = when (screen) {
-        // TODO: Use get feature for launchers
         // TODO: Add OnboardingScreen
         is OnboardingScreen -> Unit
-        is RoomsScreen -> doWithFinish { RoomsLauncher(this).launch() }
-        is RoomScreen -> doWithFinish { RoomLauncher(this).launch(screen.id.toRoomArgs()) }
+        is RoomsScreen -> doWithFinish { launchRooms() }
+        is RoomScreen -> doWithFinish { launchRoom(screen.id.toRoomArgs()) }
         // TODO: Show and log error
         else -> Unit
+    }
+
+    private fun launchRooms() {
+        getFeature<RoomsFeature>().roomsLauncher.launch(this)
+    }
+
+    private fun launchRoom(args: RoomArgs) {
+        getFeature<RoomsFeature>().roomLauncher.launch(this, args)
     }
 
     private inline fun doWithFinish(action: () -> Unit) {
