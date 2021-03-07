@@ -4,7 +4,7 @@ import com.lockwood.replicant.state.ViewState
 import com.lockwood.room.data.Room
 
 data class RoomsViewState(
-    val rooms: List<Room>,
+    val rooms: Array<Room>,
     val isLoading: Boolean
 ) : ViewState {
 
@@ -13,8 +13,31 @@ data class RoomsViewState(
         val initialState: RoomsViewState
             @JvmStatic
             get() = RoomsViewState(
-                rooms = emptyList(),
+                rooms = emptyArray(),
                 isLoading = true
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as RoomsViewState
+
+        if (!rooms.contentEquals(other.rooms)) return false
+        if (isLoading != other.isLoading) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = rooms.contentHashCode()
+        result = 31 * result + isLoading.hashCode()
+        return result
+    }
+
+    override fun toString(): String {
+        return super.toString()
+    }
+
 }

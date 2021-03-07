@@ -13,6 +13,8 @@ import com.lockwood.room.ui.launcher.RoomArgs.Companion.toRoomArgs
 
 class MainActivity : BaseActivity() {
 
+    // TODO: Add ActionBar
+
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)

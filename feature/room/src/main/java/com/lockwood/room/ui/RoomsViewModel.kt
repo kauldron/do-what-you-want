@@ -16,7 +16,7 @@ class RoomsViewModel(
     private var state: RoomsViewState by liveState.delegate()
 
     fun fetchRooms() {
-        val roomsList = repository.fetchRooms()
+        val roomsList = repository.fetchRooms().toTypedArray()
         TimeUnit.SECONDS.sleep(5)
         state = state.copy(rooms = roomsList, isLoading = false)
     }

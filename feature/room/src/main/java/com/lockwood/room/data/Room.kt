@@ -1,6 +1,7 @@
 package com.lockwood.room.data
 
 data class Room(
-    private val id: Int,
-    private val name: String
+    val id: Int,
+    val name: String,
+    val isActive: Boolean = false // ENUMs?
 )

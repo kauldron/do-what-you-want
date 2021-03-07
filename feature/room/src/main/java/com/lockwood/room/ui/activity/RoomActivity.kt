@@ -8,7 +8,6 @@ import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import com.lockwood.automata.res.IdRes.Companion.toIdRes
 import com.lockwood.dwyw.core.screen.RoomScreen
 import com.lockwood.dwyw.core.screen.RoomsScreen
 import com.lockwood.dwyw.core.ui.BaseActivity
@@ -65,7 +64,7 @@ class RoomActivity : BaseActivity(), ProgressView, ActivityResultCallback<Boolea
     }
 
     private fun showFragment(fragment: Fragment) {
-        showFragment(com.lockwood.replicant.R.id.fragment_container.toIdRes(), fragment)
+        showFragment(com.lockwood.replicant.R.id.fragment_container, fragment)
     }
 
     private companion object {
