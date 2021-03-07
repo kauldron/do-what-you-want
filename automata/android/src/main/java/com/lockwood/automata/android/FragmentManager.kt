@@ -1,11 +1,11 @@
 package com.lockwood.automata.android
 
 import android.util.Log
+import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.lockwood.automata.core.ZERO
-import com.lockwood.automata.res.IdRes
 
 val Fragment.supportFragmentManager: FragmentManager
     get() = requireActivity().supportFragmentManager
@@ -19,26 +19,26 @@ inline fun FragmentManager.addOnBackStackChangedListener(
 }
 
 fun FragmentManager.replaceFragmentWithBackStack(
-    container: IdRes,
+    @IdRes container: Int,
     fragment: Fragment,
     tag: String = requireNotNull(fragment::class.simpleName),
 ) {
     val fragmentPopped = popBackStackImmediate(tag, Int.ZERO)
     if (!fragmentPopped) {
         transact {
-            replace(container.value, fragment, tag)
+            replace(container, fragment, tag)
             addToBackStack(tag)
         }
     }
 }
 
 fun FragmentManager.replaceFragment(
-    container: IdRes,
+    @IdRes container: Int,
     fragment: Fragment,
     tag: String = requireNotNull(fragment::class.simpleName),
 ) {
     transact {
-        replace(container.value, fragment, tag)
+        replace(container, fragment, tag)
     }
 }
 
