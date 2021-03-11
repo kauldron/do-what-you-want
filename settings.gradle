@@ -1,6 +1,6 @@
 rootProject.name = "do-what-you-want"
 include ':app'
-include ':core'
+include ':core', ':core:ui'
 include 'feature:direct', ':feature:room'
 include ':automata:android', ':automata:core', ':automata:file',
         ':automata:intent', ':automata:notification', ':automata:text',

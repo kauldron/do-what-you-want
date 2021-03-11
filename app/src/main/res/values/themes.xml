@@ -24,7 +24,7 @@
     </style>
 
     <style name="AppTheme.Launcher" parent="AppTheme">
-        <item name="android:windowBackground">@drawable/launch_screen</item>
+        <item name="android:windowBackground">@drawable/ic_launch</item>
     </style>
 
 </resources>
