@@ -11,3 +11,6 @@ val Int.Companion.SINGLE: Int
 
 val Int.Companion.ZERO: Int
     get() = 0
+
+val Int.Companion.UNDEFINED: Int
+    get() = -1

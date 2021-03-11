@@ -1,3 +1,7 @@
 package com.lockwood.replicant.state
 
-interface ViewState
+interface ViewState {
+
+//    fun <T : ViewState> copy(): T
+
+}

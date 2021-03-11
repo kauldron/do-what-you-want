@@ -10,7 +10,7 @@ import com.lockwood.automata.android.getSystemService
 import com.lockwood.automata.core.notSafeLazy
 
 // TODO: make internal
-class WifiDirectManagerImpl(
+internal class WifiDirectManagerImpl(
     context: ApplicationContext,
 ) : WifiDirectManager {
 

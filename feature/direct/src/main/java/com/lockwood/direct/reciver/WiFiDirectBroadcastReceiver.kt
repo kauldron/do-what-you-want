@@ -5,10 +5,10 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.net.wifi.p2p.WifiP2pManager
-import android.util.Log
 import com.lockwood.direct.WifiDirectManager
+import timber.log.Timber
 
-class WiFiDirectBroadcastReceiver(
+internal class WiFiDirectBroadcastReceiver(
     private val directManager: WifiDirectManager,
 ) : BroadcastReceiver() {
 
@@ -23,9 +23,9 @@ class WiFiDirectBroadcastReceiver(
         when (intent.action) {
             WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION -> {
                 if (intent.isWifiDirectEnabled) {
-                    Log.d("WiFiDirectBroadcast", "Wifi P2P is enabled")
+                    Timber.d("Wifi P2P is enabled")
                 } else {
-                    Log.d("WiFiDirectBroadcast", "Wi-Fi P2P is not enabled")
+                    Timber.d("Wi-Fi P2P is not enabled")
                 }
             }
             WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION -> {

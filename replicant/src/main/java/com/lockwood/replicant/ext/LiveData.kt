@@ -19,7 +19,7 @@ fun <T : Any> MutableLiveData<T>.delegate(): ReadWriteProperty<Any, T> {
     }
 }
 
-inline fun <T, LD : LiveData<T>> Fragment.observe(
+inline fun <T, LD : LiveData<T>> Fragment.observeState(
     liveData: LD,
     crossinline block: (T) -> Unit
 ) {

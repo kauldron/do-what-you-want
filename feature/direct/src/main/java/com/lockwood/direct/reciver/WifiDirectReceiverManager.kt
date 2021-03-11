@@ -7,7 +7,7 @@ import com.lockwood.automata.core.notSafeLazy
 import com.lockwood.direct.WifiDirectManager
 import com.lockwood.replicant.receiver.ReceiverManager
 
-class WifiDirectReceiverManager(wifiDirectManager: WifiDirectManager) : ReceiverManager {
+internal class WifiDirectReceiverManager(wifiDirectManager: WifiDirectManager) : ReceiverManager {
 
     private val receiver by notSafeLazy {
         WiFiDirectBroadcastReceiver(wifiDirectManager)

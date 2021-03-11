@@ -2,7 +2,6 @@ package com.lockwood.room.ui.activity
 
 import android.Manifest
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
@@ -16,6 +15,7 @@ import com.lockwood.replicant.view.ProgressView
 import com.lockwood.room.feature.RoomsFeature
 import com.lockwood.room.ui.fragment.RoomDetailFragment
 import com.lockwood.room.ui.fragment.RoomsFragment
+import timber.log.Timber
 
 class RoomActivity : BaseActivity(), ProgressView, ActivityResultCallback<Boolean> {
 
@@ -34,7 +34,7 @@ class RoomActivity : BaseActivity(), ProgressView, ActivityResultCallback<Boolea
     }
 
     override fun showScreen(screen: Screen) = when (screen) {
-        is RoomsScreen -> showFragment(RoomsFragment.newInstance())
+        is RoomsScreen -> showFragment(RoomsFragment.newInstance(), true)
         is RoomScreen -> showFragment(RoomDetailFragment.newInstance(screen.id))
         else -> Unit
     }
@@ -48,8 +48,7 @@ class RoomActivity : BaseActivity(), ProgressView, ActivityResultCallback<Boolea
     }
 
     override fun onActivityResult(isGranted: Boolean) {
-        // TODO: add Timber for logging
-        Log.d(TAG, "onActivityResult: $isGranted")
+        Timber.d("onActivityResult: $isGranted")
 
         if (isGranted) {
             // TODO: Handle intent
@@ -63,13 +62,8 @@ class RoomActivity : BaseActivity(), ProgressView, ActivityResultCallback<Boolea
         requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
     }
 
-    private fun showFragment(fragment: Fragment) {
-        showFragment(com.lockwood.replicant.R.id.fragment_container, fragment)
-    }
-
-    private companion object {
-
-        private val TAG = RoomActivity::class.simpleName
+    private fun showFragment(fragment: Fragment, fromBackStack: Boolean = false) {
+        showFragment(com.lockwood.replicant.R.id.fragment_container, fragment, fromBackStack)
     }
 
 }

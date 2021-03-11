@@ -1,6 +1,6 @@
 package com.lockwood.room.data
 
-interface IRoomRepository {
+interface IRoomsRepository {
 
     fun fetchRooms(): List<Room>
 

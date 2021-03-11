@@ -10,6 +10,9 @@ import com.lockwood.automata.core.ZERO
 val Fragment.supportFragmentManager: FragmentManager
     get() = requireActivity().supportFragmentManager
 
+val FragmentManager.isBackStackNotEmpty: Boolean
+    get() = backStackEntryCount > Int.ZERO
+
 inline fun FragmentManager.addOnBackStackChangedListener(
     crossinline action: (Int, List<Fragment>) -> Unit,
 ) {
@@ -18,12 +21,12 @@ inline fun FragmentManager.addOnBackStackChangedListener(
     }
 }
 
-fun FragmentManager.replaceFragmentWithBackStack(
+fun FragmentManager.showFragmentFromBackStack(
     @IdRes container: Int,
     fragment: Fragment,
     tag: String = requireNotNull(fragment::class.simpleName),
 ) {
-    val fragmentPopped = popBackStackImmediate(tag, Int.ZERO)
+    val fragmentPopped = popBackStackImmediate(tag, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     if (!fragmentPopped) {
         transact {
             replace(container, fragment, tag)
@@ -32,7 +35,7 @@ fun FragmentManager.replaceFragmentWithBackStack(
     }
 }
 
-fun FragmentManager.replaceFragment(
+fun FragmentManager.showFragment(
     @IdRes container: Int,
     fragment: Fragment,
     tag: String = requireNotNull(fragment::class.simpleName),

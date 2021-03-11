@@ -9,21 +9,22 @@ import com.lockwood.automata.android.newFragment
 import com.lockwood.automata.recycler.addDividerItemDecoration
 import com.lockwood.automata.recycler.applyLayoutManager
 import com.lockwood.dwyw.core.ui.BaseFragment
+import com.lockwood.replicant.event.observeEvenets
 import com.lockwood.replicant.ext.lazyViewModel
-import com.lockwood.replicant.ext.observe
-import com.lockwood.replicant.view.ext.requireProgressView
+import com.lockwood.replicant.ext.observeState
+import com.lockwood.replicant.view.listener.ItemClickListener
 import com.lockwood.room.R
 import com.lockwood.room.data.Room
 import com.lockwood.room.feature.RoomsFeature
-import com.lockwood.room.ui.RoomsViewModel
-import com.lockwood.room.ui.RoomsViewState
-import com.lockwood.room.ui.fragment.holder.RoomsAdapter
+import com.lockwood.room.ui.adapter.RoomsAdapter
+import com.lockwood.room.ui.state.RoomsViewState
+import com.lockwood.room.viewmodel.RoomsViewModel
 
 // TODO: Fill RoomFragment
-class RoomsFragment : BaseFragment() {
+class RoomsFragment : BaseFragment<RoomsViewState>(), ItemClickListener<Room> {
 
     private val viewModel: RoomsViewModel by lazyViewModel {
-        RoomsViewModel(getFeature<RoomsFeature>().roomRepository)
+        RoomsViewModel(getFeature<RoomsFeature>().roomsInteractor)
     }
 
     override fun onCreateView(
@@ -32,15 +33,25 @@ class RoomsFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View = inflater.inflate(R.layout.fragment_rooms, container, false)
 
+    override fun onBeforeObserveState() {
+        initRoomsRecyclerView()
+    }
+
+    override fun onObserveState() {
+        observeState(viewModel.liveState, ::renderState)
+        observeEvenets(viewModel.eventsQueue, ::onOnEvent)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        setupViews()
-
-        observe(viewModel.liveState, ::renderState)
-
+        super.onViewCreated(view, savedInstanceState)
         viewModel.fetchRooms()
     }
 
-    private fun renderState(viewState: RoomsViewState) = with(viewState) {
+    override fun onClick(item: Room) {
+        viewModel.navigateToRoom(item)
+    }
+
+    override fun renderState(viewState: RoomsViewState) = with(viewState) {
         renderLoading(isLoading)
         renderRooms(rooms)
     }
@@ -49,15 +60,11 @@ class RoomsFragment : BaseFragment() {
         if (rooms.isNullOrEmpty()) {
             // TODO: Show stub view
         } else {
-            requireRoomsView().adapter = RoomsAdapter(rooms)
+            requireRoomsView().adapter = RoomsAdapter(rooms, this)
         }
     }
 
-    private fun renderLoading(isLoading: Boolean) {
-        requireProgressView().updateProgressVisibility(isLoading)
-    }
-
-    private fun setupViews() {
+    private fun initRoomsRecyclerView() {
         requireRoomsView().apply {
             applyLayoutManager(RecyclerView.VERTICAL)
             addDividerItemDecoration(RecyclerView.VERTICAL) {
