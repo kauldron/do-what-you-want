@@ -1,0 +1,39 @@
+@file:Suppress("UNCHECKED_CAST")
+
+package com.lockwood.replicant.delegate
+
+import android.os.Bundle
+import androidx.fragment.app.Fragment
+import com.lockwood.automata.core.EMPTY
+import com.lockwood.automata.core.UNDEFINED
+import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KProperty
+
+inline fun <T> Fragment.bundleArg(
+    crossinline getter: Bundle.() -> T,
+    crossinline setter: Bundle.(T) -> Unit,
+): ReadWriteProperty<Any?, T> = object : ReadWriteProperty<Any?, T> {
+    override fun getValue(thisRef: Any?, property: KProperty<*>): T {
+        return requireArguments().getter()
+    }
+
+    override fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
+        requireArguments().setter(value)
+    }
+}
+
+inline fun <T> Fragment.intArg(
+    name: String,
+    crossinline default: () -> Int = { Int.UNDEFINED }
+): ReadWriteProperty<Any?, T> = bundleArg(
+    getter = { getInt(name, default()) as T },
+    setter = { value -> putInt(name, value as Int) }
+)
+
+inline fun <T> Fragment.stringArgs(
+    name: String,
+    crossinline default: () -> String = { String.EMPTY }
+): ReadWriteProperty<Any?, T> = bundleArg(
+    getter = { getString(name, default()) as T ?: default() as T },
+    setter = { value -> putString(name, value as String) }
+)

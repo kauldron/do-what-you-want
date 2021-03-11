@@ -8,8 +8,8 @@ import com.lockwood.dwyw.core.screen.RoomsScreen
 import com.lockwood.dwyw.core.ui.BaseActivity
 import com.lockwood.replicant.screen.Screen
 import com.lockwood.room.feature.RoomsFeature
-import com.lockwood.room.ui.launcher.RoomArgs
-import com.lockwood.room.ui.launcher.RoomArgs.Companion.toRoomArgs
+import com.lockwood.room.launcher.RoomArgs
+import com.lockwood.room.launcher.RoomArgs.Companion.toRoomArgs
 
 class MainActivity : BaseActivity() {
 

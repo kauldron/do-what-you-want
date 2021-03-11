@@ -2,17 +2,26 @@ package com.lockwood.dwyw.core.ui
 
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
-import com.lockwood.automata.android.replaceFragment
-import com.lockwood.automata.android.replaceFragmentWithBackStack
+import com.lockwood.automata.android.isBackStackNotEmpty
+import com.lockwood.automata.android.showFragment
+import com.lockwood.automata.android.showFragmentFromBackStack
 import com.lockwood.replicant.base.ReplicantActivity
 
 abstract class BaseActivity : ReplicantActivity() {
 
-    protected fun showFragment(@IdRes id: Int, fragment: Fragment) = with(supportFragmentManager) {
-        if (findFragmentById(id) == null) {
-            replaceFragment(id, fragment)
+    override fun onBackPressed() = with(supportFragmentManager) {
+        if (isBackStackNotEmpty) {
+            popBackStack()
+            return@with
+        }
+        super.onBackPressed()
+    }
+
+    protected fun showFragment(@IdRes id: Int, fragment: Fragment, fromBackStack: Boolean = false) {
+        if (fromBackStack) {
+            supportFragmentManager.showFragment(id, fragment)
         } else {
-            replaceFragmentWithBackStack(id, fragment)
+            supportFragmentManager.showFragmentFromBackStack(id, fragment)
         }
     }
 

@@ -1,6 +1,6 @@
 package com.lockwood.room.data
 
-class RoomRepository : IRoomRepository {
+class RoomsRepository : IRoomsRepository {
 
     override fun fetchRooms(): List<Room> {
         return listOf(
