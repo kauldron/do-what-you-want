@@ -2,9 +2,8 @@ package com.lockwood.replicant.base
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.lockwood.replicant.event.ErrorMessageEvent
+import com.lockwood.replicant.event.Event
 import com.lockwood.replicant.event.EventsQueue
-import com.lockwood.replicant.event.MessageEvent
 import com.lockwood.replicant.event.ShowScreenEvent
 import com.lockwood.replicant.ext.delegate
 import com.lockwood.replicant.screen.Screen
@@ -22,18 +21,12 @@ abstract class ReplicantViewModel<VS : ViewState>(initialState: VS) : ViewModel(
         eventsQueue.offer()
     }
 
+    protected inline fun offerEvent(init: () -> Event) = offerEvents {
+        offer(init())
+    }
+
     protected inline fun mutateState(mutate: () -> VS) {
         state = mutate()
-    }
-
-    protected fun showMessage(message: String) = offerEvents {
-        val event = MessageEvent(message)
-        offer(event)
-    }
-
-    protected fun showErrorMessage(message: String) = offerEvents {
-        val event = ErrorMessageEvent(message)
-        offer(event)
     }
 
     protected fun navigateTo(screen: Screen) = offerEvents {
