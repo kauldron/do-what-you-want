@@ -1,22 +1,21 @@
 package com.lockwood.dwyw.activity
 
 import android.os.Bundle
-import com.lockwood.dwyw.R
 import com.lockwood.dwyw.core.screen.OnboardingScreen
 import com.lockwood.dwyw.core.screen.RoomScreen
 import com.lockwood.dwyw.core.screen.RoomsScreen
 import com.lockwood.dwyw.core.ui.BaseActivity
 import com.lockwood.replicant.screen.Screen
 import com.lockwood.room.feature.RoomsFeature
-import com.lockwood.room.launcher.RoomArgs
-import com.lockwood.room.launcher.RoomArgs.Companion.toRoomArgs
+import com.lockwood.room.room.launcher.RoomArgs
+import com.lockwood.room.room.launcher.RoomArgs.Companion.toRoomArgs
 
 class MainActivity : BaseActivity() {
 
     // TODO: Add ActionBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.AppTheme)
+        setTheme(com.lockwood.dwyw.ui.core.R.style.AppTheme)
         super.onCreate(savedInstanceState)
 
         showScreen(RoomsScreen)

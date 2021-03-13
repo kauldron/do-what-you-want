@@ -4,5 +4,10 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 30
+
+        resConfigs "en", "ldltr", "notround", "port", "night"
+
+        // stops the Gradle plugin’s automatic rasterization of vectors
+        vectorDrawables.useSupportLibrary = true
     }
 }

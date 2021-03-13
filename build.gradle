@@ -15,7 +15,7 @@ buildscript {
 
 plugins {
     // https://github.com/gradle/android-cache-fix-gradle-plugin#roomschemalocationworkaround
-    id "org.gradle.android.cache-fix" version "2.1.1" apply false
+    id "org.gradle.android.cache-fix" version "2.2.0" apply false
     // https://github.com/plnice/can-i-drop-jetifier
     id "com.github.plnice.canidropjetifier" version "0.5"
     // https://runningcode.github.io/gradle-doctor/
@@ -28,6 +28,12 @@ allprojects {
     repositories {
         google()
         jcenter()
+    }
+}
+
+subprojects {
+    plugins.withType(com.android.build.gradle.BasePlugin) {
+        project.apply plugin: "org.gradle.android.cache-fix"
     }
 }
 

@@ -1,10 +1,6 @@
 android {
     flavorDimensions "stage"
 
-    defaultConfig {
-        resConfigs "en", "ldltr", "notround", "port", "night"
-    }
-
     productFlavors {
         dev {
             dimension "stage"
