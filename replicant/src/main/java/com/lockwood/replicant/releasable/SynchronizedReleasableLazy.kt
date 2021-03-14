@@ -6,7 +6,7 @@ import com.lockwood.replicant.feature.Releasable
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-class SynchronizedReleasableLazy<T : Any>(
+class SynchronizedReleasableLazy<T : Any> @PublishedApi internal constructor(
     private val initializer: () -> T,
 ) : ReadOnlyProperty<Any?, T>, Releasable {
 

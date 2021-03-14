@@ -5,9 +5,11 @@ import android.app.Application
 import android.content.pm.PackageManager
 import android.net.wifi.WifiManager
 import android.net.wifi.p2p.WifiP2pManager
+import android.net.wifi.p2p.nsd.WifiP2pServiceRequest
 import com.lockwood.automata.android.ApplicationContext
 import com.lockwood.automata.android.getSystemService
 import com.lockwood.automata.core.notSafeLazy
+import com.lockwood.direct.utils.WifiP2pManagerUtils
 
 // TODO: make internal
 internal class WifiDirectManagerImpl(
@@ -16,13 +18,12 @@ internal class WifiDirectManagerImpl(
 
     private val application: Application = context.application
 
-    private val wifiP2pManager: WifiP2pManager by notSafeLazy {
-        application.getSystemService()
-    }
-
     private val channel: WifiP2pManager.Channel by notSafeLazy {
         wifiP2pManager.initialize(application, application.mainLooper, null)
     }
+
+    private val wifiP2pManager: WifiP2pManager
+        get() = application.getSystemService()
 
     override val isDeviceSupported: Boolean
         get() = application.packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI_DIRECT)
@@ -45,8 +46,17 @@ internal class WifiDirectManagerImpl(
     }
 
     @SuppressLint("MissingPermission")
-    override fun discoverPeers(listener: WifiP2pManager.ActionListener) {
-        wifiP2pManager.discoverPeers(channel, listener)
+    override fun discoverPeers(listener: WifiP2pActionListener) {
+        wifiP2pManager.discoverPeers(channel, WifiP2pManagerUtils.wrapWithManagerListener(listener))
+    }
+
+    override fun requestServices(serviceRequest: WifiP2pServiceRequest, listener: WifiP2pActionListener) {
+        wifiP2pManager.addServiceRequest(channel, serviceRequest, WifiP2pManagerUtils.wrapWithManagerListener(listener))
+    }
+
+    @SuppressLint("MissingPermission")
+    override fun discoverServices(listener: WifiP2pActionListener) {
+        wifiP2pManager.discoverServices(channel, WifiP2pManagerUtils.wrapWithManagerListener(listener))
     }
 
 }

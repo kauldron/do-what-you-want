@@ -25,7 +25,7 @@ class RoomsViewHolder(
         textView.text = "Name: $name"
         statusView.text = "Is Active: $isActive"
 
-        itemView.setOnClickListener { listener.onClick(this) }
+        itemView.setOnClickListener { listener.invoke(this) }
     }
 
 }

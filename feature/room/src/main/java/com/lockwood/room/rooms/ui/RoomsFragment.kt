@@ -12,7 +12,6 @@ import com.lockwood.dwyw.core.ui.BaseFragment
 import com.lockwood.replicant.event.observeEvenets
 import com.lockwood.replicant.ext.lazyViewModel
 import com.lockwood.replicant.ext.observeState
-import com.lockwood.replicant.view.listener.ItemClickListener
 import com.lockwood.room.R
 import com.lockwood.room.data.Room
 import com.lockwood.room.feature.RoomsFeature
@@ -20,7 +19,7 @@ import com.lockwood.room.rooms.ui.adapter.RoomsAdapter
 import timber.log.Timber
 
 // TODO: Fill RoomFragment
-class RoomsFragment internal constructor(): BaseFragment<RoomsViewState>(), ItemClickListener<Room> {
+class RoomsFragment internal constructor() : BaseFragment<RoomsViewState>() {
 
     init {
         Timber.d("RoomsFragment crated")
@@ -51,10 +50,6 @@ class RoomsFragment internal constructor(): BaseFragment<RoomsViewState>(), Item
         viewModel.fetchRooms()
     }
 
-    override fun onClick(item: Room) {
-        viewModel.navigateToRoom(item)
-    }
-
     override fun renderState(viewState: RoomsViewState) = with(viewState) {
         renderLoading(isLoading)
         renderRooms(rooms)
@@ -64,7 +59,7 @@ class RoomsFragment internal constructor(): BaseFragment<RoomsViewState>(), Item
         if (rooms.isNullOrEmpty()) {
             // TODO: Show stub view
         } else {
-            requireRoomsView().adapter = RoomsAdapter(rooms, this)
+            requireRoomsView().adapter = RoomsAdapter(rooms, viewModel::navigateToRoom)
         }
     }
 

@@ -8,9 +8,9 @@ inline class ApplicationContext(
 ) {
 
     val value: Context
-        get() = application.applicationContext
+        get() = context
 
     val application: Application
-        get() = context.applicationContext as Application
+        get() = context as Application
 
 }
