@@ -2,6 +2,7 @@ package com.lockwood.room
 
 import android.Manifest
 import android.content.Intent
+import android.net.wifi.p2p.nsd.WifiP2pDnsSdServiceInfo
 import android.net.wifi.p2p.nsd.WifiP2pServiceRequest
 import android.os.Bundle
 import android.view.View
@@ -84,7 +85,9 @@ class RoomActivity : BaseActivity(), ProgressView, ActivityResultCallback<Boolea
 	}
 
 	private fun requestServices() = with(wifiDirectManager) {
+		// TODO: Implement WifiP2pActionListener and update state
 		requestServices(WifiP2pServiceRequest.newInstance(80), object : WifiP2pActionListener {
+
 			override fun onSuccess() {
 				Timber.d("Request services succeeded")
 				discoverServices()
@@ -99,9 +102,10 @@ class RoomActivity : BaseActivity(), ProgressView, ActivityResultCallback<Boolea
 
 	private fun discoverServices() = with(wifiDirectManager) {
 		discoverServices(object : WifiP2pActionListener {
+
 			override fun onSuccess() {
 				Timber.d("Discover services succeeded")
-				showToast("Discover services succeeded")
+				startRegistration()
 			}
 
 			override fun onFailure(error: WifiP2pError) {
@@ -132,6 +136,29 @@ class RoomActivity : BaseActivity(), ProgressView, ActivityResultCallback<Boolea
 
 	private fun showToast(string: String) {
 		Toast.makeText(this, string, Toast.LENGTH_SHORT).show()
+	}
+
+	private fun startRegistration() {
+		// TODO: Get last unused port
+		val record: Map<String, String> = mapOf(
+				"listenport" to 113.toString(),
+				"buddyname" to "John Doe${(Math.random() * 1000).toInt()}",
+				"available" to "visible"
+		)
+
+		// TODO: Check ._tcp and ._udp
+		val serviceInfo =
+				WifiP2pDnsSdServiceInfo.newInstance("_test", "_presence._tcp", record)
+
+		wifiDirectManager.addLocalService(serviceInfo, object : WifiP2pActionListener {
+			override fun onSuccess() {
+				showToast("addLocalService services succeeded")
+			}
+
+			override fun onFailure(error: WifiP2pError) {
+				showToast("addLocalService failed with reason $error")
+			}
+		})
 	}
 
 	private sealed class ErrorScreen {
