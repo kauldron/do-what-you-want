@@ -1,6 +1,7 @@
 package com.lockwood.direct
 
 import android.net.wifi.p2p.WifiP2pManager
+import android.net.wifi.p2p.nsd.WifiP2pDnsSdServiceInfo
 import android.net.wifi.p2p.nsd.WifiP2pServiceRequest
 
 interface WifiDirectManager {
@@ -15,6 +16,8 @@ interface WifiDirectManager {
 	fun discoverPeers(listener: WifiP2pActionListener)
 
 	fun requestServices(serviceRequest: WifiP2pServiceRequest, listener: WifiP2pActionListener)
+
+	fun addLocalService(serviceInfo: WifiP2pDnsSdServiceInfo, listener: WifiP2pActionListener)
 
 	fun discoverServices(listener: WifiP2pActionListener)
 }

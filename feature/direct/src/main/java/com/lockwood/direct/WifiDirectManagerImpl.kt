@@ -6,11 +6,13 @@ import android.content.pm.PackageManager
 import android.net.wifi.WifiManager
 import android.net.wifi.p2p.WifiP2pManager
 import android.net.wifi.p2p.WifiP2pManager.ActionListener
+import android.net.wifi.p2p.nsd.WifiP2pDnsSdServiceInfo
 import android.net.wifi.p2p.nsd.WifiP2pServiceRequest
 import com.lockwood.automata.android.ApplicationContext
 import com.lockwood.automata.android.getSystemService
 import com.lockwood.automata.core.notSafeLazy
 import com.lockwood.direct.utils.WifiP2pManagerUtils
+import java.net.ServerSocket
 
 internal class WifiDirectManagerImpl(
 		context: ApplicationContext,
@@ -20,6 +22,10 @@ internal class WifiDirectManagerImpl(
 
 	private val channel: WifiP2pManager.Channel by notSafeLazy {
 		wifiP2pManager.initialize(application, application.mainLooper, null)
+	}
+
+	private val availablePort: Int by notSafeLazy {
+		ServerSocket(0).localPort
 	}
 
 	private val wifiP2pManager: WifiP2pManager
@@ -47,19 +53,37 @@ internal class WifiDirectManagerImpl(
 
 	@SuppressLint("MissingPermission")
 	override fun discoverPeers(listener: WifiP2pActionListener) {
-		val actionListener: ActionListener = WifiP2pManagerUtils.wrapWithActionListener(listener)
-		wifiP2pManager.discoverPeers(channel, actionListener)
+		wrapWithActionListener(listener) {
+			wifiP2pManager.discoverPeers(channel, it)
+		}
 	}
 
 	override fun requestServices(serviceRequest: WifiP2pServiceRequest, listener: WifiP2pActionListener) {
-		val actionListener: ActionListener = WifiP2pManagerUtils.wrapWithActionListener(listener)
-		wifiP2pManager.addServiceRequest(channel, serviceRequest, actionListener)
+		wrapWithActionListener(listener) {
+			wifiP2pManager.addServiceRequest(channel, serviceRequest, it)
+		}
+	}
+
+	@SuppressLint("MissingPermission")
+	override fun addLocalService(serviceInfo: WifiP2pDnsSdServiceInfo, listener: WifiP2pActionListener) {
+		wrapWithActionListener(listener) {
+			wifiP2pManager.addLocalService(channel, serviceInfo, it)
+		}
 	}
 
 	@SuppressLint("MissingPermission")
 	override fun discoverServices(listener: WifiP2pActionListener) {
+		wrapWithActionListener(listener) {
+			wifiP2pManager.discoverServices(channel, it)
+		}
+	}
+
+	private inline fun wrapWithActionListener(
+			listener: WifiP2pActionListener,
+			action: (ActionListener) -> Unit,
+	) {
 		val actionListener: ActionListener = WifiP2pManagerUtils.wrapWithActionListener(listener)
-		wifiP2pManager.discoverServices(channel, actionListener)
+		action(actionListener)
 	}
 
 }
