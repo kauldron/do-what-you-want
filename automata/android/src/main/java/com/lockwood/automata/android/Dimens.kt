@@ -6,10 +6,10 @@ import androidx.annotation.Dimension
 import androidx.annotation.Px
 
 private val Context.densityDpi: Float
-    get() = resources.displayMetrics.densityDpi.toFloat()
+	get() = resources.displayMetrics.densityDpi.toFloat()
 
 private val Context.densityScale: Float
-    get() = densityDpi / DisplayMetrics.DENSITY_DEFAULT
+	get() = densityDpi / DisplayMetrics.DENSITY_DEFAULT
 
 @Px
 fun Context.dpToPx(@Dimension dp: Int): Float = dp * densityScale

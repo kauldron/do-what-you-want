@@ -6,9 +6,9 @@ import androidx.fragment.app.FragmentActivity
 import com.lockwood.automata.core.newInstance
 
 inline fun <reified T : DialogFragment> Fragment.showDialog(
-    tag: String,
+		tag: String,
 ) = newInstance<T>().show(supportFragmentManager, tag)
 
 inline fun <reified T : DialogFragment> FragmentActivity.showDialog(
-    tag: String,
+		tag: String,
 ) = newInstance<T>().show(supportFragmentManager, tag)

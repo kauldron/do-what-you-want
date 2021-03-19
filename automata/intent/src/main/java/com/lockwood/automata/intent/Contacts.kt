@@ -8,58 +8,58 @@ import android.provider.ContactsContract
 import com.lockwood.automata.android.buildIntent
 
 fun Activity.selectContact(
-    requestCode: Int,
+		requestCode: Int,
 ) = buildIntent(Intent.ACTION_PICK) {
-    type = ContactsContract.Contacts.CONTENT_TYPE
+	type = ContactsContract.Contacts.CONTENT_TYPE
 
-    startActivityForResult(intent, requestCode)
-    return@buildIntent
+	startActivityForResult(intent, requestCode)
+	return@buildIntent
 }
 
 fun Activity.selectContactByPhone(
-    requestCode: Int,
+		requestCode: Int,
 ) = buildIntent(Intent.ACTION_PICK) {
-    type = ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE
+	type = ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE
 
-    startActivityForResult(intent, requestCode)
-    return@buildIntent
+	startActivityForResult(intent, requestCode)
+	return@buildIntent
 }
 
 fun Context.viewContact(
-    contactUri: Uri,
+		contactUri: Uri,
 ) = buildIntent(Intent.ACTION_VIEW, contactUri) {
-    startActivity(this)
-    return@buildIntent
+	startActivity(this)
+	return@buildIntent
 }
 
 fun Context.editContactMail(
-    contactUri: Uri,
-    email: String,
+		contactUri: Uri,
+		email: String,
 ) = editContact(
-    contactUri = contactUri,
-    name = ContactsContract.Intents.Insert.EMAIL,
-    value = email
+		contactUri = contactUri,
+		name = ContactsContract.Intents.Insert.EMAIL,
+		value = email
 )
 
 fun Context.editContact(
-    contactUri: Uri,
-    name: String,
-    value: String,
+		contactUri: Uri,
+		name: String,
+		value: String,
 ) = buildIntent(Intent.ACTION_EDIT, contactUri) {
-    putExtra(name, value)
+	putExtra(name, value)
 
-    startActivity(this)
-    return@buildIntent
+	startActivity(this)
+	return@buildIntent
 }
 
 fun Context.insertContact(
-    name: String,
-    email: String,
+		name: String,
+		email: String,
 ) = buildIntent(Intent.ACTION_INSERT) {
-    type = ContactsContract.Contacts.CONTENT_TYPE
-    putExtra(ContactsContract.Intents.Insert.NAME, name)
-    putExtra(ContactsContract.Intents.Insert.EMAIL, email)
+	type = ContactsContract.Contacts.CONTENT_TYPE
+	putExtra(ContactsContract.Intents.Insert.NAME, name)
+	putExtra(ContactsContract.Intents.Insert.EMAIL, email)
 
-    startActivity(this)
-    return@buildIntent
+	startActivity(this)
+	return@buildIntent
 }

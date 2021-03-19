@@ -6,8 +6,8 @@ import com.lockwood.replicant.view.ext.requireProgressView
 
 abstract class BaseFragment<VS : ViewState> : ReplicantFragment<VS>() {
 
-    protected fun renderLoading(isLoading: Boolean) {
-        requireProgressView().updateProgressVisibility(isLoading)
-    }
+	protected fun renderLoading(isLoading: Boolean) {
+		requireProgressView().updateProgressVisibility(isLoading)
+	}
 
 }

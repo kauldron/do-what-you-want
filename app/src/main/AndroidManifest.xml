@@ -1,43 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.lockwood.dwyw">
+<manifest
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	package="com.lockwood.dwyw"
+	>
 
-    <uses-feature android:name="android.hardware.audio.output" />
-    <uses-feature android:name="android.hardware.screen.portrait" />
-    <uses-feature android:name="android.hardware.touchscreen" />
+	<uses-feature android:name="android.hardware.audio.output" />
+	<uses-feature android:name="android.hardware.screen.portrait" />
+	<uses-feature android:name="android.hardware.touchscreen" />
 
-    <!--  TODO: Fix icon  -->
+	<!--  TODO: Fix icon  -->
 
-    <application
-        android:name="com.lockwood.dwyw.MainApplication"
-        android:allowBackup="false"
-        android:extractNativeLibs="true"
-        android:label="Do what you want"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        tools:ignore="MipmapIcons"
-        tools:targetApi="m">
+	<application
+		android:name="com.lockwood.dwyw.MainApplication"
+		android:allowBackup="false"
+		android:extractNativeLibs="true"
+		android:label="Do what you want"
+		android:supportsRtl="true"
+		android:theme="@style/AppTheme"
+		tools:ignore="MipmapIcons"
+		tools:targetApi="m"
+		>
 
-        <activity
-            android:name="com.lockwood.dwyw.activity.MainActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Launcher">
+		<activity
+			android:name="com.lockwood.dwyw.activity.MainActivity"
+			android:screenOrientation="portrait"
+			android:theme="@style/AppTheme.Launcher"
+			>
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.VIEW" />
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
 
-        </activity>
+		</activity>
 
-        <activity
-            android:name="com.lockwood.room.RoomActivity"
-            android:launchMode="singleInstance"
-            android:screenOrientation="portrait" />
+		<activity
+			android:name="com.lockwood.room.RoomActivity"
+			android:launchMode="singleInstance"
+			android:screenOrientation="portrait"
+			/>
 
-    </application>
+	</application>
 
 </manifest>

@@ -12,7 +12,6 @@ import com.lockwood.dwyw.core.ui.BaseFragment
 import com.lockwood.replicant.event.observeEvenets
 import com.lockwood.replicant.ext.lazyViewModel
 import com.lockwood.replicant.ext.observeState
-import com.lockwood.replicant.view.listener.ItemClickListener
 import com.lockwood.room.R
 import com.lockwood.room.data.Room
 import com.lockwood.room.feature.RoomsFeature
@@ -20,73 +19,65 @@ import com.lockwood.room.rooms.ui.adapter.RoomsAdapter
 import timber.log.Timber
 
 // TODO: Fill RoomFragment
-class RoomsFragment internal constructor(): BaseFragment<RoomsViewState>(), ItemClickListener<Room> {
+internal class RoomsFragment : BaseFragment<RoomsViewState>() {
 
-    init {
-        Timber.d("RoomsFragment crated")
-    }
+	private val viewModel: RoomsViewModel by lazyViewModel {
+		RoomsViewModel(getFeature<RoomsFeature>().roomsInteractor)
+	}
 
-    private val viewModel: RoomsViewModel by lazyViewModel {
-        RoomsViewModel(getFeature<RoomsFeature>().roomsInteractor)
-    }
+	override fun onCreateView(
+			inflater: LayoutInflater,
+			container: ViewGroup?,
+			savedInstanceState: Bundle?,
+	): View = inflater.inflate(R.layout.fragment_rooms, container, false)
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View = inflater.inflate(R.layout.fragment_rooms, container, false)
+	override fun onBeforeObserveState() {
+		initRoomsRecyclerView()
+	}
 
-    override fun onBeforeObserveState() {
-        initRoomsRecyclerView()
-    }
+	override fun onObserveState() {
+		observeState(viewModel.liveState, ::renderState)
+		observeEvenets(viewModel.eventsQueue, ::onOnEvent)
+	}
 
-    override fun onObserveState() {
-        observeState(viewModel.liveState, ::renderState)
-        observeEvenets(viewModel.eventsQueue, ::onOnEvent)
-    }
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
+		Timber.d("RoomsFragment fetchRooms")
+		viewModel.fetchRooms()
+	}
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        Timber.d("RoomsFragment fetchRooms")
-        viewModel.fetchRooms()
-    }
+	override fun renderState(viewState: RoomsViewState) = with(viewState) {
+		renderLoading(isLoading)
+		renderRooms(rooms)
+	}
 
-    override fun onClick(item: Room) {
-        viewModel.navigateToRoom(item)
-    }
+	private fun renderRooms(rooms: Array<Room>) {
+		if (rooms.isNullOrEmpty()) {
+			// TODO: Show stub view
+		} else {
+			requireRoomsView().adapter = RoomsAdapter(rooms, viewModel::navigateToRoom)
+		}
+	}
 
-    override fun renderState(viewState: RoomsViewState) = with(viewState) {
-        renderLoading(isLoading)
-        renderRooms(rooms)
-    }
+	private fun initRoomsRecyclerView() {
+		requireRoomsView().apply {
+			applyLayoutManager(RecyclerView.VERTICAL)
+			addDividerItemDecoration(RecyclerView.VERTICAL) {
+				// TODO: Get resource manager
+				// TODO: Set White ColorDrawable
+				// TODO: Add except last item
+			}
+		}
+	}
 
-    private fun renderRooms(rooms: Array<Room>) {
-        if (rooms.isNullOrEmpty()) {
-            // TODO: Show stub view
-        } else {
-            requireRoomsView().adapter = RoomsAdapter(rooms, this)
-        }
-    }
+	private fun requireRoomsView(): RecyclerView {
+		return requireView().findViewById(R.id.rooms_list)
+	}
 
-    private fun initRoomsRecyclerView() {
-        requireRoomsView().apply {
-            applyLayoutManager(RecyclerView.VERTICAL)
-            addDividerItemDecoration(RecyclerView.VERTICAL) {
-                // TODO: Get resource manager
-                // TODO: Set White ColorDrawable
-                // TODO: Add except last item
-            }
-        }
-    }
+	companion object {
 
-    private fun requireRoomsView(): RecyclerView {
-        return requireView().findViewById(R.id.rooms_list)
-    }
-
-    companion object {
-
-        @JvmStatic
-        fun newInstance(): RoomsFragment = newFragment()
-    }
+		@JvmStatic
+		fun newInstance(): RoomsFragment = newFragment()
+	}
 
 }

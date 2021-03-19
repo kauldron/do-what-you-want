@@ -10,39 +10,39 @@ import kotlin.reflect.KClass
 @MainThread
 @Suppress("UNCHECKED_CAST")
 inline fun <reified VM : ViewModel> Fragment.lazyViewModel(
-    noinline viewModelProducer: () -> VM,
+		noinline viewModelProducer: () -> VM,
 ): Lazy<VM> {
-    val factoryPromise = object : ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return viewModelProducer() as T
-        }
-    }
-    return ViewModelLazy(VM::class, { viewModelStore }, { factoryPromise })
+	val factoryPromise = object : ViewModelProvider.Factory {
+		override fun <T : ViewModel> create(modelClass: Class<T>): T {
+			return viewModelProducer() as T
+		}
+	}
+	return ViewModelLazy(VM::class, { viewModelStore }, { factoryPromise })
 }
 
 class ViewModelLazy<VM : ViewModel>(
-    private val viewModelClass: KClass<VM>,
-    private val storeProducer: () -> ViewModelStore,
-    private val factoryProducer: () -> ViewModelProvider.Factory,
+		private val viewModelClass: KClass<VM>,
+		private val storeProducer: () -> ViewModelStore,
+		private val factoryProducer: () -> ViewModelProvider.Factory,
 ) : Lazy<VM> {
 
-    private var cached: VM? = null
+	private var cached: VM? = null
 
-    override val value: VM
-        get() {
-            val viewModel = cached
-            return if (viewModel == null) {
-                val factory = factoryProducer()
-                val store = storeProducer()
-                ViewModelProvider(store, factory).get(viewModelClass.java).also {
-                    cached = it
-                }
-            } else {
-                viewModel
-            }
-        }
+	override val value: VM
+		get() {
+			val viewModel = cached
+			return if (viewModel == null) {
+				val factory = factoryProducer()
+				val store = storeProducer()
+				ViewModelProvider(store, factory).get(viewModelClass.java).also {
+					cached = it
+				}
+			} else {
+				viewModel
+			}
+		}
 
-    override fun isInitialized() = cached != null
+	override fun isInitialized() = cached != null
 }
 
 @MainThread

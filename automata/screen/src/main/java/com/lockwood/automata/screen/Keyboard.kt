@@ -8,26 +8,26 @@ import com.lockwood.automata.android.getSystemService
 import com.lockwood.automata.core.ZERO
 
 fun Fragment.hideKeyboard() {
-    val view = requireNotNull(view).rootView
-    requireNotNull(view) {
-        return
-    }
+	val view = requireNotNull(view).rootView
+	requireNotNull(view) {
+		return
+	}
 
-    view.hideKeyboard()
+	view.hideKeyboard()
 }
 
 fun Activity.hideKeyboard() {
-    val view = currentFocus
-    requireNotNull(view) {
-        return
-    }
+	val view = currentFocus
+	requireNotNull(view) {
+		return
+	}
 
-    view.hideKeyboard()
+	view.hideKeyboard()
 }
 
 private fun View.hideKeyboard() {
-    val inputMethodManager = requireNotNull(context.getSystemService<InputMethodManager>())
-    inputMethodManager.hideSoftInputFromWindow(windowToken, Int.ZERO)
+	val inputMethodManager = requireNotNull(context.getSystemService<InputMethodManager>())
+	inputMethodManager.hideSoftInputFromWindow(windowToken, Int.ZERO)
 
-    clearFocus()
+	clearFocus()
 }
