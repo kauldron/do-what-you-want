@@ -8,15 +8,15 @@ import com.lockwood.room.feature.RoomsFeature
 
 class MainApplication : Application(), DoWhatYouWantApplication {
 
-    override val applicationContext: ApplicationContext = ApplicationContext(this)
+	override val applicationContext: ApplicationContext = ApplicationContext(this)
 
-    override val roomsFeature = RoomsFeature()
+	override val roomsFeature = RoomsFeature()
 
-    override val wifiDirectFeature = DirectFeature(this)
+	override val wifiDirectFeature = DirectFeature(this)
 
-    override fun onCreate() {
-        super.onCreate()
-        Logging.plantDebugTree()
-    }
+	override fun onCreate() {
+		super.onCreate()
+		Logging.plantDebugTree()
+	}
 
 }

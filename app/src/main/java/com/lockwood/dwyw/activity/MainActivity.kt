@@ -12,35 +12,35 @@ import com.lockwood.room.room.launcher.RoomArgs.Companion.toRoomArgs
 
 class MainActivity : BaseActivity() {
 
-    // TODO: Add ActionBar
+	// TODO: Add ActionBar
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(com.lockwood.dwyw.ui.core.R.style.AppTheme)
-        super.onCreate(savedInstanceState)
+	override fun onCreate(savedInstanceState: Bundle?) {
+		setTheme(com.lockwood.dwyw.ui.core.R.style.AppTheme)
+		super.onCreate(savedInstanceState)
 
-        showScreen(RoomsScreen)
-    }
+		showScreen(RoomsScreen)
+	}
 
-    override fun showScreen(screen: Screen) = when (screen) {
-        // TODO: Add OnboardingScreen
-        is OnboardingScreen -> Unit
-        is RoomsScreen -> doWithFinish { launchRooms() }
-        is RoomScreen -> doWithFinish { launchRoom(screen.id.toRoomArgs()) }
-        // TODO: Show and log error
-        else -> Unit
-    }
+	override fun showScreen(screen: Screen) = when (screen) {
+		// TODO: Add OnboardingScreen
+		is OnboardingScreen -> Unit
+		is RoomsScreen -> doWithFinish { launchRooms() }
+		is RoomScreen -> doWithFinish { launchRoom(screen.id.toRoomArgs()) }
+		// TODO: Show and log error
+		else -> Unit
+	}
 
-    private fun launchRooms() {
-        getFeature<RoomsFeature>().roomsLauncher.launch(this)
-    }
+	private fun launchRooms() {
+		getFeature<RoomsFeature>().roomsLauncher.launch(this)
+	}
 
-    private fun launchRoom(args: RoomArgs) {
-        getFeature<RoomsFeature>().roomLauncher.launch(this, args)
-    }
+	private fun launchRoom(args: RoomArgs) {
+		getFeature<RoomsFeature>().roomLauncher.launch(this, args)
+	}
 
-    private inline fun doWithFinish(action: () -> Unit) {
-        action()
-        finish()
-    }
+	private inline fun doWithFinish(action: () -> Unit) {
+		action()
+		finish()
+	}
 
 }

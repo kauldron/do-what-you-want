@@ -10,19 +10,19 @@ import com.lockwood.replicant.view.ScreenView
 
 abstract class ReplicantActivity : FragmentActivity(), ScreenView {
 
-    override fun onBackPressed() {
-        handleIRequestFinishCallbackMemoryLeak()
-    }
+	override fun onBackPressed() {
+		handleIRequestFinishCallbackMemoryLeak()
+	}
 
-    override fun goBack() {
-        onBackPressed()
-    }
+	override fun goBack() {
+		onBackPressed()
+	}
 
-    inline fun <reified T : Feature> getFeature(): T {
-        return application.getFeature()
-    }
+	inline fun <reified T : Feature> getFeature(): T {
+		return application.getFeature()
+	}
 
-    protected inline fun <reified T : ReleasableFeature> releaseFeature() {
-        application.releaseFeature<T>()
-    }
+	protected inline fun <reified T : ReleasableFeature> releaseFeature() {
+		application.releaseFeature<T>()
+	}
 }

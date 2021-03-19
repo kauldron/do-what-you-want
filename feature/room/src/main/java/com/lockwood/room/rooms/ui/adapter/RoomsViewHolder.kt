@@ -7,25 +7,25 @@ import com.lockwood.replicant.view.listener.ItemClickListener
 import com.lockwood.room.R
 import com.lockwood.room.data.Room
 
-class RoomsViewHolder(
-    private val data: Array<Room>,
-    private val listener: ItemClickListener<Room>,
-    itemView: View,
+internal class RoomsViewHolder(
+		private val data: Array<Room>,
+		private val listener: ItemClickListener<Room>,
+		itemView: View,
 ) : ReplicantViewHolder(itemView) {
 
-    private val idView: TextView
-        get() = itemView.findViewById(R.id.room_id)
-    private val textView: TextView
-        get() = itemView.findViewById(R.id.room_text)
-    private val statusView: TextView
-        get() = itemView.findViewById(R.id.room_status)
+	private val idView: TextView
+		get() = itemView.findViewById(R.id.room_id)
+	private val textView: TextView
+		get() = itemView.findViewById(R.id.room_text)
+	private val statusView: TextView
+		get() = itemView.findViewById(R.id.room_status)
 
-    override fun onBind(position: Int) = with(data[position]) {
-        idView.text = "ID: $id"
-        textView.text = "Name: $name"
-        statusView.text = "Is Active: $isActive"
+	override fun onBind(position: Int) = with(data[position]) {
+		idView.text = "ID: $id"
+		textView.text = "Name: $name"
+		statusView.text = "Is Active: $isActive"
 
-        itemView.setOnClickListener { listener.invoke(this) }
-    }
+		itemView.setOnClickListener { listener.invoke(this) }
+	}
 
 }

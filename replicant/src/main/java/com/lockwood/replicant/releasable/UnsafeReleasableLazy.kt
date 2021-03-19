@@ -7,25 +7,25 @@ import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
 class UnsafeReleasableLazy<T : Any> @PublishedApi internal constructor(
-    private val initializer: () -> T,
+		private val initializer: () -> T,
 ) : ReadOnlyProperty<Any?, T>, Releasable {
 
-    private var releasableValue: Any = UNINITIALIZED_VALUE
+	private var releasableValue: Any = UNINITIALIZED_VALUE
 
-    override fun getValue(thisRef: Any?, property: KProperty<*>): T {
-        if (releasableValue === UNINITIALIZED_VALUE) {
-            releasableValue = initializer()
-        }
+	override fun getValue(thisRef: Any?, property: KProperty<*>): T {
+		if (releasableValue === UNINITIALIZED_VALUE) {
+			releasableValue = initializer()
+		}
 
-        return releasableValue as T
-    }
+		return releasableValue as T
+	}
 
-    override fun release() {
-        if (releasableValue === UNINITIALIZED_VALUE) {
-            return
-        }
+	override fun release() {
+		if (releasableValue === UNINITIALIZED_VALUE) {
+			return
+		}
 
-        releasableValue = UNINITIALIZED_VALUE
-    }
+		releasableValue = UNINITIALIZED_VALUE
+	}
 
 }

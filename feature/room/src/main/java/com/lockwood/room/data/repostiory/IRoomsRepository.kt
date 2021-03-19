@@ -4,6 +4,6 @@ import com.lockwood.room.data.Room
 
 interface IRoomsRepository {
 
-    fun fetchRooms(): List<Room>
+	fun fetchRooms(): List<Room>
 
 }

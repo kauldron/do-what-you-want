@@ -7,21 +7,21 @@ import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
 fun <T : Any> MutableLiveData<T>.delegate(): ReadWriteProperty<Any, T> {
-    return object : ReadWriteProperty<Any, T> {
+	return object : ReadWriteProperty<Any, T> {
 
-        override fun setValue(thisRef: Any, property: KProperty<*>, value: T) {
-            this@delegate.value = value
-        }
+		override fun setValue(thisRef: Any, property: KProperty<*>, value: T) {
+			this@delegate.value = value
+		}
 
-        override fun getValue(thisRef: Any, property: KProperty<*>): T {
-            return checkNotNull(value)
-        }
-    }
+		override fun getValue(thisRef: Any, property: KProperty<*>): T {
+			return checkNotNull(value)
+		}
+	}
 }
 
 inline fun <T, LD : LiveData<T>> Fragment.observeState(
-    liveData: LD,
-    crossinline block: (T) -> Unit
+		liveData: LD,
+		crossinline block: (T) -> Unit,
 ) {
-    liveData.observe(viewLifecycleOwner, { block(it) })
+	liveData.observe(viewLifecycleOwner, { block(it) })
 }

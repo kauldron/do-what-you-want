@@ -5,12 +5,12 @@ import com.lockwood.replicant.view.listener.DebouncingOnClickListener
 import com.lockwood.replicant.view.listener.DebouncingOnClickListener.Companion.DOUBLE_TAP_TIMEOUT
 
 fun View.setDebouncingOnClickListener(
-    onClick: View.() -> Unit,
-    timeout: Long = DOUBLE_TAP_TIMEOUT,
+		onClick: View.() -> Unit,
+		timeout: Long = DOUBLE_TAP_TIMEOUT,
 ) {
-    setOnClickListener(object : DebouncingOnClickListener(timeout) {
-        override fun doClick(v: View) {
-            v.onClick()
-        }
-    })
+	setOnClickListener(object : DebouncingOnClickListener(timeout) {
+		override fun doClick(v: View) {
+			v.onClick()
+		}
+	})
 }

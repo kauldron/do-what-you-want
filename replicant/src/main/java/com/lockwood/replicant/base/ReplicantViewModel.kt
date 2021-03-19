@@ -12,27 +12,27 @@ import com.lockwood.replicant.state.ViewState
 
 abstract class ReplicantViewModel<VS : ViewState>(initialState: VS) : ViewModel() {
 
-    val liveState: MutableLiveData<VS> by notSafeLazy { MutableLiveData<VS>(initialState) }
+	val liveState: MutableLiveData<VS> by notSafeLazy { MutableLiveData<VS>(initialState) }
 
-    val eventsQueue by notSafeLazy { EventsQueue() }
+	val eventsQueue by notSafeLazy { EventsQueue() }
 
-    protected var state: VS by liveState.delegate()
+	protected var state: VS by liveState.delegate()
 
-    protected inline fun offerEvents(offer: EventsQueue.() -> Unit) {
-        eventsQueue.offer()
-    }
+	protected inline fun offerEvents(offer: EventsQueue.() -> Unit) {
+		eventsQueue.offer()
+	}
 
-    protected inline fun offerEvent(init: () -> Event) = offerEvents {
-        offer(init())
-    }
+	protected inline fun offerEvent(init: () -> Event) = offerEvents {
+		offer(init())
+	}
 
-    protected inline fun mutateState(mutate: () -> VS) {
-        state = mutate()
-    }
+	protected inline fun mutateState(mutate: () -> VS) {
+		state = mutate()
+	}
 
-    protected fun navigateTo(screen: Screen) = offerEvents {
-        val event = ShowScreenEvent(screen)
-        offer(event)
-    }
+	protected fun navigateTo(screen: Screen) = offerEvents {
+		val event = ShowScreenEvent(screen)
+		offer(event)
+	}
 
 }

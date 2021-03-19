@@ -5,10 +5,10 @@ import com.lockwood.automata.android.launchActivity
 import com.lockwood.replicant.launcher.NoArgsLauncher
 import com.lockwood.room.RoomActivity
 
-class RoomsLauncher : NoArgsLauncher {
+internal class RoomsLauncher : NoArgsLauncher {
 
-    override fun launch(context: Context) {
-        context.launchActivity<RoomActivity>()
-    }
+	override fun launch(context: Context) {
+		context.launchActivity<RoomActivity>()
+	}
 
 }

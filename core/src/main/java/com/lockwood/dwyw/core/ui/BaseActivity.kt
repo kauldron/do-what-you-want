@@ -9,20 +9,20 @@ import com.lockwood.replicant.base.ReplicantActivity
 
 abstract class BaseActivity : ReplicantActivity() {
 
-    override fun onBackPressed() = with(supportFragmentManager) {
-        if (isBackStackNotEmpty) {
-            popBackStack()
-            return@with
-        }
-        super.onBackPressed()
-    }
+	override fun onBackPressed() = with(supportFragmentManager) {
+		if (isBackStackNotEmpty) {
+			popBackStack()
+			return@with
+		}
+		super.onBackPressed()
+	}
 
-    protected fun showFragment(@IdRes id: Int, fragment: Fragment, fromBackStack: Boolean = false) {
-        if (fromBackStack) {
-            supportFragmentManager.showFragment(id, fragment)
-        } else {
-            supportFragmentManager.showFragmentFromBackStack(id, fragment)
-        }
-    }
+	protected fun showFragment(@IdRes id: Int, fragment: Fragment, fromBackStack: Boolean = false) {
+		if (fromBackStack) {
+			supportFragmentManager.showFragment(id, fragment)
+		} else {
+			supportFragmentManager.showFragmentFromBackStack(id, fragment)
+		}
+	}
 
 }

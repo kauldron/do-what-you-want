@@ -5,21 +5,21 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 inline fun RecyclerView.applyLayoutManager(
-    @RecyclerView.Orientation orientation: Int,
-    isHasFixedSize: Boolean = true,
-    isNestedScrolling: Boolean = false,
-    init: LinearLayoutManager.() -> Unit = {}
+		@RecyclerView.Orientation orientation: Int,
+		isHasFixedSize: Boolean = true,
+		isNestedScrolling: Boolean = false,
+		init: LinearLayoutManager.() -> Unit = {},
 ) {
-    setHasFixedSize(isHasFixedSize)
-    isNestedScrollingEnabled = isNestedScrolling
-    layoutManager = LinearLayoutManager(context, orientation, false).apply(init)
+	setHasFixedSize(isHasFixedSize)
+	isNestedScrollingEnabled = isNestedScrolling
+	layoutManager = LinearLayoutManager(context, orientation, false).apply(init)
 }
 
 inline fun RecyclerView.addDividerItemDecoration(
-    @RecyclerView.Orientation orientation: Int,
-    init: DividerItemDecoration.() -> Unit = {}
+		@RecyclerView.Orientation orientation: Int,
+		init: DividerItemDecoration.() -> Unit = {},
 ) {
-    val dividerItemDecoration = DividerItemDecoration(context, orientation).apply(init)
-    addItemDecoration(dividerItemDecoration)
+	val dividerItemDecoration = DividerItemDecoration(context, orientation).apply(init)
+	addItemDecoration(dividerItemDecoration)
 }
 

@@ -5,14 +5,14 @@ import android.content.Intent
 import android.util.Log
 
 inline fun <reified T : Any> Context.startService(
-    init: Intent.() -> Unit = {},
+		init: Intent.() -> Unit = {},
 ) {
-    val intent = newIntent<T>(this)
-    intent.init()
+	val intent = newIntent<T>(this)
+	intent.init()
 
-    try {
-        startService(intent)
-    } catch (e: IllegalStateException) {
-        Log.e("Service", e.message.toString())
-    }
+	try {
+		startService(intent)
+	} catch (e: IllegalStateException) {
+		Log.e("Service", e.message.toString())
+	}
 }

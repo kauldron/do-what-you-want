@@ -11,7 +11,7 @@ import com.lockwood.direct.WifiP2pError.P2P_UNSUPPORTED
 internal object WifiP2pManagerUtils {
 
 	@JvmStatic
-	fun wrapWithManagerListener(p2pActionListener: WifiP2pActionListener): WifiP2pManager.ActionListener {
+	fun wrapWithActionListener(p2pActionListener: WifiP2pActionListener): WifiP2pManager.ActionListener {
 		return object : WifiP2pManager.ActionListener {
 			override fun onSuccess() {
 				p2pActionListener.onSuccess()
