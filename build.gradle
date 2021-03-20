@@ -7,7 +7,7 @@ buildscript {
         maven { url 'https://plugins.gradle.org/m2/' }
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:4.1.2"
+        classpath 'com.android.tools.build:gradle:4.2.0-beta06'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -23,7 +23,7 @@ plugins {
     // https://runningcode.github.io/gradle-doctor/
     id "com.osacky.doctor" version "0.7.0"
     // https://github.com/ben-manes/gradle-versions-plugin
-    id "com.github.ben-manes.versions" version "0.36.0"
+    id "com.github.ben-manes.versions" version "0.38.0"
 }
 
 allprojects {
