@@ -32,13 +32,11 @@ fun Fragment.requireErrorScreenView(): ErrorScreenView = requireActivityType()
 fun Fragment.requireMessageView(): MessageView = requireActivityType()
 
 inline fun <reified T> Activity.requireActivityType(): T {
-	require(this is T) {
-		"Activity should implement ${T::class}"
-	}
+  require(this is T) { "Activity should implement ${T::class}" }
 
-	return this
+  return this
 }
 
 inline fun <reified T> Fragment.requireActivityType(): T {
-	return requireActivity().requireActivityType()
+  return requireActivity().requireActivityType()
 }

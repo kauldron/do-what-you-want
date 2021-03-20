@@ -9,15 +9,12 @@ import com.lockwood.replicant.feature.Feature
 import com.lockwood.replicant.receiver.ReceiverManager
 
 class DirectFeature(
-		private val contextProvider: ApplicationContextProvider,
+  private val contextProvider: ApplicationContextProvider,
 ) : Feature {
 
-	val wifiReceiverManager: ReceiverManager by notSafeLazy {
-		WifiDirectReceiverManager()
-	}
+  val wifiReceiverManager: ReceiverManager by notSafeLazy { WifiDirectReceiverManager() }
 
-	val wifiDirectManager: WifiDirectManager by notSafeLazy {
-		WifiDirectManagerImpl(contextProvider.applicationContext)
-	}
-
+  val wifiDirectManager: WifiDirectManager by notSafeLazy {
+    WifiDirectManagerImpl(contextProvider.applicationContext)
+  }
 }

@@ -14,18 +14,15 @@ import com.lockwood.room.rooms.launcher.RoomsLauncher
 
 class RoomsFeature : ReleasableFeature {
 
-	val roomsRepository: IRoomsRepository by notSafeReleasableLazy {
-		RoomsRepository()
-	}
+  val roomsRepository: IRoomsRepository by notSafeReleasableLazy { RoomsRepository() }
 
-	val roomsInteractor: IRoomsInteractor by notSafeReleasableLazy {
-		RoomsInteractor(roomsRepository)
-	}
+  val roomsInteractor: IRoomsInteractor by notSafeReleasableLazy {
+    RoomsInteractor(roomsRepository)
+  }
 
-	val roomLauncher: Launcher<RoomArgs>
-		get() = RoomLauncher()
+  val roomLauncher: Launcher<RoomArgs>
+    get() = RoomLauncher()
 
-	val roomsLauncher: NoArgsLauncher
-		get() = RoomsLauncher()
-
+  val roomsLauncher: NoArgsLauncher
+    get() = RoomsLauncher()
 }

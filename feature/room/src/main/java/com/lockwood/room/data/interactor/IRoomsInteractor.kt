@@ -5,6 +5,5 @@ import com.lockwood.room.data.repostiory.IRoomsRepository
 
 interface IRoomsInteractor : IRoomsRepository {
 
-	fun fetchRoom(id: Int): Room?
-
+  fun fetchRoom(id: Int): Room?
 }

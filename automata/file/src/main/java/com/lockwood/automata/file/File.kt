@@ -4,10 +4,10 @@ import com.lockwood.automata.core.NotEmptyString
 import java.io.File
 
 val File.notExist: Boolean
-	get() = !exists()
+  get() = !exists()
 
 val File.extension: String
-	get() = name.substringAfterLast(".")
+  get() = name.substringAfterLast(".")
 
 val File.mimeType: NotEmptyString
-	get() = MimeTypes.getMimeTypeFromExtension(extension)
+  get() = MimeTypes.getMimeTypeFromExtension(extension)

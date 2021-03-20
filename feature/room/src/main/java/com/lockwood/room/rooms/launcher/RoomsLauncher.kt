@@ -7,8 +7,7 @@ import com.lockwood.room.RoomDirectActivity
 
 internal class RoomsLauncher : NoArgsLauncher {
 
-	override fun launch(context: Context) {
-		context.launchActivity<RoomDirectActivity>()
-	}
-
+  override fun launch(context: Context) {
+    context.launchActivity<RoomDirectActivity>()
+  }
 }
