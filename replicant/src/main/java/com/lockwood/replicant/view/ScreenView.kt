@@ -5,12 +5,12 @@ import com.lockwood.replicant.screen.Screen
 
 interface ScreenView {
 
-	fun goBack()
+  fun goBack()
 
-	fun showScreen(screen: Screen)
+  fun showScreen(screen: Screen)
 }
 
 interface ErrorScreenView : ScreenView {
 
-	fun showErrorScreen(screen: ErrorScreen)
+  fun showErrorScreen(screen: ErrorScreen)
 }

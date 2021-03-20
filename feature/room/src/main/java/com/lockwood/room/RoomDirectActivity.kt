@@ -29,95 +29,102 @@ import com.lockwood.room.screen.DirectNotAvailableScreen
 import com.lockwood.room.screen.P2pErrorScreen
 import timber.log.Timber
 
-internal class RoomDirectActivity : BaseStateActivity<RoomDirectViewState>(),
-		MessageView, ProgressView, ErrorScreenView, ActivityResultCallback<Boolean> {
+internal class RoomDirectActivity :
+  BaseStateActivity<RoomDirectViewState>(),
+  MessageView,
+  ProgressView,
+  ErrorScreenView,
+  ActivityResultCallback<Boolean> {
 
-	private val viewModel: RoomDirectViewModel by lazyViewModel {
-		RoomDirectViewModel(getFeature<DirectFeature>().wifiDirectManager)
-	}
+  private val viewModel: RoomDirectViewModel by lazyViewModel {
+    RoomDirectViewModel(getFeature<DirectFeature>().wifiDirectManager)
+  }
 
-	init {
-		lifecycleAwareReceiver { getFeature<DirectFeature>().wifiReceiverManager }
-	}
+  init {
+    lifecycleAwareReceiver { getFeature<DirectFeature>().wifiReceiverManager }
+  }
 
-	override fun onCreate(savedInstanceState: Bundle?) = with(viewModel) {
-		super.onCreate(savedInstanceState)
-		setContentView(com.lockwood.replicant.R.layout.fragment_container_progress)
+  override fun onCreate(savedInstanceState: Bundle?) =
+    with(viewModel) {
+      super.onCreate(savedInstanceState)
+      setContentView(com.lockwood.replicant.R.layout.fragment_container_progress)
 
-		observeState(liveState, ::renderState)
-		observeEvents(eventsQueue, ::onEvent)
+      observeState(liveState, ::renderState)
+      observeEvents(eventsQueue, ::onEvent)
 
-		if (savedInstanceState == null) {
-			requestPermissions()
-		}
-	}
+      if (savedInstanceState == null) {
+        requestPermissions()
+      }
+    }
 
-	override fun onDestroy() {
-		super.onDestroy()
-		releaseFeature<RoomsFeature>()
-	}
+  override fun onDestroy() {
+    super.onDestroy()
+    releaseFeature<RoomsFeature>()
+  }
 
-	override fun onActivityResult(isGranted: Boolean) {
-		Timber.d("onActivityResult: $isGranted")
+  override fun onActivityResult(isGranted: Boolean) {
+    Timber.d("onActivityResult: $isGranted")
 
-		if (isGranted) {
-			viewModel.initP2p()
-		}
-	}
+    if (isGranted) {
+      viewModel.initP2p()
+    }
+  }
 
-	override fun showScreen(screen: Screen) = when (screen) {
-		is RoomsScreen -> showFragment(RoomsFragment.newInstance(), true)
-		is RoomScreen -> showFragment(RoomFragment.newInstance(screen.id))
-		else -> Unit
-	}
+  override fun showScreen(screen: Screen) =
+    when (screen) {
+      is RoomsScreen -> showFragment(RoomsFragment.newInstance(), true)
+      is RoomScreen -> showFragment(RoomFragment.newInstance(screen.id))
+      else -> Unit
+    }
 
-	override fun showErrorScreen(screen: ErrorScreen) = when (screen) {
-		is DirectNotAvailableScreen -> showToast("DirectNotAvailable")
-		is P2pErrorScreen -> showToast("P2pError: ${screen.error}")
-		else -> Unit
-	}
+  override fun showErrorScreen(screen: ErrorScreen) =
+    when (screen) {
+      is DirectNotAvailableScreen -> showToast("DirectNotAvailable")
+      is P2pErrorScreen -> showToast("P2pError: ${screen.error}")
+      else -> Unit
+    }
 
-	override fun renderState(viewState: RoomDirectViewState) = with(viewState) {
-		renderDirectState(directState)
-		renderLoading(isLoading)
-	}
+  override fun renderState(viewState: RoomDirectViewState) =
+    with(viewState) {
+      renderDirectState(directState)
+      renderLoading(isLoading)
+    }
 
-	override fun showProgress() {
-		findViewById<View>(com.lockwood.replicant.R.id.progress_bar).visibility = View.VISIBLE
-	}
+  override fun showProgress() {
+    findViewById<View>(com.lockwood.replicant.R.id.progress_bar).visibility = View.VISIBLE
+  }
 
-	override fun hideProgress() {
-		findViewById<View>(com.lockwood.replicant.R.id.progress_bar).visibility = View.GONE
-	}
+  override fun hideProgress() {
+    findViewById<View>(com.lockwood.replicant.R.id.progress_bar).visibility = View.GONE
+  }
 
-	override fun showMessage(message: String) {
-		showToast(message)
-	}
+  override fun showMessage(message: String) {
+    showToast(message)
+  }
 
-	override fun showError(message: String) {
-		showToast(message)
-	}
+  override fun showError(message: String) {
+    showToast(message)
+  }
 
-	private fun renderDirectState(directState: DirectState) {
-		Timber.d("Current state: $directState")
-	}
+  private fun renderDirectState(directState: DirectState) {
+    Timber.d("Current state: $directState")
+  }
 
-	private fun handleIntent(intent: Intent) {
-		// TODO: Handle intent
-	}
+  private fun handleIntent(intent: Intent) {
+    // TODO: Handle intent
+  }
 
-	private fun requestPermissions() {
-		val requestPermissionLauncher: ActivityResultLauncher<String> =
-				registerForActivityResult(ActivityResultContracts.RequestPermission(), this)
-		requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
-	}
+  private fun requestPermissions() {
+    val requestPermissionLauncher: ActivityResultLauncher<String> =
+      registerForActivityResult(ActivityResultContracts.RequestPermission(), this)
+    requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+  }
 
-	private fun showFragment(fragment: Fragment, fromBackStack: Boolean = false) {
-		showFragment(com.lockwood.replicant.R.id.fragment_container, fragment, fromBackStack)
-	}
+  private fun showFragment(fragment: Fragment, fromBackStack: Boolean = false) {
+    showFragment(com.lockwood.replicant.R.id.fragment_container, fragment, fromBackStack)
+  }
 
-	private fun showToast(string: String) {
-		Toast.makeText(this, string, Toast.LENGTH_SHORT).show()
-	}
-
+  private fun showToast(string: String) {
+    Toast.makeText(this, string, Toast.LENGTH_SHORT).show()
+  }
 }

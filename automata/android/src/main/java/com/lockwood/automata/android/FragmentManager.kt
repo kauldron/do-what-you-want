@@ -8,75 +8,65 @@ import androidx.fragment.app.FragmentTransaction
 import com.lockwood.automata.core.ZERO
 
 val Fragment.supportFragmentManager: FragmentManager
-	get() = requireActivity().supportFragmentManager
+  get() = requireActivity().supportFragmentManager
 
 val FragmentManager.isBackStackNotEmpty: Boolean
-	get() = backStackEntryCount > Int.ZERO
+  get() = backStackEntryCount > Int.ZERO
 
 inline fun FragmentManager.addOnBackStackChangedListener(
-		crossinline action: (Int, List<Fragment>) -> Unit,
+  crossinline action: (Int, List<Fragment>) -> Unit,
 ) {
-	addOnBackStackChangedListener {
-		action(backStackEntryCount, fragments)
-	}
+  addOnBackStackChangedListener { action(backStackEntryCount, fragments) }
 }
 
 fun FragmentManager.showFragmentFromBackStack(
-		@IdRes container: Int,
-		fragment: Fragment,
-		tag: String = requireNotNull(fragment::class.simpleName),
+  @IdRes container: Int,
+  fragment: Fragment,
+  tag: String = requireNotNull(fragment::class.simpleName),
 ) {
-	val fragmentPopped = popBackStackImmediate(tag, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-	if (!fragmentPopped) {
-		transact {
-			replace(container, fragment, tag)
-			addToBackStack(tag)
-		}
-	}
+  val fragmentPopped = popBackStackImmediate(tag, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+  if (!fragmentPopped) {
+    transact {
+      replace(container, fragment, tag)
+      addToBackStack(tag)
+    }
+  }
 }
 
 fun FragmentManager.showFragment(
-		@IdRes container: Int,
-		fragment: Fragment,
-		tag: String = requireNotNull(fragment::class.simpleName),
+  @IdRes container: Int,
+  fragment: Fragment,
+  tag: String = requireNotNull(fragment::class.simpleName),
 ) {
-	transact {
-		replace(container, fragment, tag)
-	}
+  transact { replace(container, fragment, tag) }
 }
 
 inline fun FragmentManager.transact(
-		action: FragmentTransaction.() -> Unit,
+  action: FragmentTransaction.() -> Unit,
 ) {
-	try {
-		beginTransaction().apply {
-			action()
-		}.commit()
-	} catch (e: IllegalStateException) {
-		Log.e("FragmentManager", "transact: ${e.message}")
-	}
+  try {
+    beginTransaction().apply { action() }.commit()
+  } catch (e: IllegalStateException) {
+    Log.e("FragmentManager", "transact: ${e.message}")
+  }
 }
 
 inline fun FragmentManager.transactNow(
-		action: FragmentTransaction.() -> Unit,
+  action: FragmentTransaction.() -> Unit,
 ) {
-	try {
-		beginTransaction().apply {
-			action()
-		}.commitNow()
-	} catch (e: IllegalStateException) {
-		Log.e("FragmentManager", "transactNow: ${e.message}")
-	}
+  try {
+    beginTransaction().apply { action() }.commitNow()
+  } catch (e: IllegalStateException) {
+    Log.e("FragmentManager", "transactNow: ${e.message}")
+  }
 }
 
 inline fun FragmentManager.transactAllowingStateLoss(
-		action: FragmentTransaction.() -> Unit,
+  action: FragmentTransaction.() -> Unit,
 ) {
-	try {
-		beginTransaction().apply {
-			action()
-		}.commitAllowingStateLoss()
-	} catch (e: IllegalStateException) {
-		Log.e("FragmentManager", "transactAllowingStateLoss: ${e.message}")
-	}
+  try {
+    beginTransaction().apply { action() }.commitAllowingStateLoss()
+  } catch (e: IllegalStateException) {
+    Log.e("FragmentManager", "transactAllowingStateLoss: ${e.message}")
+  }
 }

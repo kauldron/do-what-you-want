@@ -20,57 +20,57 @@ import com.lockwood.room.rooms.ui.adapter.RoomsAdapter
 // TODO: Fill RoomFragment
 internal class RoomsFragment : BaseFragment<RoomsViewState>() {
 
-	private val viewModel: RoomsViewModel by lazyViewModel {
-		RoomsViewModel(getFeature<RoomsFeature>().roomsInteractor)
-	}
+  private val viewModel: RoomsViewModel by lazyViewModel {
+    RoomsViewModel(getFeature<RoomsFeature>().roomsInteractor)
+  }
 
-	override fun onCreateView(
-			inflater: LayoutInflater,
-			container: ViewGroup?,
-			savedInstanceState: Bundle?,
-	): View = inflater.inflate(R.layout.fragment_rooms, container, false)
+  override fun onCreateView(
+    inflater: LayoutInflater,
+    container: ViewGroup?,
+    savedInstanceState: Bundle?,
+  ): View = inflater.inflate(R.layout.fragment_rooms, container, false)
 
-	override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(viewModel) {
-		initRoomsRecyclerView()
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
+    with(viewModel) {
+      initRoomsRecyclerView()
 
-		observeState(liveState, ::renderState)
-		observeEvents(eventsQueue, ::onEvent)
+      observeState(liveState, ::renderState)
+      observeEvents(eventsQueue, ::onEvent)
 
-		fetchRooms()
-	}
+      fetchRooms()
+    }
 
-	override fun renderState(viewState: RoomsViewState) = with(viewState) {
-		renderLoading(isLoading)
-		renderRooms(rooms)
-	}
+  override fun renderState(viewState: RoomsViewState) =
+    with(viewState) {
+      renderLoading(isLoading)
+      renderRooms(rooms)
+    }
 
-	private fun renderRooms(rooms: Array<Room>) {
-		if (rooms.isNullOrEmpty()) {
-			// TODO: Show stub view
-		} else {
-			requireRoomsView().adapter = RoomsAdapter(rooms, viewModel::navigateToRoom)
-		}
-	}
+  private fun renderRooms(rooms: Array<Room>) {
+    if (rooms.isNullOrEmpty()) {
+      // TODO: Show stub view
+    } else {
+      requireRoomsView().adapter = RoomsAdapter(rooms, viewModel::navigateToRoom)
+    }
+  }
 
-	private fun initRoomsRecyclerView() {
-		requireRoomsView().apply {
-			applyLayoutManager(RecyclerView.VERTICAL)
-			addDividerItemDecoration(RecyclerView.VERTICAL) {
-				// TODO: Get resource manager
-				// TODO: Set White ColorDrawable
-				// TODO: Add except last item
-			}
-		}
-	}
+  private fun initRoomsRecyclerView() {
+    requireRoomsView().apply {
+      applyLayoutManager(RecyclerView.VERTICAL)
+      addDividerItemDecoration(RecyclerView.VERTICAL) {
+        // TODO: Get resource manager
+        // TODO: Set White ColorDrawable
+        // TODO: Add except last item
+      }
+    }
+  }
 
-	private fun requireRoomsView(): RecyclerView {
-		return requireView().findViewById(R.id.rooms_list)
-	}
+  private fun requireRoomsView(): RecyclerView {
+    return requireView().findViewById(R.id.rooms_list)
+  }
 
-	companion object {
+  companion object {
 
-		@JvmStatic
-		fun newInstance(): RoomsFragment = newFragment()
-	}
-
+    @JvmStatic fun newInstance(): RoomsFragment = newFragment()
+  }
 }

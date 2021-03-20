@@ -17,42 +17,40 @@ import com.lockwood.room.feature.RoomsFeature
 // TODO: Fill RoomDetailFragment
 internal class RoomFragment : BaseFragment<RoomViewState>() {
 
-	private val roomId: Int by intArg(ROOM_ID)
+  private val roomId: Int by intArg(ROOM_ID)
 
-	private val viewModel: RoomViewModel by lazyViewModel {
-		RoomViewModel(getFeature<RoomsFeature>().roomsInteractor)
-	}
+  private val viewModel: RoomViewModel by lazyViewModel {
+    RoomViewModel(getFeature<RoomsFeature>().roomsInteractor)
+  }
 
-	override fun onCreateView(
-			inflater: LayoutInflater,
-			container: ViewGroup?,
-			savedInstanceState: Bundle?,
-	): View = inflater.inflate(R.layout.fragment_room, container, false)
+  override fun onCreateView(
+    inflater: LayoutInflater,
+    container: ViewGroup?,
+    savedInstanceState: Bundle?,
+  ): View = inflater.inflate(R.layout.fragment_room, container, false)
 
-	override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(viewModel) {
-		observeState(liveState, ::renderState)
-		observeEvents(eventsQueue, ::onEvent)
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
+    with(viewModel) {
+      observeState(liveState, ::renderState)
+      observeEvents(eventsQueue, ::onEvent)
 
-		connectToRoom(roomId)
-	}
+      connectToRoom(roomId)
+    }
 
-	override fun renderState(viewState: RoomViewState) = with(viewState) {
-		renderRoom(room)
-		renderLoading(isLoading)
-	}
+  override fun renderState(viewState: RoomViewState) =
+    with(viewState) {
+      renderRoom(room)
+      renderLoading(isLoading)
+    }
 
-	private fun renderRoom(room: Room) {
-		//  TODO("Not yet implemented")
-	}
+  private fun renderRoom(room: Room) {
+    //  TODO("Not yet implemented")
+  }
 
-	companion object {
+  companion object {
 
-		private const val ROOM_ID = "room_id"
+    private const val ROOM_ID = "room_id"
 
-		@JvmStatic
-		fun newInstance(id: Int): RoomFragment = newFragment {
-			putInt(ROOM_ID, id)
-		}
-	}
-
+    @JvmStatic fun newInstance(id: Int): RoomFragment = newFragment { putInt(ROOM_ID, id) }
+  }
 }

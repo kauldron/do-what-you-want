@@ -10,11 +10,8 @@ import com.lockwood.room.RoomDirectActivity
 // TODO: Add QR-code generator to show in room for instant access to room
 class RoomLauncher : Launcher<RoomArgs> {
 
-	override fun launch(context: Context, launchArgs: RoomArgs) {
-		val argsBundle = Bundle().apply {
-			putInt(RoomArgs.ROOM_ID, launchArgs.roomId)
-		}
-		context.launchActivity<RoomDirectActivity>(argsBundle)
-	}
-
+  override fun launch(context: Context, launchArgs: RoomArgs) {
+    val argsBundle = Bundle().apply { putInt(RoomArgs.ROOM_ID, launchArgs.roomId) }
+    context.launchActivity<RoomDirectActivity>(argsBundle)
+  }
 }

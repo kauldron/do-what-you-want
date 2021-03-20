@@ -16,42 +16,41 @@ import com.lockwood.replicant.imageloader.target.ViewTarget
 
 class GlideLoader(context: Context) : ImageLoader {
 
-	private val loader: RequestManager = Glide.with(context.applicationContext)
+  private val loader: RequestManager = Glide.with(context.applicationContext)
 
-	@Suppress("UNCHECKED_CAST")
-	override fun <V : View> execute(request: Request, view: V): Unit = with(request) {
-		loader.load(imageOptions.data)
-				.override(imageOptions.size)
-				.centerCrop()
-				.into(buildViewTarget(view, imageCallback))
-	}
+  @Suppress("UNCHECKED_CAST")
+  override fun <V : View> execute(request: Request, view: V): Unit =
+    with(request) {
+      loader
+        .load(imageOptions.data)
+        .override(imageOptions.size)
+        .centerCrop()
+        .into(buildViewTarget(view, imageCallback))
+    }
 
-	@Suppress("UNCHECKED_CAST")
-	override fun <T : View> buildViewTarget(view: T, callbacks: Array<Target>): ViewTarget<T> {
-		return when (view) {
-			is ImageView -> GlideImageTarget(view, *callbacks) as ViewTarget<T>
-			else -> error("Unknown view for target: $view")
-		}
-	}
+  @Suppress("UNCHECKED_CAST")
+  override fun <T : View> buildViewTarget(view: T, callbacks: Array<Target>): ViewTarget<T> {
+    return when (view) {
+      is ImageView -> GlideImageTarget(view, *callbacks) as ViewTarget<T>
+      else -> error("Unknown view for target: $view")
+    }
+  }
 
-	private fun RequestBuilder<Drawable>.into(target: Target?): GlideDrawableTarget {
-		checkNotNull(target)
+  private fun RequestBuilder<Drawable>.into(target: Target?): GlideDrawableTarget {
+    checkNotNull(target)
 
-		if (target is GlideImageTarget) {
-			return into(target)
-		}
+    if (target is GlideImageTarget) {
+      return into(target)
+    }
 
-		kotlin.error("Unknown target: $target")
-	}
+    kotlin.error("Unknown target: $target")
+  }
 
-	private fun <T : Any> RequestBuilder<T>.override(imageSize: Int?): RequestBuilder<T> {
-		return if (imageSize != null) {
-			apply { override(imageSize) }
-		} else {
-			this
-		}
-	}
-
+  private fun <T : Any> RequestBuilder<T>.override(imageSize: Int?): RequestBuilder<T> {
+    return if (imageSize != null) {
+      apply { override(imageSize) }
+    } else {
+      this
+    }
+  }
 }
-
-
