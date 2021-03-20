@@ -9,14 +9,13 @@ import com.lockwood.automata.android.newFragment
 import com.lockwood.automata.recycler.addDividerItemDecoration
 import com.lockwood.automata.recycler.applyLayoutManager
 import com.lockwood.dwyw.core.ui.BaseFragment
-import com.lockwood.replicant.event.observeEvenets
+import com.lockwood.replicant.event.observeEvents
 import com.lockwood.replicant.ext.lazyViewModel
 import com.lockwood.replicant.ext.observeState
 import com.lockwood.room.R
 import com.lockwood.room.data.Room
 import com.lockwood.room.feature.RoomsFeature
 import com.lockwood.room.rooms.ui.adapter.RoomsAdapter
-import timber.log.Timber
 
 // TODO: Fill RoomFragment
 internal class RoomsFragment : BaseFragment<RoomsViewState>() {
@@ -31,19 +30,13 @@ internal class RoomsFragment : BaseFragment<RoomsViewState>() {
 			savedInstanceState: Bundle?,
 	): View = inflater.inflate(R.layout.fragment_rooms, container, false)
 
-	override fun onBeforeObserveState() {
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(viewModel) {
 		initRoomsRecyclerView()
-	}
 
-	override fun onObserveState() {
-		observeState(viewModel.liveState, ::renderState)
-		observeEvenets(viewModel.eventsQueue, ::onOnEvent)
-	}
+		observeState(liveState, ::renderState)
+		observeEvents(eventsQueue, ::onEvent)
 
-	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-		super.onViewCreated(view, savedInstanceState)
-		Timber.d("RoomsFragment fetchRooms")
-		viewModel.fetchRooms()
+		fetchRooms()
 	}
 
 	override fun renderState(viewState: RoomsViewState) = with(viewState) {

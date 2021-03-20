@@ -1,15 +1,15 @@
 package com.lockwood.replicant.ext
 
 import androidx.annotation.MainThread
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStore
+import androidx.lifecycle.ViewModelStoreOwner
 import kotlin.reflect.KClass
 
 @MainThread
 @Suppress("UNCHECKED_CAST")
-inline fun <reified VM : ViewModel> Fragment.lazyViewModel(
+inline fun <reified VM : ViewModel> ViewModelStoreOwner.lazyViewModel(
 		noinline viewModelProducer: () -> VM,
 ): Lazy<VM> {
 	val factoryPromise = object : ViewModelProvider.Factory {

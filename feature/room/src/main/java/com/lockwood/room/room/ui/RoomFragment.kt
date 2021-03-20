@@ -4,11 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.lockwood.automata.android.newFragment
 import com.lockwood.dwyw.core.ui.BaseFragment
 import com.lockwood.replicant.delegate.intArg
-import com.lockwood.replicant.event.observeEvenets
+import com.lockwood.replicant.event.observeEvents
 import com.lockwood.replicant.ext.lazyViewModel
 import com.lockwood.replicant.ext.observeState
 import com.lockwood.room.R
@@ -30,27 +29,16 @@ internal class RoomFragment : BaseFragment<RoomViewState>() {
 			savedInstanceState: Bundle?,
 	): View = inflater.inflate(R.layout.fragment_room, container, false)
 
-	override fun onObserveState() {
-		observeState(viewModel.liveState, ::renderState)
-		observeEvenets(viewModel.eventsQueue, ::onOnEvent)
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(viewModel) {
+		observeState(liveState, ::renderState)
+		observeEvents(eventsQueue, ::onEvent)
+
+		connectToRoom(roomId)
 	}
 
-	override fun renderState(viewState: RoomViewState) {
-		renderRoom(viewState.room)
-		renderLoading(viewState.isLoading)
-	}
-
-	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-		super.onViewCreated(view, savedInstanceState)
-		viewModel.connectToRoom(roomId)
-	}
-
-	override fun showMessage(message: String) {
-		Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
-	}
-
-	override fun showError(message: String) {
-		Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+	override fun renderState(viewState: RoomViewState) = with(viewState) {
+		renderRoom(room)
+		renderLoading(isLoading)
 	}
 
 	private fun renderRoom(room: Room) {
