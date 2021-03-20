@@ -5,8 +5,10 @@ import androidx.lifecycle.ViewModel
 import com.lockwood.automata.core.notSafeLazy
 import com.lockwood.replicant.event.Event
 import com.lockwood.replicant.event.EventsQueue
+import com.lockwood.replicant.event.ShowErrorScreenEvent
 import com.lockwood.replicant.event.ShowScreenEvent
 import com.lockwood.replicant.ext.delegate
+import com.lockwood.replicant.screen.ErrorScreen
 import com.lockwood.replicant.screen.Screen
 import com.lockwood.replicant.state.ViewState
 
@@ -18,21 +20,21 @@ abstract class ReplicantViewModel<VS : ViewState>(initialState: VS) : ViewModel(
 
 	protected var state: VS by liveState.delegate()
 
-	protected inline fun offerEvents(offer: EventsQueue.() -> Unit) {
-		eventsQueue.offer()
-	}
-
-	protected inline fun offerEvent(init: () -> Event) = offerEvents {
-		offer(init())
+	protected inline fun offerEvent(init: () -> Event) {
+		val event = init()
+		eventsQueue.offer(event)
 	}
 
 	protected inline fun mutateState(mutate: () -> VS) {
 		state = mutate()
 	}
 
-	protected fun navigateTo(screen: Screen) = offerEvents {
-		val event = ShowScreenEvent(screen)
-		offer(event)
+	protected fun navigateTo(screen: Screen) {
+		offerEvent { ShowScreenEvent(screen) }
+	}
+
+	protected fun navigateTo(screen: ErrorScreen) {
+		offerEvent { ShowErrorScreenEvent(screen) }
 	}
 
 }

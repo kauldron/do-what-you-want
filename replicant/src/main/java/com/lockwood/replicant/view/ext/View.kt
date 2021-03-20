@@ -1,21 +1,44 @@
 package com.lockwood.replicant.view.ext
 
+import android.app.Activity
 import androidx.fragment.app.Fragment
+import com.lockwood.replicant.view.ErrorScreenView
+import com.lockwood.replicant.view.MessageView
 import com.lockwood.replicant.view.ProgressView
 import com.lockwood.replicant.view.ScreenView
 
 @kotlin.jvm.Throws(IllegalStateException::class)
-fun Fragment.requireProgressView(): ProgressView {
-	check(requireActivity() is ProgressView) {
-		"Activity should implement ProgressView"
-	}
-	return (requireActivity() as ProgressView)
-}
+fun Activity.requireProgressView(): ProgressView = requireActivityType()
 
 @kotlin.jvm.Throws(IllegalStateException::class)
-fun Fragment.requireScreenView(): ScreenView {
-	check(requireActivity() is ScreenView) {
-		"Activity should implement ScreenView"
+fun Activity.requireScreenView(): ScreenView = requireActivityType()
+
+@kotlin.jvm.Throws(IllegalStateException::class)
+fun Activity.requireErrorScreenView(): ErrorScreenView = requireActivityType()
+
+@kotlin.jvm.Throws(IllegalStateException::class)
+fun Activity.requireMessageView(): MessageView = requireActivityType()
+
+@kotlin.jvm.Throws(IllegalStateException::class)
+fun Fragment.requireProgressView(): ProgressView = requireActivityType()
+
+@kotlin.jvm.Throws(IllegalStateException::class)
+fun Fragment.requireScreenView(): ScreenView = requireActivityType()
+
+@kotlin.jvm.Throws(IllegalStateException::class)
+fun Fragment.requireErrorScreenView(): ErrorScreenView = requireActivityType()
+
+@kotlin.jvm.Throws(IllegalStateException::class)
+fun Fragment.requireMessageView(): MessageView = requireActivityType()
+
+inline fun <reified T> Activity.requireActivityType(): T {
+	require(this is T) {
+		"Activity should implement ${T::class}"
 	}
-	return (requireActivity() as ScreenView)
+
+	return this
+}
+
+inline fun <reified T> Fragment.requireActivityType(): T {
+	return requireActivity().requireActivityType()
 }

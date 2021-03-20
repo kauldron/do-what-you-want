@@ -1,6 +1,7 @@
 package com.lockwood.replicant.ext
 
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlin.properties.ReadWriteProperty
@@ -24,4 +25,11 @@ inline fun <T, LD : LiveData<T>> Fragment.observeState(
 		crossinline block: (T) -> Unit,
 ) {
 	liveData.observe(viewLifecycleOwner, { block(it) })
+}
+
+inline fun <T, LD : LiveData<T>> FragmentActivity.observeState(
+		liveData: LD,
+		crossinline block: (T) -> Unit,
+) {
+	liveData.observe(this, { block(it) })
 }

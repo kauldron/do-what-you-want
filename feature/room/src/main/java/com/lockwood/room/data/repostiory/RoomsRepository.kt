@@ -4,6 +4,8 @@ import com.lockwood.room.data.Room
 
 internal class RoomsRepository : IRoomsRepository {
 
+	override var test: String? = null
+
 	override fun fetchRooms(): List<Room> {
 		return listOf(
 				Room(0, "Test 0"),
