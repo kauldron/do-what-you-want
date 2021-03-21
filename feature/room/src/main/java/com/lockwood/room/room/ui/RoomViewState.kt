@@ -11,7 +11,10 @@ internal data class RoomViewState(
   companion object {
 
     val initialState: RoomViewState
-      @JvmStatic get() = RoomViewState(room = Room(0, "", false), isLoading = true)
+      @JvmStatic
+      get() {
+        return RoomViewState(room = Room(0, "", false), isLoading = true)
+      }
   }
 
   override fun equals(other: Any?): Boolean {

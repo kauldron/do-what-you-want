@@ -20,6 +20,4 @@ inline fun buildIntent(
   onBuild: Intent.() -> Unit = {},
 ): Intent = Intent(action, uri).apply(onBuild)
 
-fun Intent.wrapWithChooser(): Intent {
-  return Intent.createChooser(this, null)
-}
+fun Intent.wrapWithChooser(): Intent = Intent.createChooser(this, null)

@@ -15,15 +15,17 @@ import com.lockwood.direct.utils.WifiP2pManagerUtils
 import java.net.ServerSocket
 
 internal class WifiDirectManagerImpl(
-  context: ApplicationContext,
+  private val context: ApplicationContext,
 ) : WifiDirectManager {
 
-  private val application: Application = context.application
+  private val application: Application
+    get() = context.application
 
   private val channel: WifiP2pManager.Channel by notSafeLazy {
-    wifiP2pManager.initialize(application, application.mainLooper, null)
+    wifiP2pManager.initialize(context.value, application.mainLooper, null)
   }
 
+  // TODO: Add ServerSocketManager
   private val availablePort: Int by notSafeLazy { ServerSocket(0).localPort }
 
   private val wifiP2pManager: WifiP2pManager
@@ -33,7 +35,6 @@ internal class WifiDirectManagerImpl(
     get() = application.packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI_DIRECT)
 
   override val isWifiP2pSupported: Boolean
-    @SuppressLint("WifiManagerPotentialLeak")
     get() = application.getSystemService<WifiManager>().isP2pSupported
 
   override fun init(): WifiP2pManager.Channel {
@@ -71,9 +72,39 @@ internal class WifiDirectManagerImpl(
     wrapWithActionListener(listener) { wifiP2pManager.addLocalService(channel, serviceInfo, it) }
   }
 
+  override fun addLocalService(listener: WifiP2pActionListener) {
+    // TODO: Get last unused port
+    val record: Map<String, String> =
+      mapOf("listenport" to availablePort.toString(), "buddyname" to "John Doe")
+
+    // TODO: Add ._tcp and ._udp feature toggle
+    val transportProtocol = "udp"
+    val serviceInfo =
+      WifiP2pDnsSdServiceInfo.newInstance("_test", "_presence._$transportProtocol", record)
+
+    addLocalService(serviceInfo, listener)
+  }
+
   @SuppressLint("MissingPermission")
   override fun discoverServices(listener: WifiP2pActionListener) {
     wrapWithActionListener(listener) { wifiP2pManager.discoverServices(channel, it) }
+  }
+
+  override fun setServiceResponseListener(listener: WifiP2pManager.ServiceResponseListener) {
+    wifiP2pManager.setServiceResponseListener(channel, listener)
+  }
+
+  override fun setDnsSdResponseListeners(
+    listener: WifiP2pManager.DnsSdServiceResponseListener,
+    textListener: WifiP2pManager.DnsSdTxtRecordListener
+  ) {
+    wifiP2pManager.setDnsSdResponseListeners(channel, listener, textListener)
+  }
+
+  override fun setUpnpServiceResponseListener(
+    listener: WifiP2pManager.UpnpServiceResponseListener
+  ) {
+    wifiP2pManager.setUpnpServiceResponseListener(channel, listener)
   }
 
   private inline fun wrapWithActionListener(

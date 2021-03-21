@@ -21,8 +21,12 @@ class RequestBuilder() {
     imageCallback.add(target)
   }
 
-  fun build(): Request =
-    Request(imageOptions = checkNotNull(imageOptions), imageCallback = imageCallback.toTypedArray())
+  fun build(): Request {
+    return Request(
+      imageOptions = checkNotNull(imageOptions),
+      imageCallback = imageCallback.toTypedArray()
+    )
+  }
 }
 
 fun buildImageRequest(init: RequestBuilder.() -> Unit): Request {

@@ -10,40 +10,43 @@ import com.lockwood.automata.core.SINGLE
 import com.lockwood.automata.file.MimeTypes.WILDCARD
 
 private val <Uri> Array<Uri>.sendAction: String
-  get() =
-    if (size == Int.SINGLE) {
+  get() {
+    return if (size == Int.SINGLE) {
       Intent.ACTION_SEND
     } else {
       Intent.ACTION_SEND_MULTIPLE
     }
-
-fun Context.composeEmail(
-  address: String,
-  subject: String,
-  body: String = String.EMPTY,
-) =
-  buildIntent(Intent.ACTION_SENDTO, buildValidMailUri(address, subject, body)) {
-    startActivity(this)
-    return@buildIntent
   }
 
 fun Context.composeEmail(
   address: String,
   subject: String,
+  body: String = String.EMPTY,
+): Intent {
+  return buildIntent(Intent.ACTION_SENDTO, buildValidMailUri(address, subject, body)) {
+    startActivity(this)
+    return@buildIntent
+  }
+}
+
+fun Context.composeEmail(
+  address: String,
+  subject: String,
   vararg attachments: Uri,
-) =
+) {
   composeEmail(
     addresses = arrayOf(address),
     subject = subject,
     attachments = attachments,
   )
+}
 
 fun Context.composeEmail(
   addresses: Array<String>,
   subject: String,
   vararg attachments: Uri,
 ) {
-  val intent =
+  val intent: Intent =
     buildIntent(attachments.sendAction) {
       type = WILDCARD
       putExtra(Intent.EXTRA_EMAIL, addresses)

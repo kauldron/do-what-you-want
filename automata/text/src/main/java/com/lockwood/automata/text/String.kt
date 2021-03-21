@@ -24,10 +24,11 @@ fun String.ellipsizeEnd(
   return this
 }
 
-fun String.toUpperCaseFirstLetter(): String =
-  if (isNotEmpty()) {
+fun String.toUpperCaseFirstLetter(): String {
+  return if (isNotEmpty()) {
     val firstChar = first().toUpperCase().toString()
     replaceRange(startIndex = Int.ZERO, endIndex = Int.SINGLE, replacement = firstChar)
   } else {
     this
   }
+}

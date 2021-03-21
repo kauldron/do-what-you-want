@@ -19,7 +19,7 @@ class GlideLoader(context: Context) : ImageLoader {
   private val loader: RequestManager = Glide.with(context.applicationContext)
 
   @Suppress("UNCHECKED_CAST")
-  override fun <V : View> execute(request: Request, view: V): Unit =
+  override fun <V : View> execute(request: Request, view: V) {
     with(request) {
       loader
         .load(imageOptions.data)
@@ -27,6 +27,7 @@ class GlideLoader(context: Context) : ImageLoader {
         .centerCrop()
         .into(buildViewTarget(view, imageCallback))
     }
+  }
 
   @Suppress("UNCHECKED_CAST")
   override fun <T : View> buildViewTarget(view: T, callbacks: Array<Target>): ViewTarget<T> {

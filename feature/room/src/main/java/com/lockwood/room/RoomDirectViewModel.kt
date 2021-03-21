@@ -1,12 +1,10 @@
 package com.lockwood.room
 
-import android.net.wifi.p2p.nsd.WifiP2pDnsSdServiceInfo
 import android.net.wifi.p2p.nsd.WifiP2pDnsSdServiceRequest
 import com.lockwood.direct.WifiDirectManager
 import com.lockwood.direct.WifiP2pActionListener
 import com.lockwood.direct.WifiP2pError
 import com.lockwood.dwyw.core.BaseViewModel
-import com.lockwood.replicant.event.MessageEvent
 import com.lockwood.room.DirectState.*
 import com.lockwood.room.screen.DirectNotAvailableScreen
 import com.lockwood.room.screen.P2pErrorScreen
@@ -14,7 +12,16 @@ import timber.log.Timber
 
 internal class RoomDirectViewModel(
   private val wifiDirectManager: WifiDirectManager,
-) : BaseViewModel<RoomDirectViewState>(RoomDirectViewState.initialState) {
+) : BaseViewModel<RoomDirectViewState>(RoomDirectViewState.initialState), WifiP2pActionListener {
+
+  override fun onSuccess() {
+    Timber.d("WifiP2pActionListener onSuccess")
+  }
+
+  override fun onFailure(error: WifiP2pError) {
+    Timber.e("WifiP2pActionListener onFailure with reason $error")
+    navigateTo(P2pErrorScreen(error))
+  }
 
   fun initP2p() {
     try {
@@ -24,56 +31,40 @@ internal class RoomDirectViewModel(
       return
     }
 
-    requestServices()
+    addResponseListener()
+    startRegistration()
   }
 
   private fun requestServices() {
     mutateState { state.copy(directState = REQUEST_SERVICES) }
-    wifiDirectManager.requestServices(
-      serviceRequest = WifiP2pDnsSdServiceRequest.newInstance(),
-      listener = p2pListenerWithSuccess { discoverServices() }
-    )
+    val serviceRequest = WifiP2pDnsSdServiceRequest.newInstance()
+    wifiDirectManager.requestServices(serviceRequest = serviceRequest, listener = this)
+
+    discoverServices()
   }
 
   private fun discoverServices() {
     mutateState { state.copy(directState = DISCOVER_SERVICES) }
-    wifiDirectManager.discoverServices(listener = p2pListenerWithSuccess { startRegistration() })
+    wifiDirectManager.discoverServices(listener = this)
   }
 
   private fun startRegistration() {
     mutateState { state.copy(directState = ADD_LOCAL_SERVICES) }
-    // TODO: Get last unused port
-    val record: Map<String, String> =
-      mapOf(
-        "listenport" to 113.toString(),
-        "buddyname" to "John Doe${(Math.random() * 1000).toInt()}",
-        "available" to "visible"
-      )
-
-    // TODO: Add ._tcp and ._udp feature toggle
-    val transportProtocol = "udp"
-    val serviceInfo =
-      WifiP2pDnsSdServiceInfo.newInstance("_test", "_presence._$transportProtocol", record)
-
-    wifiDirectManager.addLocalService(
-      serviceInfo = serviceInfo,
-      listener = p2pListenerWithSuccess { offerEvent { MessageEvent("addLocalService") } }
-    )
+    wifiDirectManager.addLocalService(listener = this)
   }
 
-  private inline fun p2pListenerWithSuccess(
-    crossinline doOnSuccess: () -> Unit,
-  ) =
-    object : WifiP2pActionListener {
-
-      override fun onSuccess() {
-        Timber.d("${state.directState} onSuccess")
-        doOnSuccess()
+  private fun addResponseListener() {
+    wifiDirectManager.setDnsSdResponseListeners(
+      listener = { instanceName, registrationType, srcDevice ->
+        Timber.d(
+          "DnsSd Service: instanceName - $instanceName; registrationType - $registrationType; srcDevice: - $srcDevice"
+        )
+      },
+      textListener = { fullDomainName, txtRecordMap, srcDevice ->
+        Timber.d(
+          "DnsSd TextListener: fullDomainName - $fullDomainName; txtRecordMap - $txtRecordMap; srcDevice: - $srcDevice"
+        )
       }
-
-      override fun onFailure(error: WifiP2pError) {
-        Timber.e("${state.directState} onFailure with reason $error")
-        navigateTo(P2pErrorScreen(error))
-      }
-    }
+    )
+  }
 }

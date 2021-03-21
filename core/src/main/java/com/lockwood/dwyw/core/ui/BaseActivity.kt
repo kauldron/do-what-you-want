@@ -14,7 +14,7 @@ abstract class BaseActivity : FeatureActivity()
 
 abstract class BaseStateActivity<VS : ViewState> : ReplicantActivity<VS>() {
 
-  override fun onBackPressed() =
+  override fun onBackPressed() {
     with(supportFragmentManager) {
       if (isBackStackNotEmpty) {
         popBackStack()
@@ -22,6 +22,7 @@ abstract class BaseStateActivity<VS : ViewState> : ReplicantActivity<VS>() {
       }
       super.onBackPressed()
     }
+  }
 
   protected fun renderLoading(isLoading: Boolean) {
     requireProgressView().updateProgressVisibility(isLoading)

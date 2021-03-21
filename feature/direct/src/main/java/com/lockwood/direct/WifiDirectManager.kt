@@ -1,6 +1,6 @@
 package com.lockwood.direct
 
-import android.net.wifi.p2p.WifiP2pManager
+import android.net.wifi.p2p.WifiP2pManager.*
 import android.net.wifi.p2p.nsd.WifiP2pDnsSdServiceInfo
 import android.net.wifi.p2p.nsd.WifiP2pServiceRequest
 
@@ -10,7 +10,7 @@ interface WifiDirectManager {
 
   val isWifiP2pSupported: Boolean
 
-  @kotlin.jvm.Throws(IllegalStateException::class) fun init(): WifiP2pManager.Channel
+  @kotlin.jvm.Throws(IllegalStateException::class) fun init(): Channel
 
   fun discoverPeers(listener: WifiP2pActionListener)
 
@@ -18,5 +18,16 @@ interface WifiDirectManager {
 
   fun addLocalService(serviceInfo: WifiP2pDnsSdServiceInfo, listener: WifiP2pActionListener)
 
+  fun addLocalService(listener: WifiP2pActionListener)
+
   fun discoverServices(listener: WifiP2pActionListener)
+
+  fun setServiceResponseListener(listener: ServiceResponseListener)
+
+  fun setDnsSdResponseListeners(
+    listener: DnsSdServiceResponseListener,
+    textListener: DnsSdTxtRecordListener
+  )
+
+  fun setUpnpServiceResponseListener(listener: UpnpServiceResponseListener)
 }

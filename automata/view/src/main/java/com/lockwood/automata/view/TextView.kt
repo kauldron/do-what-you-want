@@ -28,9 +28,10 @@ fun TextView.enableLinkMovement(
 @Suppress("DEPRECATION")
 fun TextView.setAppearance(
   @StyleRes style: Int,
-) =
+) {
   if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
     setTextAppearance(style)
   } else {
     setTextAppearance(context, style)
   }
+}

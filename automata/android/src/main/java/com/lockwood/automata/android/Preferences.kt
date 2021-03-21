@@ -8,8 +8,8 @@ import com.lockwood.automata.core.EMPTY
 fun Editor.putNumber(
   key: String,
   value: Number,
-): Editor =
-  when (value) {
+): Editor {
+  return when (value) {
     is Long -> putLong(key, value)
     is Int -> putInt(key, value)
     is Float -> putFloat(key, value)
@@ -18,13 +18,14 @@ fun Editor.putNumber(
         "This type ${value::class} of value cannot be saved in Preferences"
       )
   }
+}
 
 @kotlin.jvm.Throws(IllegalArgumentException::class)
 fun SharedPreferences.getNumber(
   key: String,
   default: Number,
-): Number =
-  when (default) {
+): Number {
+  return when (default) {
     is Long -> getLong(key, default)
     is Int -> getInt(key, default)
     is Float -> getFloat(key, default)
@@ -33,6 +34,7 @@ fun SharedPreferences.getNumber(
         "This type ${default::class} of value cannot be saved in Preferences"
       )
   }
+}
 
 fun SharedPreferences.getStringOrEmpty(
   key: String,

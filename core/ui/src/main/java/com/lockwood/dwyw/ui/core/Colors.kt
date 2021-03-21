@@ -1,3 +1,5 @@
+package com.lockwood.dwyw.ui.core
+
 import androidx.annotation.ColorInt
 
 object Colors {

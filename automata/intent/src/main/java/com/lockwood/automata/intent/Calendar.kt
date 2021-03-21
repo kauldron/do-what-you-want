@@ -10,8 +10,8 @@ fun Context.addCalendarEvent(
   location: String,
   begin: Long,
   end: Long,
-) =
-  buildIntent(Intent.ACTION_INSERT, CalendarContract.Events.CONTENT_URI) {
+): Intent {
+  return buildIntent(Intent.ACTION_INSERT, CalendarContract.Events.CONTENT_URI) {
     putExtra(CalendarContract.Events.TITLE, title)
     putExtra(CalendarContract.Events.EVENT_LOCATION, location)
     putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, begin)
@@ -20,3 +20,4 @@ fun Context.addCalendarEvent(
     startActivity(this)
     return@buildIntent
   }
+}

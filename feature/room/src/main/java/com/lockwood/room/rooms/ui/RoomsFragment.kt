@@ -30,7 +30,7 @@ internal class RoomsFragment : BaseFragment<RoomsViewState>() {
     savedInstanceState: Bundle?,
   ): View = inflater.inflate(R.layout.fragment_rooms, container, false)
 
-  override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     with(viewModel) {
       initRoomsRecyclerView()
 
@@ -39,12 +39,14 @@ internal class RoomsFragment : BaseFragment<RoomsViewState>() {
 
       fetchRooms()
     }
+  }
 
-  override fun renderState(viewState: RoomsViewState) =
+  override fun renderState(viewState: RoomsViewState) {
     with(viewState) {
       renderLoading(isLoading)
       renderRooms(rooms)
     }
+  }
 
   private fun renderRooms(rooms: Array<Room>) {
     if (rooms.isNullOrEmpty()) {

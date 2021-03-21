@@ -15,8 +15,10 @@ internal class RoomsViewHolder(
 
   private val idView: TextView
     get() = itemView.findViewById(R.id.room_id)
+
   private val textView: TextView
     get() = itemView.findViewById(R.id.room_text)
+
   private val statusView: TextView
     get() = itemView.findViewById(R.id.room_status)
 

@@ -24,11 +24,12 @@ internal object WifiP2pManagerUtils {
   }
 
   @JvmStatic
-  private fun mapToP2pError(code: Int): WifiP2pError =
-    when (code) {
+  private fun mapToP2pError(code: Int): WifiP2pError {
+    return when (code) {
       WifiP2pManager.BUSY -> BUSY
       WifiP2pManager.P2P_UNSUPPORTED -> P2P_UNSUPPORTED
       WifiP2pManager.NO_SERVICE_REQUESTS -> NO_SERVICE_REQUESTS
       else -> ERROR
     }
+  }
 }

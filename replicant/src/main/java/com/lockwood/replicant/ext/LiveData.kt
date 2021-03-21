@@ -23,13 +23,9 @@ fun <T : Any> MutableLiveData<T>.delegate(): ReadWriteProperty<Any, T> {
 inline fun <T, LD : LiveData<T>> Fragment.observeState(
   liveData: LD,
   crossinline block: (T) -> Unit,
-) {
-  liveData.observe(viewLifecycleOwner, { block(it) })
-}
+) = liveData.observe(viewLifecycleOwner, { block(it) })
 
 inline fun <T, LD : LiveData<T>> FragmentActivity.observeState(
   liveData: LD,
   crossinline block: (T) -> Unit,
-) {
-  liveData.observe(this, { block(it) })
-}
+) = liveData.observe(this, { block(it) })

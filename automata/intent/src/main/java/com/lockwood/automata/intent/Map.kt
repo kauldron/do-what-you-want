@@ -10,11 +10,12 @@ fun Context.showLocationOnMap(
   lat: String,
   lng: String,
   label: String = String.EMPTY,
-) =
-  buildIntent(Intent.ACTION_VIEW, buildLocationUri(lat, lng, label)) {
+): Intent {
+  return buildIntent(Intent.ACTION_VIEW, buildLocationUri(lat, lng, label)) {
     startActivity(this)
     return@buildIntent
   }
+}
 
 private fun buildLocationUri(
   lat: String,

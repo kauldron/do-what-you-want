@@ -21,8 +21,8 @@ class MainActivity : BaseActivity() {
     showScreen(RoomsScreen)
   }
 
-  override fun showScreen(screen: Screen) =
-    when (screen) {
+  override fun showScreen(screen: Screen) {
+    return when (screen) {
       // TODO: Add OnboardingScreen
       is OnboardingScreen -> Unit
       is RoomsScreen -> doWithFinish { launchRooms() }
@@ -30,6 +30,7 @@ class MainActivity : BaseActivity() {
       // TODO: Show and log error
       else -> Unit
     }
+  }
 
   private fun launchRooms() {
     getFeature<RoomsFeature>().roomsLauncher.launch(this)

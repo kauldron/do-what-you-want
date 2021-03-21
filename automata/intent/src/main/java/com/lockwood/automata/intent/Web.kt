@@ -6,12 +6,14 @@ import android.content.Intent
 import android.net.Uri
 import com.lockwood.automata.android.buildIntent
 
-fun Context.openWebPage(url: String) =
-  buildIntent(Intent.ACTION_VIEW, Uri.parse(url)) { startActivity(this) }
+fun Context.openWebPage(url: String): Intent {
+  return buildIntent(Intent.ACTION_VIEW, Uri.parse(url)) { startActivity(this) }
+}
 
-fun Context.searchWeb(query: String) =
-  buildIntent(Intent.ACTION_WEB_SEARCH) {
+fun Context.searchWeb(query: String): Intent {
+  return buildIntent(Intent.ACTION_WEB_SEARCH) {
     putExtra(SearchManager.QUERY, query)
 
     startActivity(this)
   }
+}

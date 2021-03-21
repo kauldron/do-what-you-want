@@ -28,25 +28,27 @@ val View.isVisibleOnScreen: Boolean
 
 fun View.updateBackgroundColor(
   @ColorInt backgroundColor: Int,
-) =
+) {
   if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
     backgroundTintList = ColorStateList.valueOf(backgroundColor)
   } else {
     setBackgroundColor(backgroundColor)
   }
+}
 
 inline fun <T : View> T.afterMeasured(
   crossinline f: T.() -> Unit,
-) =
+) {
   viewTreeObserver.addOnGlobalLayoutListener {
     if (measuredWidth > Int.ZERO && measuredHeight > Int.ZERO) {
       f()
     }
   }
+}
 
 inline fun <T : View> T.afterMeasuredOnce(
   crossinline f: T.() -> Unit,
-) =
+) {
   viewTreeObserver.addOnGlobalLayoutListener(
     object : ViewTreeObserver.OnGlobalLayoutListener {
       override fun onGlobalLayout() {
@@ -57,3 +59,4 @@ inline fun <T : View> T.afterMeasuredOnce(
       }
     }
   )
+}

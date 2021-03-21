@@ -21,16 +21,12 @@ class EventsQueue : MutableLiveData<Queue<Event>>() {
 fun Fragment.observeEvents(
   eventsQueue: EventsQueue,
   eventHandler: (Event) -> Unit,
-) {
-  viewLifecycleOwner.observeEvents(eventsQueue, eventHandler)
-}
+) = viewLifecycleOwner.observeEvents(eventsQueue, eventHandler)
 
 fun FragmentActivity.observeEvents(
   eventsQueue: EventsQueue,
   eventHandler: (Event) -> Unit,
-) {
-  (this as LifecycleOwner).observeEvents(eventsQueue, eventHandler)
-}
+) = (this as LifecycleOwner).observeEvents(eventsQueue, eventHandler)
 
 private inline fun LifecycleOwner.observeEvents(
   eventsQueue: EventsQueue,

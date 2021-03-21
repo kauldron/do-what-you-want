@@ -23,9 +23,10 @@ internal constructor(
     return safeGetValue()
   }
 
-  private fun safeGetValue(): T =
+  private fun safeGetValue(): T {
     synchronized(this) {
       val _v2 = releasableValue
+
       return if (_v2 !== UNINITIALIZED_VALUE) {
         _v2 as T
       } else {
@@ -34,6 +35,7 @@ internal constructor(
         typedValue
       }
     }
+  }
 
   override fun release() {
     val _v1 = releasableValue

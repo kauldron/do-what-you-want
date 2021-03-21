@@ -44,18 +44,19 @@ internal class RoomDirectActivity :
     lifecycleAwareReceiver { getFeature<DirectFeature>().wifiReceiverManager }
   }
 
-  override fun onCreate(savedInstanceState: Bundle?) =
-    with(viewModel) {
-      super.onCreate(savedInstanceState)
-      setContentView(com.lockwood.replicant.R.layout.fragment_container_progress)
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(com.lockwood.replicant.R.layout.fragment_container_progress)
 
+    with(viewModel) {
       observeState(liveState, ::renderState)
       observeEvents(eventsQueue, ::onEvent)
-
-      if (savedInstanceState == null) {
-        requestPermissions()
-      }
     }
+
+    if (savedInstanceState == null) {
+      requestPermissions()
+    }
+  }
 
   override fun onDestroy() {
     super.onDestroy()
@@ -70,25 +71,28 @@ internal class RoomDirectActivity :
     }
   }
 
-  override fun showScreen(screen: Screen) =
-    when (screen) {
+  override fun showScreen(screen: Screen) {
+    return when (screen) {
       is RoomsScreen -> showFragment(RoomsFragment.newInstance(), true)
       is RoomScreen -> showFragment(RoomFragment.newInstance(screen.id))
       else -> Unit
     }
+  }
 
-  override fun showErrorScreen(screen: ErrorScreen) =
-    when (screen) {
+  override fun showErrorScreen(screen: ErrorScreen) {
+    return when (screen) {
       is DirectNotAvailableScreen -> showToast("DirectNotAvailable")
       is P2pErrorScreen -> showToast("P2pError: ${screen.error}")
       else -> Unit
     }
+  }
 
-  override fun renderState(viewState: RoomDirectViewState) =
+  override fun renderState(viewState: RoomDirectViewState) {
     with(viewState) {
       renderDirectState(directState)
       renderLoading(isLoading)
     }
+  }
 
   override fun showProgress() {
     findViewById<View>(com.lockwood.replicant.R.id.progress_bar).visibility = View.VISIBLE

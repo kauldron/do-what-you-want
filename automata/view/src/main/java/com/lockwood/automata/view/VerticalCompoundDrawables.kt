@@ -38,22 +38,24 @@ interface VerticalCompoundDrawableChecker {
 
     val TOP: VerticalCompoundDrawableChecker
       @JvmStatic
-      get() =
-        object : VerticalCompoundDrawableChecker {
+      get() {
+        return object : VerticalCompoundDrawableChecker {
           override fun isClicked(view: TextView, event: MotionEvent): Boolean {
             val topDrawableOffset = view.height - view.totalPaddingTop
             return event.y <= topDrawableOffset
           }
         }
+      }
 
     val BOTTOM: VerticalCompoundDrawableChecker
       @JvmStatic
-      get() =
-        object : VerticalCompoundDrawableChecker {
+      get() {
+        return object : VerticalCompoundDrawableChecker {
           override fun isClicked(view: TextView, event: MotionEvent): Boolean {
             val bottomDrawableOffset = view.height - view.totalPaddingBottom
             return event.y >= bottomDrawableOffset
           }
         }
+      }
   }
 }

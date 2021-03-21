@@ -39,14 +39,15 @@ class AndroidExecutorProvider : ExecutorProvider {
 
   override fun cpu(): Executor = cpuExecutor
 
-  private fun buildThreadPoolExecutor(maximumPoolSize: Int): Executor =
-    ThreadPoolExecutor(
+  private fun buildThreadPoolExecutor(maximumPoolSize: Int): Executor {
+    return ThreadPoolExecutor(
       CORE_POOL_SIZE,
       maximumPoolSize,
       KEEP_ALIVE_TIME,
       TimeUnit.MINUTES,
       LinkedBlockingQueue()
     )
+  }
 
   private fun runOnUiThread(action: Runnable) {
     if (!isMainThread) {

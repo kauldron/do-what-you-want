@@ -39,8 +39,8 @@ interface HorizontalCompoundDrawableChecker {
 
     val START: HorizontalCompoundDrawableChecker
       @JvmStatic
-      get() =
-        object : HorizontalCompoundDrawableChecker {
+      get() {
+        return object : HorizontalCompoundDrawableChecker {
           override fun isClicked(
             view: TextView,
             event: MotionEvent,
@@ -52,11 +52,12 @@ interface HorizontalCompoundDrawableChecker {
               isStartDrawableClicked(view, event)
             }
         }
+      }
 
     val END: HorizontalCompoundDrawableChecker
       @JvmStatic
-      get() =
-        object : HorizontalCompoundDrawableChecker {
+      get() {
+        return object : HorizontalCompoundDrawableChecker {
           override fun isClicked(
             view: TextView,
             event: MotionEvent,
@@ -68,6 +69,7 @@ interface HorizontalCompoundDrawableChecker {
               isEndDrawableClicked(view, event)
             }
         }
+      }
 
     private fun isStartDrawableClicked(view: TextView, event: MotionEvent): Boolean {
       val leftDrawableOffset = view.width - view.totalPaddingLeft

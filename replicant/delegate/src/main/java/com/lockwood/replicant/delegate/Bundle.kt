@@ -12,8 +12,8 @@ import kotlin.reflect.KProperty
 inline fun <T> Fragment.bundleArg(
   crossinline getter: Bundle.() -> T,
   crossinline setter: Bundle.(T) -> Unit,
-): ReadWriteProperty<Any?, T> =
-  object : ReadWriteProperty<Any?, T> {
+): ReadWriteProperty<Any?, T> {
+  return object : ReadWriteProperty<Any?, T> {
     override fun getValue(thisRef: Any?, property: KProperty<*>): T {
       return requireArguments().getter()
     }
@@ -22,21 +22,24 @@ inline fun <T> Fragment.bundleArg(
       requireArguments().setter(value)
     }
   }
+}
 
 inline fun <T> Fragment.intArg(
   name: String,
   crossinline default: () -> Int = { Int.UNDEFINED },
-): ReadWriteProperty<Any?, T> =
-  bundleArg(
+): ReadWriteProperty<Any?, T> {
+  return bundleArg(
     getter = { getInt(name, default()) as T },
     setter = { value -> putInt(name, value as Int) }
   )
+}
 
 inline fun <T> Fragment.stringArgs(
   name: String,
   crossinline default: () -> String = { String.EMPTY },
-): ReadWriteProperty<Any?, T> =
-  bundleArg(
+): ReadWriteProperty<Any?, T> {
+  return bundleArg(
     getter = { getString(name, default()) as T ?: default() as T },
     setter = { value -> putString(name, value as String) }
   )
+}

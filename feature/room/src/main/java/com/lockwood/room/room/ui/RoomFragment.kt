@@ -29,19 +29,21 @@ internal class RoomFragment : BaseFragment<RoomViewState>() {
     savedInstanceState: Bundle?,
   ): View = inflater.inflate(R.layout.fragment_room, container, false)
 
-  override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     with(viewModel) {
       observeState(liveState, ::renderState)
       observeEvents(eventsQueue, ::onEvent)
 
       connectToRoom(roomId)
     }
+  }
 
-  override fun renderState(viewState: RoomViewState) =
+  override fun renderState(viewState: RoomViewState) {
     with(viewState) {
       renderRoom(room)
       renderLoading(isLoading)
     }
+  }
 
   private fun renderRoom(room: Room) {
     //  TODO("Not yet implemented")
