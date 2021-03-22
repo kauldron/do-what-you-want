@@ -27,8 +27,7 @@ class MainActivity : BaseActivity() {
       is OnboardingScreen -> Unit
       is RoomsScreen -> doWithFinish { launchRooms() }
       is RoomScreen -> doWithFinish { launchRoom(screen.id.toRoomArgs()) }
-      // TODO: Show and log error
-      else -> Unit
+      else -> super.showScreen(screen)
     }
   }
 

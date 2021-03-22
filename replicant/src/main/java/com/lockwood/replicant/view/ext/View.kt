@@ -2,7 +2,6 @@ package com.lockwood.replicant.view.ext
 
 import android.app.Activity
 import androidx.fragment.app.Fragment
-import com.lockwood.replicant.view.ErrorScreenView
 import com.lockwood.replicant.view.MessageView
 import com.lockwood.replicant.view.ProgressView
 import com.lockwood.replicant.view.ScreenView
@@ -14,9 +13,6 @@ fun Activity.requireProgressView(): ProgressView = requireActivityType()
 fun Activity.requireScreenView(): ScreenView = requireActivityType()
 
 @kotlin.jvm.Throws(IllegalStateException::class)
-fun Activity.requireErrorScreenView(): ErrorScreenView = requireActivityType()
-
-@kotlin.jvm.Throws(IllegalStateException::class)
 fun Activity.requireMessageView(): MessageView = requireActivityType()
 
 @kotlin.jvm.Throws(IllegalStateException::class)
@@ -24,9 +20,6 @@ fun Fragment.requireProgressView(): ProgressView = requireActivityType()
 
 @kotlin.jvm.Throws(IllegalStateException::class)
 fun Fragment.requireScreenView(): ScreenView = requireActivityType()
-
-@kotlin.jvm.Throws(IllegalStateException::class)
-fun Fragment.requireErrorScreenView(): ErrorScreenView = requireActivityType()
 
 @kotlin.jvm.Throws(IllegalStateException::class)
 fun Fragment.requireMessageView(): MessageView = requireActivityType()

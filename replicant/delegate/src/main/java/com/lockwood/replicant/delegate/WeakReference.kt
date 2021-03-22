@@ -24,5 +24,5 @@ class WeakReference<T>(value: T? = null) : ReadWriteProperty<Any?, T> {
 }
 
 inline fun <T> weakReference(
-  value: () -> T?,
+  value: () -> T? = { null },
 ): WeakReference<T> = WeakReference(value.invoke())

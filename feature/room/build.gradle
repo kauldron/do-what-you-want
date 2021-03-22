@@ -13,12 +13,14 @@ dependencies {
     implementation project(':automata:android')
     implementation project(':automata:recycler')
     implementation project(':replicant:delegate')
-    implementation project(':feature:direct')
+    implementation project(':feature:connections')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.fragment:fragment-ktx:1.3.1'
     implementation 'androidx.recyclerview:recyclerview:1.2.0-beta02'
     implementation 'com.jakewharton.timber:timber:4.7.1'
+
+    compileOnly 'com.google.android.gms:play-services-tasks:17.0.0'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3-alpha04'

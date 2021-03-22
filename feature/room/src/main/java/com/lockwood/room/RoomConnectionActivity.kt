@@ -1,7 +1,6 @@
 package com.lockwood.room
 
 import android.Manifest
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -9,49 +8,25 @@ import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import com.lockwood.direct.feature.DirectFeature
+import com.lockwood.dwyw.core.screen.PermissionRequiredScreen
 import com.lockwood.dwyw.core.screen.RoomScreen
 import com.lockwood.dwyw.core.screen.RoomsScreen
-import com.lockwood.dwyw.core.ui.BaseStateActivity
-import com.lockwood.replicant.event.observeEvents
-import com.lockwood.replicant.ext.lazyViewModel
-import com.lockwood.replicant.ext.observeState
-import com.lockwood.replicant.receiver.lifecycleAwareReceiver
-import com.lockwood.replicant.screen.ErrorScreen
+import com.lockwood.dwyw.core.ui.BaseActivity
 import com.lockwood.replicant.screen.Screen
-import com.lockwood.replicant.view.ErrorScreenView
 import com.lockwood.replicant.view.MessageView
 import com.lockwood.replicant.view.ProgressView
 import com.lockwood.room.feature.RoomsFeature
 import com.lockwood.room.room.ui.RoomFragment
 import com.lockwood.room.rooms.ui.RoomsFragment
-import com.lockwood.room.screen.DirectNotAvailableScreen
-import com.lockwood.room.screen.P2pErrorScreen
+import com.lockwood.room.screen.RetryErrorScreen
 import timber.log.Timber
 
-internal class RoomDirectActivity :
-  BaseStateActivity<RoomDirectViewState>(),
-  MessageView,
-  ProgressView,
-  ErrorScreenView,
-  ActivityResultCallback<Boolean> {
-
-  private val viewModel: RoomDirectViewModel by lazyViewModel {
-    RoomDirectViewModel(getFeature<DirectFeature>().wifiDirectManager)
-  }
-
-  init {
-    lifecycleAwareReceiver { getFeature<DirectFeature>().wifiReceiverManager }
-  }
+internal class RoomConnectionActivity :
+  BaseActivity(), MessageView, ProgressView, ActivityResultCallback<Boolean> {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(com.lockwood.replicant.R.layout.fragment_container_progress)
-
-    with(viewModel) {
-      observeState(liveState, ::renderState)
-      observeEvents(eventsQueue, ::onEvent)
-    }
 
     if (savedInstanceState == null) {
       requestPermissions()
@@ -60,6 +35,8 @@ internal class RoomDirectActivity :
 
   override fun onDestroy() {
     super.onDestroy()
+    // TODO: Add on dismiss notification
+    //  getFeature<RoomsFeature>().roomsInteractor.stopAdvertising()
     releaseFeature<RoomsFeature>()
   }
 
@@ -67,7 +44,9 @@ internal class RoomDirectActivity :
     Timber.d("onActivityResult: $isGranted")
 
     if (isGranted) {
-      viewModel.initP2p()
+      showScreen(RoomsScreen)
+    } else {
+      showScreen(PermissionRequiredScreen)
     }
   }
 
@@ -75,22 +54,9 @@ internal class RoomDirectActivity :
     return when (screen) {
       is RoomsScreen -> showFragment(RoomsFragment.newInstance(), true)
       is RoomScreen -> showFragment(RoomFragment.newInstance(screen.id))
-      else -> Unit
-    }
-  }
-
-  override fun showErrorScreen(screen: ErrorScreen) {
-    return when (screen) {
-      is DirectNotAvailableScreen -> showToast("DirectNotAvailable")
-      is P2pErrorScreen -> showToast("P2pError: ${screen.error}")
-      else -> Unit
-    }
-  }
-
-  override fun renderState(viewState: RoomDirectViewState) {
-    with(viewState) {
-      renderDirectState(directState)
-      renderLoading(isLoading)
+      // TODO: Implement RertyErrorScreen
+      is RetryErrorScreen -> Unit
+      else -> super.showScreen(screen)
     }
   }
 
@@ -108,14 +74,6 @@ internal class RoomDirectActivity :
 
   override fun showError(message: String) {
     showToast(message)
-  }
-
-  private fun renderDirectState(directState: DirectState) {
-    Timber.d("Current state: $directState")
-  }
-
-  private fun handleIntent(intent: Intent) {
-    // TODO: Handle intent
   }
 
   private fun requestPermissions() {

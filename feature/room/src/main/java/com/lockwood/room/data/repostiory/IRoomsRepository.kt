@@ -1,8 +1,5 @@
 package com.lockwood.room.data.repostiory
 
-import com.lockwood.room.data.Room
+import com.lockwood.connections.NearbyConnectionsManager
 
-interface IRoomsRepository {
-
-  fun fetchRooms(): List<Room>
-}
+interface IRoomsRepository : NearbyConnectionsManager

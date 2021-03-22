@@ -1,5 +1,6 @@
 package com.lockwood.room.feature
 
+import com.lockwood.connections.NearbyConnectionsManager
 import com.lockwood.replicant.ext.notSafeReleasableLazy
 import com.lockwood.replicant.feature.ReleasableFeature
 import com.lockwood.replicant.launcher.Launcher
@@ -12,9 +13,11 @@ import com.lockwood.room.room.launcher.RoomArgs
 import com.lockwood.room.room.launcher.RoomLauncher
 import com.lockwood.room.rooms.launcher.RoomsLauncher
 
-class RoomsFeature : ReleasableFeature {
+class RoomsFeature(connectionsManager: NearbyConnectionsManager) : ReleasableFeature {
 
-  val roomsRepository: IRoomsRepository by notSafeReleasableLazy { RoomsRepository() }
+  private val roomsRepository: IRoomsRepository by notSafeReleasableLazy {
+    RoomsRepository(connectionsManager)
+  }
 
   val roomsInteractor: IRoomsInteractor by notSafeReleasableLazy {
     RoomsInteractor(roomsRepository)

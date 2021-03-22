@@ -25,11 +25,4 @@
     tools:text="Name: Lo-Fi"
     />
 
-  <TextView
-    android:id="@+id/room_status"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:text="Status: Active"
-    />
-
 </LinearLayout>

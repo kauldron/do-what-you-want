@@ -10,7 +10,6 @@ import com.lockwood.replicant.ext.releaseFeature
 import com.lockwood.replicant.feature.Feature
 import com.lockwood.replicant.feature.ReleasableFeature
 import com.lockwood.replicant.state.ViewState
-import com.lockwood.replicant.view.ext.requireErrorScreenView
 import com.lockwood.replicant.view.ext.requireMessageView
 import com.lockwood.replicant.view.ext.requireScreenView
 
@@ -29,7 +28,7 @@ abstract class FeatureFragment : Fragment() {
       is ErrorMessageEvent -> requireMessageView().showError(event.message)
       is GoToBackEvent -> requireScreenView().goBack()
       is ShowScreenEvent -> requireScreenView().showScreen(event.screen)
-      is ShowErrorScreenEvent -> requireErrorScreenView().showErrorScreen(event.screen)
+      else -> error("Unknown event: $event")
     }
   }
 

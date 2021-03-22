@@ -32,17 +32,10 @@
 
     <activity
       android:launchMode="singleInstance"
-      android:name="com.lockwood.room.RoomDirectActivity"
+      android:name="com.lockwood.room.RoomConnectionActivity"
       android:screenOrientation="portrait"
       />
 
   </application>
-
-  <uses-feature android:name="android.hardware.screen.portrait" />
-  <uses-feature android:name="android.hardware.touchscreen" />
-
-  <!--  TODO: Fix icon  -->
-
-  <uses-feature android:name="android.hardware.audio.output" />
 
 </manifest>

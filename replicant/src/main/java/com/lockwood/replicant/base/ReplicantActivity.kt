@@ -9,9 +9,9 @@ import com.lockwood.replicant.ext.getFeature
 import com.lockwood.replicant.ext.releaseFeature
 import com.lockwood.replicant.feature.Feature
 import com.lockwood.replicant.feature.ReleasableFeature
+import com.lockwood.replicant.screen.Screen
 import com.lockwood.replicant.state.ViewState
 import com.lockwood.replicant.view.ScreenView
-import com.lockwood.replicant.view.ext.requireErrorScreenView
 import com.lockwood.replicant.view.ext.requireMessageView
 import com.lockwood.replicant.view.ext.requireScreenView
 
@@ -30,6 +30,10 @@ abstract class FeatureActivity : FragmentActivity(), ScreenView {
     onBackPressed()
   }
 
+  override fun showScreen(screen: Screen) {
+    error("Unknown screen: $screen")
+  }
+
   inline fun <reified T : Feature> getFeature(): T {
     return application.getFeature()
   }
@@ -42,7 +46,7 @@ abstract class FeatureActivity : FragmentActivity(), ScreenView {
       is ErrorMessageEvent -> requireMessageView().showError(event.message)
       is GoToBackEvent -> requireScreenView().goBack()
       is ShowScreenEvent -> requireScreenView().showScreen(event.screen)
-      is ShowErrorScreenEvent -> requireErrorScreenView().showErrorScreen(event.screen)
+      else -> error("Unknown event: $event")
     }
   }
 

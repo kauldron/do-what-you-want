@@ -22,7 +22,7 @@ dependencies {
     implementation project(':core')
     implementation project(':core:ui')
     implementation project(':replicant')
-    implementation project(':feature:direct')
+    implementation project(':feature:connections')
     implementation project(':feature:room')
     implementation project(':automata:android')
 

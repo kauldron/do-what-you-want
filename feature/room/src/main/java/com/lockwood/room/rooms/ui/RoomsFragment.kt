@@ -14,15 +14,17 @@ import com.lockwood.replicant.ext.lazyViewModel
 import com.lockwood.replicant.ext.observeState
 import com.lockwood.room.R
 import com.lockwood.room.data.Room
+import com.lockwood.room.data.interactor.IRoomsInteractor
 import com.lockwood.room.feature.RoomsFeature
 import com.lockwood.room.rooms.ui.adapter.RoomsAdapter
 
 // TODO: Fill RoomFragment
 internal class RoomsFragment : BaseFragment<RoomsViewState>() {
 
-  private val viewModel: RoomsViewModel by lazyViewModel {
-    RoomsViewModel(getFeature<RoomsFeature>().roomsInteractor)
-  }
+  private val viewModel: RoomsViewModel by lazyViewModel { RoomsViewModel(roomsInteractor) }
+
+  private val roomsInteractor: IRoomsInteractor
+    get() = getFeature<RoomsFeature>().roomsInteractor
 
   override fun onCreateView(
     inflater: LayoutInflater,
@@ -31,14 +33,19 @@ internal class RoomsFragment : BaseFragment<RoomsViewState>() {
   ): View = inflater.inflate(R.layout.fragment_rooms, container, false)
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    with(viewModel) {
-      initRoomsRecyclerView()
+    initRoomsRecyclerView()
 
+    with(viewModel) {
       observeState(liveState, ::renderState)
       observeEvents(eventsQueue, ::onEvent)
 
-      fetchRooms()
+      startAdvertisingRoom("78")
     }
+  }
+
+  override fun onDestroyView() {
+    super.onDestroyView()
+    roomsInteractor.stopDiscovery()
   }
 
   override fun renderState(viewState: RoomsViewState) {
