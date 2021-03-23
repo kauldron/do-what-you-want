@@ -1,4 +1,4 @@
-package com.lockwood.room.room.launcher
+package com.lockwood.room.client.launcher
 
 import com.lockwood.replicant.launcher.args.LaunchArgs
 

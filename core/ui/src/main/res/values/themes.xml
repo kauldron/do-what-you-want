@@ -6,6 +6,7 @@
     <item name="colorPrimaryVariant">#6272a4</item>
     <item name="colorSecondary">#ff79c6</item>
     <item name="colorSecondaryVariant">#ff40ac</item>
+    <item name="backgroundColor">#44475a</item>
     <item name="android:colorBackground">#44475a</item>
     <item name="colorSurface">#282a36</item>
     <item name="colorError">#ff5555</item>

@@ -1,4 +1,4 @@
-package com.lockwood.room.rooms.ui.adapter
+package com.lockwood.room.client.adapter
 
 import android.view.View
 import android.widget.TextView
@@ -19,11 +19,12 @@ internal class RoomsViewHolder(
   private val textView: TextView
     get() = itemView.findViewById(R.id.room_text)
 
-  override fun onBind(position: Int) =
+  override fun onBind(position: Int) {
     with(data[position]) {
       idView.text = "ID: $id"
       textView.text = "Name: $name"
 
       itemView.setOnClickListener { listener.invoke(this) }
     }
+  }
 }

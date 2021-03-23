@@ -1,19 +1,19 @@
-package com.lockwood.room.rooms.ui
+package com.lockwood.room.host.ui
 
 import com.lockwood.replicant.state.ViewState
 import com.lockwood.room.data.Room
 
-internal data class RoomsViewState(
-  val rooms: Array<Room>,
+internal data class RoomHostViewState(
+  val room: Room,
   val isLoading: Boolean,
 ) : ViewState {
 
   companion object {
 
-    val initialState: RoomsViewState
+    val initialStateHost: RoomHostViewState
       @JvmStatic
       get() {
-        return RoomsViewState(rooms = emptyArray(), isLoading = true)
+        return RoomHostViewState(room = Room(0, ""), isLoading = true)
       }
   }
 
@@ -21,16 +21,16 @@ internal data class RoomsViewState(
     if (this === other) return true
     if (javaClass != other?.javaClass) return false
 
-    other as RoomsViewState
+    other as RoomHostViewState
 
-    if (!rooms.contentEquals(other.rooms)) return false
+    if (room != other.room) return false
     if (isLoading != other.isLoading) return false
 
     return true
   }
 
   override fun hashCode(): Int {
-    var result = rooms.contentHashCode()
+    var result = room.hashCode()
     result = 31 * result + isLoading.hashCode()
     return result
   }

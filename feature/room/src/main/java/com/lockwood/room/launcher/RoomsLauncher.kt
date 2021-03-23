@@ -1,4 +1,4 @@
-package com.lockwood.room.rooms.launcher
+package com.lockwood.room.launcher
 
 import android.content.Context
 import com.lockwood.automata.android.launchActivity

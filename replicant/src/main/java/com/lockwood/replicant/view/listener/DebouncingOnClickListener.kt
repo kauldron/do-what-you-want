@@ -9,7 +9,7 @@ abstract class DebouncingOnClickListener(
 ) : View.OnClickListener {
 
   companion object {
-    internal const val DOUBLE_TAP_TIMEOUT = 300L
+    const val DOUBLE_TAP_TIMEOUT = 300L
 
     private val MAIN: Handler = Handler(Looper.getMainLooper())
 

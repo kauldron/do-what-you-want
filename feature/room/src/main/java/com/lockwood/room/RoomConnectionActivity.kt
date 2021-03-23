@@ -15,9 +15,9 @@ import com.lockwood.dwyw.core.ui.BaseActivity
 import com.lockwood.replicant.screen.Screen
 import com.lockwood.replicant.view.MessageView
 import com.lockwood.replicant.view.ProgressView
+import com.lockwood.room.client.ui.RoomsDiscoverFragment
 import com.lockwood.room.feature.RoomsFeature
-import com.lockwood.room.room.ui.RoomFragment
-import com.lockwood.room.rooms.ui.RoomsFragment
+import com.lockwood.room.host.ui.RoomHostFragment
 import com.lockwood.room.screen.RetryErrorScreen
 import timber.log.Timber
 
@@ -50,8 +50,8 @@ internal class RoomConnectionActivity :
 
   override fun showScreen(screen: Screen) {
     return when (screen) {
-      is RoomsScreen -> showFragment(RoomsFragment.newInstance(), true)
-      is RoomScreen -> showFragment(RoomFragment.newInstance(screen.id))
+      is RoomsScreen -> showFragment(RoomsDiscoverFragment.newInstance(), true)
+      is RoomScreen -> showFragment(RoomHostFragment.newInstance(screen.id))
       // TODO: Implement RertyErrorScreen
       is RetryErrorScreen -> Unit
       else -> super.showScreen(screen)

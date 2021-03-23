@@ -1,9 +1,10 @@
-package com.lockwood.room.rooms.ui
+package com.lockwood.room.client.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.lockwood.automata.android.newFragment
 import com.lockwood.automata.android.startForegroundService
@@ -14,20 +15,21 @@ import com.lockwood.replicant.event.Event
 import com.lockwood.replicant.event.observeEvents
 import com.lockwood.replicant.ext.lazyViewModel
 import com.lockwood.replicant.ext.observeState
+import com.lockwood.replicant.view.ext.requireProgressView
+import com.lockwood.replicant.view.ext.setDebouncingOnClickListener
 import com.lockwood.room.R
+import com.lockwood.room.client.adapter.RoomsAdapter
 import com.lockwood.room.data.Room
 import com.lockwood.room.data.interactor.IRoomsInteractor
 import com.lockwood.room.event.StartClientServiceEvent
-import com.lockwood.room.event.StartHostServiceEvent
 import com.lockwood.room.feature.RoomsFeature
-import com.lockwood.room.rooms.ui.adapter.RoomsAdapter
 import com.lockwood.room.service.ClientForegroundService
-import com.lockwood.room.service.HostForegroundService
 
-// TODO: Fill RoomFragment
-internal class RoomsFragment : BaseFragment<RoomsViewState>() {
+internal class RoomsDiscoverFragment : BaseFragment<RoomsDiscoverViewState>() {
 
-  private val viewModel: RoomsViewModel by lazyViewModel { RoomsViewModel(roomsInteractor) }
+  private val discoverViewModel: RoomsDiscoverViewModel by lazyViewModel {
+    RoomsDiscoverViewModel(roomsInteractor)
+  }
 
   private val roomsInteractor: IRoomsInteractor
     get() = getFeature<RoomsFeature>().roomsInteractor
@@ -41,20 +43,19 @@ internal class RoomsFragment : BaseFragment<RoomsViewState>() {
   override fun onEvent(event: Event) {
     when (event) {
       StartClientServiceEvent -> requireContext().startForegroundService<ClientForegroundService>()
-      StartHostServiceEvent -> requireContext().startForegroundService<HostForegroundService>()
       else -> super.onEvent(event)
     }
   }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     initRoomsRecyclerView()
+    initStubView()
 
-    with(viewModel) {
+    with(discoverViewModel) {
       observeState(liveState, ::renderState)
       observeEvents(eventsQueue, ::onEvent)
 
-      // TODO: Move to host fragment
-      startAdvertisingRoom("78")
+      startDiscoveryRooms()
     }
   }
 
@@ -63,18 +64,25 @@ internal class RoomsFragment : BaseFragment<RoomsViewState>() {
     roomsInteractor.stopDiscovery()
   }
 
-  override fun renderState(viewState: RoomsViewState) {
+  override fun renderState(viewState: RoomsDiscoverViewState) {
     with(viewState) {
       renderLoading(isLoading)
-      renderRooms(rooms)
+      renderRooms(rooms, isLoading)
     }
   }
 
-  private fun renderRooms(rooms: Array<Room>) {
-    if (rooms.isNullOrEmpty()) {
-      // TODO: Show stub view
+  private fun renderLoading(isLoading: Boolean) {
+    requireProgressView().updateProgressVisibility(isLoading)
+    if (isLoading) {
+      requireStubView().isVisible = false
+    }
+  }
+
+  private fun renderRooms(rooms: Array<Room>, isLoading: Boolean) {
+    if (rooms.isNullOrEmpty() && !isLoading) {
+      requireStubView().isVisible = true
     } else {
-      requireRoomsView().adapter = RoomsAdapter(rooms, viewModel::navigateToRoom)
+      requireRoomsView().adapter = RoomsAdapter(rooms, discoverViewModel::navigateToRoom)
     }
   }
 
@@ -93,8 +101,18 @@ internal class RoomsFragment : BaseFragment<RoomsViewState>() {
     return requireView().findViewById(R.id.rooms_list)
   }
 
+  private fun requireStubView(): View {
+    return requireView().findViewById(R.id.rooms_stub)
+  }
+
+  private fun initStubView() {
+    requireView().findViewById<View>(R.id.stub_button).setDebouncingOnClickListener {
+      discoverViewModel.startDiscoveryRooms()
+    }
+  }
+
   companion object {
 
-    @JvmStatic fun newInstance(): RoomsFragment = newFragment()
+    @JvmStatic fun newInstance(): RoomsDiscoverFragment = newFragment()
   }
 }

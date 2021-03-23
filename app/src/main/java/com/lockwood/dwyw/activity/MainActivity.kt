@@ -6,9 +6,9 @@ import com.lockwood.dwyw.core.screen.RoomScreen
 import com.lockwood.dwyw.core.screen.RoomsScreen
 import com.lockwood.dwyw.core.ui.BaseActivity
 import com.lockwood.replicant.screen.Screen
+import com.lockwood.room.client.launcher.RoomArgs
+import com.lockwood.room.client.launcher.RoomArgs.Companion.toRoomArgs
 import com.lockwood.room.feature.RoomsFeature
-import com.lockwood.room.room.launcher.RoomArgs
-import com.lockwood.room.room.launcher.RoomArgs.Companion.toRoomArgs
 
 class MainActivity : BaseActivity() {
 

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:padding="32dp"
+  android:orientation="vertical"
+  >
+
+  <ImageView
+    android:id="@+id/stub_image_view"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="0.9"
+    android:contentDescription="Alien"
+    android:src="@drawable/ic_alien"
+    />
+
+  <TextView
+    android:id="@+id/stub_title_text_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fontFamily="sans-serif-medium"
+    android:gravity="center"
+    android:inflatedId="@+id/rooms"
+    android:text="Oops"
+    android:textSize="24dp"
+    />
+
+  <TextView
+    android:id="@+id/stub_subtitle_text_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp"
+    android:fontFamily="sans-serif"
+    android:gravity="center"
+    android:inflatedId="@+id/rooms"
+    android:text="Looks like there's nothing here"
+    android:textSize="16sp"
+    />
+
+  <Button
+    android:id="@+id/stub_button"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="32dp"
+    android:padding="16dp"
+    android:layout_marginBottom="62dp"
+    android:backgroundTint="#44475a"
+    android:fontFamily="sans-serif-medium"
+    android:inflatedId="@+id/rooms"
+    android:text="Start discovery "
+    android:textColor="#bd93f9"
+    />
+
+</LinearLayout>

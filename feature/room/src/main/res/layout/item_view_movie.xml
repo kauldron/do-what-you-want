@@ -15,6 +15,10 @@
     android:id="@+id/room_id"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    android:fontFamily="sans-serif"
+    android:textSize="18sp"
     tools:text="Id: #1231231"
     />
 
@@ -22,6 +26,10 @@
     android:id="@+id/room_text"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    android:fontFamily="sans-serif"
+    android:textSize="18sp"
     tools:text="Name: Lo-Fi"
     />
 

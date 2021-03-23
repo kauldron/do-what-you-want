@@ -1,4 +1,4 @@
-package com.lockwood.room.room.launcher
+package com.lockwood.room.client.launcher
 
 import android.content.Context
 import android.os.Bundle

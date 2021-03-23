@@ -1,4 +1,4 @@
-package com.lockwood.room.rooms.ui.adapter
+package com.lockwood.room.client.adapter
 
 import android.view.ViewGroup
 import com.lockwood.replicant.base.ReplicantAdapter

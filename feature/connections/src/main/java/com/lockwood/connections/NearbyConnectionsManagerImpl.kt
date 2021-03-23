@@ -7,7 +7,6 @@ import com.google.android.gms.nearby.connection.DiscoveryOptions
 import com.google.android.gms.nearby.connection.Strategy
 import com.google.android.gms.tasks.Task
 import com.lockwood.automata.android.ApplicationContext
-import com.lockwood.automata.core.notSafeLazy
 import com.lockwood.connections.callback.ConnectionCallback
 import com.lockwood.connections.callback.DiscoveryCallback
 import com.lockwood.connections.callback.adapter.ConnectionCallbackAdapter
@@ -28,9 +27,8 @@ internal class NearbyConnectionsManagerImpl(
 
   private val discoveryCallback = DiscoveryCallbackAdapter()
 
-  private val client: ConnectionsClient by notSafeLazy {
-    Nearby.getConnectionsClient(application.value)
-  }
+  private val client: ConnectionsClient
+    get() = Nearby.getConnectionsClient(application.value)
 
   override fun startAdvertising(name: String): Task<Void> {
     val options = AdvertisingOptions.Builder().setStrategy(CONNECTION_STRATEGY).build()
