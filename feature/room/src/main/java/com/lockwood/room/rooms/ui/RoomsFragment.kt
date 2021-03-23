@@ -6,17 +6,23 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.lockwood.automata.android.newFragment
+import com.lockwood.automata.android.startForegroundService
 import com.lockwood.automata.recycler.addDividerItemDecoration
 import com.lockwood.automata.recycler.applyLayoutManager
 import com.lockwood.dwyw.core.ui.BaseFragment
+import com.lockwood.replicant.event.Event
 import com.lockwood.replicant.event.observeEvents
 import com.lockwood.replicant.ext.lazyViewModel
 import com.lockwood.replicant.ext.observeState
 import com.lockwood.room.R
 import com.lockwood.room.data.Room
 import com.lockwood.room.data.interactor.IRoomsInteractor
+import com.lockwood.room.event.StartClientServiceEvent
+import com.lockwood.room.event.StartHostServiceEvent
 import com.lockwood.room.feature.RoomsFeature
 import com.lockwood.room.rooms.ui.adapter.RoomsAdapter
+import com.lockwood.room.service.ClientForegroundService
+import com.lockwood.room.service.HostForegroundService
 
 // TODO: Fill RoomFragment
 internal class RoomsFragment : BaseFragment<RoomsViewState>() {
@@ -32,6 +38,14 @@ internal class RoomsFragment : BaseFragment<RoomsViewState>() {
     savedInstanceState: Bundle?,
   ): View = inflater.inflate(R.layout.fragment_rooms, container, false)
 
+  override fun onEvent(event: Event) {
+    when (event) {
+      StartClientServiceEvent -> requireContext().startForegroundService<ClientForegroundService>()
+      StartHostServiceEvent -> requireContext().startForegroundService<HostForegroundService>()
+      else -> super.onEvent(event)
+    }
+  }
+
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     initRoomsRecyclerView()
 
@@ -39,6 +53,7 @@ internal class RoomsFragment : BaseFragment<RoomsViewState>() {
       observeState(liveState, ::renderState)
       observeEvents(eventsQueue, ::onEvent)
 
+      // TODO: Move to host fragment
       startAdvertisingRoom("78")
     }
   }

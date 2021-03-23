@@ -35,8 +35,6 @@ internal class RoomConnectionActivity :
 
   override fun onDestroy() {
     super.onDestroy()
-    // TODO: Add on dismiss notification
-    //  getFeature<RoomsFeature>().roomsInteractor.stopAdvertising()
     releaseFeature<RoomsFeature>()
   }
 

@@ -36,6 +36,20 @@
       android:screenOrientation="portrait"
       />
 
+    <service
+      android:enabled="true"
+      android:exported="false"
+      android:foregroundServiceType="location"
+      android:name="com.lockwood.room.service.ClientForegroundService"
+      />
+
+    <service
+      android:enabled="true"
+      android:exported="false"
+      android:foregroundServiceType="location"
+      android:name="com.lockwood.room.service.HostForegroundService"
+      />
+
   </application>
 
 </manifest>

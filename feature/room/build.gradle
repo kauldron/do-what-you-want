@@ -8,6 +8,7 @@ apply from: rootProject.file('gradle/android/kotlin.gradle')
 
 dependencies {
     implementation project(':core')
+    implementation project(':core:ui')
     implementation project(':replicant')
     implementation project(':automata:core')
     implementation project(':automata:android')

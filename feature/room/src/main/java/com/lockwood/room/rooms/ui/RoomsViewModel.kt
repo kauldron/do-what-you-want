@@ -5,6 +5,7 @@ import com.lockwood.dwyw.core.screen.RoomScreen
 import com.lockwood.replicant.event.MessageEvent
 import com.lockwood.room.data.Room
 import com.lockwood.room.data.interactor.IRoomsInteractor
+import com.lockwood.room.event.StartHostServiceEvent
 import com.lockwood.room.screen.RetryErrorScreen
 
 internal class RoomsViewModel(
@@ -23,12 +24,15 @@ internal class RoomsViewModel(
   fun startAdvertisingRoom(name: String) {
     mutateState { state.copy(isLoading = true) }
 
+    // TODO: Check if already advertising
     roomsInteractor
       .startAdvertising(name)
       .addOnCompleteListener { mutateState { state.copy(isLoading = false) } }
       .addOnFailureListener { offerEvent { MessageEvent("Failed to create $name\n${it.message}") } }
       .addOnSuccessListener {
-        // showNotification
+        offerEvent { StartHostServiceEvent }
+        // TODO: navigateTo Hosting Start Screen
+        // navigateTo()
       }
   }
 

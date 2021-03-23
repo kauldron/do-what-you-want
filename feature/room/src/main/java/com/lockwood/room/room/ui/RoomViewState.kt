@@ -13,7 +13,7 @@ internal data class RoomViewState(
     val initialState: RoomViewState
       @JvmStatic
       get() {
-        return RoomViewState(room = Room(0, "", false), isLoading = true)
+        return RoomViewState(room = Room(0, ""), isLoading = true)
       }
   }
 
