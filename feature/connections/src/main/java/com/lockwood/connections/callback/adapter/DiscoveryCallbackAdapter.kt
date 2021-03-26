@@ -25,4 +25,8 @@ internal class DiscoveryCallbackAdapter :
   override fun addListener(callback: DiscoveryCallback) {
     listeners.add(callback)
   }
+
+  override fun removeListener(callback: DiscoveryCallback) {
+    listeners.remove(callback)
+  }
 }

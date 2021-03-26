@@ -27,7 +27,7 @@ abstract class BaseRoomService : ReplicantService() {
     return NotificationCompat.Builder(this, channelId)
       .setContentIntent(pendingIntent)
       .setPriority(NotificationCompat.PRIORITY_LOW)
-      .setSmallIcon(com.lockwood.dwyw.ui.core.R.drawable.ic_launcher_foreground)
+      .setSmallIcon(com.lockwood.dwyw.ui.core.R.drawable.ic_broadcast)
       .onBuild()
       .build()
   }

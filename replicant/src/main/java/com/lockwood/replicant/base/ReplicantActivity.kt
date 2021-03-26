@@ -3,7 +3,6 @@ package com.lockwood.replicant.base
 import android.util.Log
 import androidx.annotation.CallSuper
 import androidx.fragment.app.FragmentActivity
-import com.lockwood.automata.android.handleIRequestFinishCallbackMemoryLeak
 import com.lockwood.replicant.event.*
 import com.lockwood.replicant.ext.getFeature
 import com.lockwood.replicant.ext.releaseFeature
@@ -20,10 +19,6 @@ abstract class FeatureActivity : FragmentActivity(), ScreenView {
   private companion object {
 
     private val TAG = FeatureActivity::class.simpleName
-  }
-
-  override fun onBackPressed() {
-    handleIRequestFinishCallbackMemoryLeak()
   }
 
   override fun goBack() {

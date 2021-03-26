@@ -26,6 +26,16 @@ inline fun <reified T : Any> Context.startService(init: Intent.() -> Unit) {
   }
 }
 
+inline fun <reified T : Any> Context.stopService() {
+  val intent = newIntent<T>(this)
+
+  try {
+    stopService(intent)
+  } catch (e: IllegalStateException) {
+    Log.e("Service", e.message.toString())
+  }
+}
+
 inline fun <reified T : Any> Context.startForegroundService() {
   val intent = newIntent<T>(this)
 

@@ -8,6 +8,7 @@ apply from: rootProject.file('gradle/android/kotlin.gradle')
 
 dependencies {
     implementation project(':replicant')
+    implementation project(':automata:core')
     implementation project(':automata:android')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"

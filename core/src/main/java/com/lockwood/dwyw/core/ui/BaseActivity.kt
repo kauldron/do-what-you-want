@@ -2,28 +2,51 @@ package com.lockwood.dwyw.core.ui
 
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
-import com.lockwood.automata.android.isBackStackNotEmpty
-import com.lockwood.automata.android.showFragment
-import com.lockwood.automata.android.showFragmentFromBackStack
+import com.lockwood.automata.android.*
+import com.lockwood.automata.core.ZERO
 import com.lockwood.replicant.base.FeatureActivity
 
 abstract class BaseActivity : FeatureActivity() {
 
   override fun onBackPressed() {
     with(supportFragmentManager) {
-      if (isBackStackNotEmpty) {
+      if (backStackEntryCount > Int.ZERO) {
         popBackStack()
         return@with
       }
-      super.onBackPressed()
+    }
+
+    finish()
+  }
+
+  protected fun clearBackStack() {
+    for (fragment in supportFragmentManager.fragments) {
+      supportFragmentManager.transact { remove(fragment) }
     }
   }
 
-  protected fun showFragment(@IdRes id: Int, fragment: Fragment, fromBackStack: Boolean = false) {
-    if (fromBackStack) {
-      supportFragmentManager.showFragment(id, fragment)
-    } else {
-      supportFragmentManager.showFragmentFromBackStack(id, fragment)
+  protected inline fun <reified T : Fragment> showFragment(
+    @IdRes id: Int,
+    fragment: Fragment,
+  ) {
+    supportFragmentManager.showFragment<T>(id, fragment) {
+      setCustomAnimations(
+        android.R.anim.fade_in,
+        android.R.anim.fade_out,
+        android.R.anim.fade_in,
+        android.R.anim.fade_out,
+      )
+    }
+  }
+
+  protected fun showFragmentViaBackStack(@IdRes id: Int, fragment: Fragment) {
+    supportFragmentManager.showFragmentViaBackStack(id, fragment) {
+      setCustomAnimations(
+        android.R.anim.fade_in,
+        android.R.anim.fade_out,
+        android.R.anim.fade_in,
+        android.R.anim.fade_out,
+      )
     }
   }
 }

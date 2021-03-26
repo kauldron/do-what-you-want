@@ -11,7 +11,9 @@
     android:layout_width="match_parent"
     android:layout_height="0dp"
     android:layout_weight="0.75"
-    android:src="@drawable/ic_alien"
+    android:scaleX="0.5"
+    android:scaleY="0.5"
+    android:src="@drawable/ic_broadcast"
     />
 
   <TextView
@@ -19,23 +21,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:text="Oops"
+    android:text="You are\nBroadcasting now"
     android:textAlignment="center"
     android:textAppearance="@style/Title"
     />
-
-  <TextView
-    android:id="@+id/stub_subtitle_text_view"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingTop="16dp"
-    android:paddingBottom="16dp"
-    android:gravity="center"
-    android:text="Looks like there's nothing here"
-    android:textAlignment="center"
-    android:textAppearance="@style/Regular"
-    />
-
 
   <Space
     android:layout_width="match_parent"
@@ -45,19 +34,10 @@
 
   <Button
     android:id="@+id/start_discovery_button"
-    style="@style/Button"
+    style="@style/Button.Reverse"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="Retry"
-    />
-
-  <Button
-    android:id="@+id/start_broadcasting_button"
-    style="?android:attr/borderlessButtonStyle"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="Start broadcasting "
-    android:textColor="#ff79c6"
+    android:text="Stop"
     />
 
 </LinearLayout>

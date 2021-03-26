@@ -26,7 +26,6 @@ dependencies {
     implementation project(':feature:room')
     implementation project(':automata:android')
 
-    // TODO: Add exclude unused modules in whole project
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
     compileOnly 'androidx.fragment:fragment-ktx:1.3.1'

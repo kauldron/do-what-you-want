@@ -1,19 +1,18 @@
 package com.lockwood.room.host.ui
 
 import com.lockwood.replicant.state.ViewState
-import com.lockwood.room.data.Room
 
 internal data class RoomHostViewState(
-  val room: Room,
-  val isLoading: Boolean,
+  val isEnabled: Boolean,
+  val isSharing: Boolean,
 ) : ViewState {
 
   companion object {
 
-    val initialStateHost: RoomHostViewState
+    val initialState: RoomHostViewState
       @JvmStatic
       get() {
-        return RoomHostViewState(room = Room(0, ""), isLoading = true)
+        return RoomHostViewState(isEnabled = false, isSharing = false)
       }
   }
 
@@ -23,15 +22,15 @@ internal data class RoomHostViewState(
 
     other as RoomHostViewState
 
-    if (room != other.room) return false
-    if (isLoading != other.isLoading) return false
+    if (isEnabled != other.isEnabled) return false
+    if (isSharing != other.isSharing) return false
 
     return true
   }
 
   override fun hashCode(): Int {
-    var result = room.hashCode()
-    result = 31 * result + isLoading.hashCode()
+    var result = isEnabled.hashCode()
+    result = 31 * result + isSharing.hashCode()
     return result
   }
 

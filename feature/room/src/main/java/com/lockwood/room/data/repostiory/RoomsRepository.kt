@@ -1,6 +1,6 @@
 package com.lockwood.room.data.repostiory
 
-import com.lockwood.connections.NearbyConnectionsManager
+import com.lockwood.connections.INearbyConnectionsManager
 
-internal class RoomsRepository(private val nearbyConnectionsManager: NearbyConnectionsManager) :
-  IRoomsRepository, NearbyConnectionsManager by nearbyConnectionsManager
+internal class RoomsRepository(private val nearbyConnectionsManager: INearbyConnectionsManager) :
+  IRoomsRepository, INearbyConnectionsManager by nearbyConnectionsManager

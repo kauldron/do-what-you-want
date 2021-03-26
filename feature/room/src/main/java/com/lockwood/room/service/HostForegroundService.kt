@@ -22,8 +22,6 @@ class HostForegroundService : BaseRoomService() {
   }
 
   override fun onDestroy() {
-    // TODO: Add on dismiss notification
-    //  getFeature<RoomsFeature>().roomsInteractor.stopAdvertising()
     getFeature<RoomsFeature>().roomsInteractor.stopAdvertising()
   }
 

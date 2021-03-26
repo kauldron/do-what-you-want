@@ -5,13 +5,9 @@ import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import com.lockwood.automata.core.ZERO
 
 val Fragment.supportFragmentManager: FragmentManager
   get() = requireActivity().supportFragmentManager
-
-val FragmentManager.isBackStackNotEmpty: Boolean
-  get() = backStackEntryCount > Int.ZERO
 
 inline fun FragmentManager.addOnBackStackChangedListener(
   crossinline action: (Int, List<Fragment>) -> Unit,
@@ -19,26 +15,32 @@ inline fun FragmentManager.addOnBackStackChangedListener(
   addOnBackStackChangedListener { action(backStackEntryCount, fragments) }
 }
 
-fun FragmentManager.showFragmentFromBackStack(
+fun FragmentManager.showFragmentViaBackStack(
   @IdRes container: Int,
   fragment: Fragment,
   tag: String = requireNotNull(fragment::class.simpleName),
+  action: FragmentTransaction.() -> Unit = {},
 ) {
   val fragmentPopped = popBackStackImmediate(tag, FragmentManager.POP_BACK_STACK_INCLUSIVE)
   if (!fragmentPopped) {
     transact {
+      action()
       replace(container, fragment, tag)
       addToBackStack(tag)
     }
   }
 }
 
-fun FragmentManager.showFragment(
+inline fun <reified T : Fragment> FragmentManager.showFragment(
   @IdRes container: Int,
   fragment: Fragment,
-  tag: String = requireNotNull(fragment::class.simpleName),
+  tag: String = requireNotNull(T::class.simpleName),
+  action: FragmentTransaction.() -> Unit = {},
 ) {
-  transact { replace(container, fragment, tag) }
+  transact {
+    action()
+    replace(container, fragment, tag)
+  }
 }
 
 inline fun FragmentManager.transact(

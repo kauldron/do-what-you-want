@@ -6,14 +6,19 @@ import com.lockwood.room.data.Room
 internal data class RoomsDiscoverViewState(
   val rooms: Array<Room>,
   val isLoading: Boolean,
+  val isDiscoveryEnd: Boolean,
 ) : ViewState {
 
   companion object {
 
-    val initialStateDiscover: RoomsDiscoverViewState
+    val initialState: RoomsDiscoverViewState
       @JvmStatic
       get() {
-        return RoomsDiscoverViewState(rooms = emptyArray(), isLoading = true)
+        return RoomsDiscoverViewState(
+          rooms = emptyArray(),
+          isLoading = true,
+          isDiscoveryEnd = false
+        )
       }
   }
 
@@ -25,6 +30,7 @@ internal data class RoomsDiscoverViewState(
 
     if (!rooms.contentEquals(other.rooms)) return false
     if (isLoading != other.isLoading) return false
+    if (isDiscoveryEnd != other.isDiscoveryEnd) return false
 
     return true
   }
@@ -32,6 +38,7 @@ internal data class RoomsDiscoverViewState(
   override fun hashCode(): Int {
     var result = rooms.contentHashCode()
     result = 31 * result + isLoading.hashCode()
+    result = 31 * result + isDiscoveryEnd.hashCode()
     return result
   }
 

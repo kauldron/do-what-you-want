@@ -1,5 +1,5 @@
 package com.lockwood.room.data.repostiory
 
-import com.lockwood.connections.NearbyConnectionsManager
+import com.lockwood.connections.INearbyConnectionsManager
 
-interface IRoomsRepository : NearbyConnectionsManager
+interface IRoomsRepository : INearbyConnectionsManager

@@ -29,4 +29,8 @@ internal class ConnectionCallbackAdapter :
   override fun addListener(callback: ConnectionCallback) {
     listeners.add(callback)
   }
+
+  override fun removeListener(callback: ConnectionCallback) {
+    listeners.remove(callback)
+  }
 }
