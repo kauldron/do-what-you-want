@@ -1,36 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:tools="http://schemas.android.com/tools"
-  android:id="@+id/room_root"
-  android:layout_width="match_parent"
-  android:layout_height="wrap_content"
-  android:padding="16dp"
-  android:background="?android:selectableItemBackground"
-  android:clickable="true"
-  android:focusable="true"
-  android:orientation="vertical"
-  >
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/room_root"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:background="?android:selectableItemBackground"
+	android:clickable="true"
+	android:focusable="true"
+	android:orientation="vertical"
+	android:paddingStart="16dp"
+	android:paddingTop="8dp"
+	android:paddingEnd="16dp"
+	android:paddingBottom="8dp"
+	>
 
-  <TextView
-    android:id="@+id/room_id"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingTop="8dp"
-    android:paddingBottom="8dp"
-    android:fontFamily="sans-serif"
-    android:textSize="18sp"
-    tools:text="Id: #1231231"
-    />
+	<TextView
+		android:id="@+id/room_text"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:paddingTop="8dp"
+		android:textAppearance="@style/Medium"
+		tools:text="Lo-Fi"
+		/>
 
-  <TextView
-    android:id="@+id/room_text"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingTop="8dp"
-    android:paddingBottom="8dp"
-    android:fontFamily="sans-serif"
-    android:textSize="18sp"
-    tools:text="Name: Lo-Fi"
-    />
+	<TextView
+		android:id="@+id/room_id"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:paddingBottom="8dp"
+		android:textAppearance="@style/Regular.Variant"
+		android:textSize="14sp"
+		tools:text="1231231"
+		/>
 
 </LinearLayout>

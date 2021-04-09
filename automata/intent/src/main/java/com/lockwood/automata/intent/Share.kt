@@ -6,13 +6,13 @@ import com.lockwood.automata.android.buildIntent
 import com.lockwood.automata.android.wrapWithChooser
 
 fun Context.shareText(
-  text: String,
+		text: String,
 ): Intent {
-  return buildIntent(Intent.ACTION_SEND) {
-    type = "text/plain"
-    putExtra(Intent.EXTRA_TEXT, text)
+	return buildIntent(Intent.ACTION_SEND) {
+		type = "text/plain"
+		putExtra(Intent.EXTRA_TEXT, text)
 
-    val chooserIntent = wrapWithChooser()
-    startActivity(chooserIntent)
-  }
+		val chooserIntent = wrapWithChooser()
+		startActivity(chooserIntent)
+	}
 }

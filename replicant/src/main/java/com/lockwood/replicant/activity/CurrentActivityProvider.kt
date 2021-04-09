@@ -1,8 +1,9 @@
 package com.lockwood.replicant.activity
 
 import android.app.Activity
+import com.lockwood.replicant.delegate.weakReference
 
-interface CurrentActivityProvider {
+class CurrentActivityProvider : ICurrentActivityProvider {
 
-  var currentActivity: Activity
+	override var currentActivity: Activity? by weakReference { null }
 }

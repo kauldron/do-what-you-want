@@ -3,30 +3,33 @@ package com.lockwood.connections.callback.adapter
 import com.google.android.gms.nearby.connection.DiscoveredEndpointInfo
 import com.google.android.gms.nearby.connection.EndpointDiscoveryCallback
 import com.lockwood.connections.callback.DiscoveryCallback
-import timber.log.Timber
+import com.lockwood.connections.model.EndpointId
+import com.lockwood.connections.model.EndpointInfo
 
 internal class DiscoveryCallbackAdapter :
-  EndpointDiscoveryCallback(), CallbackAdapter<DiscoveryCallback> {
+		EndpointDiscoveryCallback(), CallbackAdapter<DiscoveryCallback> {
 
-  private val listeners: MutableList<DiscoveryCallback> = mutableListOf()
+	// TODO: Add OneWayMapper<DiscoveredEndpointInfo, EndpointInfo>
+	private val listeners: MutableList<DiscoveryCallback> = mutableListOf()
 
-  override fun onEndpointFound(endpointId: String, info: DiscoveredEndpointInfo) {
-    Timber.d(
-      "onEndpointFound = endpointId: $endpointId; info: ${info.endpointName}, ${info.serviceId}"
-    )
-    listeners.forEach(DiscoveryCallback::onEndpointFound)
-  }
+	override fun onEndpointFound(id: String, info: DiscoveredEndpointInfo) {
+		val endpointId = EndpointId(id)
+		val endpointInfo = EndpointInfo(info.serviceId, info.endpointName)
 
-  override fun onEndpointLost(endpointId: String) {
-    Timber.d("onEndpointLost = endpointId: $endpointId")
-    listeners.forEach(DiscoveryCallback::onEndpointLost)
-  }
+		listeners.forEach { it.onEndpointFound(endpointId, endpointInfo) }
+	}
 
-  override fun addListener(callback: DiscoveryCallback) {
-    listeners.add(callback)
-  }
+	override fun onEndpointLost(id: String) {
+		val endpointId = EndpointId(id)
 
-  override fun removeListener(callback: DiscoveryCallback) {
-    listeners.remove(callback)
-  }
+		listeners.forEach { it.onEndpointLost(endpointId) }
+	}
+
+	override fun addListener(callback: DiscoveryCallback) {
+		listeners.add(callback)
+	}
+
+	override fun removeListener(callback: DiscoveryCallback) {
+		listeners.remove(callback)
+	}
 }

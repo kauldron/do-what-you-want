@@ -3,13 +3,21 @@ android {
 
     buildToolsVersion "31.0.0-rc2"
 
+    aaptOptions {
+        noCompress ""
+    }
+
     defaultConfig {
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 30
 
         resConfigs "en", "ldltr", "notround", "port", "night"
 
         // stops the Gradle plugin’s automatic rasterization of vectors
         vectorDrawables.useSupportLibrary = true
+    }
+
+    testOptions.unitTests.all {
+        maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
     }
 }

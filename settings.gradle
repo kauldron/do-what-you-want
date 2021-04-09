@@ -1,10 +1,10 @@
 rootProject.name = "do-what-you-want"
-include ':app'
-include ':core', ':core:ui'
-include 'feature:connections', ':feature:room'
-include ':automata:android', ':automata:core', ':automata:file',
-        ':automata:intent', ':automata:notification', ':automata:text',
-        ':automata:view', ':automata:screen', ':automata:recycler'
-include ':replicant', ':replicant:delegate', ':replicant:executor', ':replicant:imageloader',
-        ':replicant:locale'
-// ':replicant:imageloader:glide'
+include ":app"
+include ":core", ":core:ui"
+include "feature:connections", "feature:player", "feature:recorder", ":feature:room"
+include ":automata:android", ":automata:core", ":automata:file",
+        ":automata:intent", ":automata:notification", ":automata:text",
+        ":automata:view", ":automata:screen", ":automata:recycler"
+include ":replicant", ":replicant:delegate", ":replicant:executor", ":replicant:imageloader",
+        ":replicant:locale"
+// ":replicant:imageloader:glide"

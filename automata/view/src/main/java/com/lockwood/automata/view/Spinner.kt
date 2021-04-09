@@ -9,30 +9,30 @@ import androidx.annotation.LayoutRes
 const val DEFAULT_SPINNER_ITEM_LAYOUT = android.R.layout.simple_spinner_dropdown_item
 
 inline fun Spinner.setStringAdapter(
-  data: List<String>,
-  @LayoutRes dropdownItem: Int = DEFAULT_SPINNER_ITEM_LAYOUT,
-  crossinline onItemSelected: Spinner.(AdapterView<*>, Int, Long) -> Unit = { _, _, _ -> },
+		data: List<String>,
+		@LayoutRes dropdownItem: Int = DEFAULT_SPINNER_ITEM_LAYOUT,
+		crossinline onItemSelected: Spinner.(AdapterView<*>, Int, Long) -> Unit = { _, _, _ -> },
 ) {
-  ArrayAdapter(context, dropdownItem, data).also { adapter -> setAdapter(adapter) }
+	ArrayAdapter(context, dropdownItem, data).also { adapter -> setAdapter(adapter) }
 
-  setItemSelectedListener(onItemSelected)
+	setItemSelectedListener(onItemSelected)
 }
 
 inline fun Spinner.setItemSelectedListener(
-  crossinline onItemSelected: Spinner.(AdapterView<*>, Int, Long) -> Unit = { _, _, _ -> },
+		crossinline onItemSelected: Spinner.(AdapterView<*>, Int, Long) -> Unit = { _, _, _ -> },
 ) {
-  onItemSelectedListener =
-    object : AdapterView.OnItemSelectedListener {
+	onItemSelectedListener =
+			object : AdapterView.OnItemSelectedListener {
 
-      override fun onItemSelected(
-        parent: AdapterView<*>,
-        view: View?,
-        position: Int,
-        id: Long,
-      ) {
-        onItemSelected(parent, position, id)
-      }
+				override fun onItemSelected(
+						parent: AdapterView<*>,
+						view: View?,
+						position: Int,
+						id: Long,
+				) {
+					onItemSelected(parent, position, id)
+				}
 
-      override fun onNothingSelected(parent: AdapterView<*>?) {}
-    }
+				override fun onNothingSelected(parent: AdapterView<*>?) {}
+			}
 }

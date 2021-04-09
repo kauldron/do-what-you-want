@@ -1,56 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:tools="http://schemas.android.com/tools"
-  package="com.lockwood.dwyw"
-  >
+<manifest
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	package="com.lockwood.dwyw"
+	tools:ignore="LockedOrientationActivity"
+	>
 
-  <application
-    android:allowBackup="false"
-    android:extractNativeLibs="true"
-    android:icon="@mipmap/ic_launcher"
-    android:label="Do what you want"
-    android:name="com.lockwood.dwyw.MainApplication"
-    android:supportsRtl="true"
-    android:theme="@style/AppTheme"
-    tools:ignore="MipmapIcons"
-    tools:targetApi="m"
-    >
+	<application
+		android:name="com.lockwood.dwyw.MainApplication"
+		android:allowBackup="false"
+		android:extractNativeLibs="true"
+		android:icon="@mipmap/ic_launcher"
+		android:label="Do what you want"
+		android:supportsRtl="true"
+		android:theme="@style/AppTheme"
+		tools:ignore="MipmapIcons"
+		>
 
-    <activity
-      android:name="com.lockwood.dwyw.activity.MainActivity"
-      android:screenOrientation="portrait"
-      android:theme="@style/AppTheme.Launcher"
-      >
+		<activity
+			android:name="com.lockwood.dwyw.activity.MainActivity"
+			android:screenOrientation="portrait"
+			android:theme="@style/AppTheme.Launcher"
+			>
 
-      <intent-filter>
-        <action android:name="android.intent.action.MAIN" />
-        <action android:name="android.intent.action.VIEW" />
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<action android:name="android.intent.action.VIEW" />
 
-        <category android:name="android.intent.category.LAUNCHER" />
-      </intent-filter>
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
 
-    </activity>
+		</activity>
 
-    <activity
-      android:launchMode="singleInstance"
-      android:name="com.lockwood.room.RoomConnectionActivity"
-      android:screenOrientation="portrait"
-      />
+		<activity
+			android:name="com.lockwood.room.RoomConnectionActivity"
+			android:launchMode="singleInstance"
+			android:screenOrientation="portrait"
+			/>
 
-    <service
-      android:enabled="true"
-      android:exported="false"
-      android:foregroundServiceType="location"
-      android:name="com.lockwood.room.service.ClientForegroundService"
-      />
+		<activity
+			android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
+			android:screenOrientation="portrait"
+			android:theme="@style/AppTheme.License"
+			/>
 
-    <service
-      android:enabled="true"
-      android:exported="false"
-      android:foregroundServiceType="location"
-      android:name="com.lockwood.room.service.HostForegroundService"
-      />
+		<activity
+			android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
+			android:screenOrientation="portrait"
+			android:theme="@style/AppTheme.License"
+			/>
 
-  </application>
+		<service
+			android:name="com.lockwood.room.feature.client.service.ClientForegroundService"
+			android:enabled="true"
+			android:exported="false"
+			android:foregroundServiceType="location"
+			/>
+
+		<service
+			android:name="com.lockwood.room.feature.host.service.HostForegroundService"
+			android:enabled="true"
+			android:exported="false"
+			android:foregroundServiceType="mediaProjection"
+			/>
+
+	</application>
 
 </manifest>

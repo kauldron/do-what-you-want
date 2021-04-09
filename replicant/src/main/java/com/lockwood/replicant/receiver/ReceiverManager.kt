@@ -4,7 +4,7 @@ import android.content.Context
 
 interface ReceiverManager {
 
-  fun registerReceiver(context: Context)
+	fun registerReceiver(context: Context)
 
-  fun unregisterReceiver(context: Context)
+	fun unregisterReceiver(context: Context)
 }

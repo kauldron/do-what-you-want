@@ -1,24 +1,20 @@
 package com.lockwood.connections
 
-import com.google.android.gms.tasks.Task
-import com.lockwood.connections.callback.ConnectionCallback
-import com.lockwood.connections.callback.DiscoveryCallback
+import com.lockwood.connections.advertising.IAdvertisingConnectionsManager
+import com.lockwood.connections.callback.PayloadCallback
+import com.lockwood.connections.discovery.IDiscoveryConnectionsManager
+import com.lockwood.connections.model.EndpointId
 
-interface INearbyConnectionsManager {
+interface INearbyConnectionsManager : IAdvertisingConnectionsManager, IDiscoveryConnectionsManager {
 
-  fun startAdvertising(name: String): Task<Void>
+	fun acceptConnection(endpointId: EndpointId)
 
-  fun startDiscovery(): Task<Void>
+	fun rejectConnection(endpointId: EndpointId)
 
-  fun addConnectionCallback(callback: ConnectionCallback)
+	fun disconnectFromEndpoint(endpointId: EndpointId)
 
-  fun addDiscoveryCallback(callback: DiscoveryCallback)
+	fun addPayloadCallback(callback: PayloadCallback)
 
-  fun removeConnectionCallback(callback: ConnectionCallback)
+	fun removePayloadCallback(callback: PayloadCallback)
 
-  fun removeDiscoveryCallback(callback: DiscoveryCallback)
-
-  fun stopAdvertising()
-
-  fun stopDiscovery()
 }

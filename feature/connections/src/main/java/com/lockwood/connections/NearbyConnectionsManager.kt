@@ -1,66 +1,54 @@
 package com.lockwood.connections
 
 import com.google.android.gms.nearby.Nearby
-import com.google.android.gms.nearby.connection.AdvertisingOptions
 import com.google.android.gms.nearby.connection.ConnectionsClient
-import com.google.android.gms.nearby.connection.DiscoveryOptions
 import com.google.android.gms.nearby.connection.Strategy
-import com.google.android.gms.tasks.Task
 import com.lockwood.automata.android.ApplicationContext
-import com.lockwood.connections.callback.ConnectionCallback
-import com.lockwood.connections.callback.DiscoveryCallback
-import com.lockwood.connections.callback.adapter.ConnectionCallbackAdapter
-import com.lockwood.connections.callback.adapter.DiscoveryCallbackAdapter
+import com.lockwood.connections.advertising.IAdvertisingConnectionsManager
+import com.lockwood.connections.callback.PayloadCallback
+import com.lockwood.connections.callback.adapter.PayloadCallbackAdapter
+import com.lockwood.connections.discovery.IDiscoveryConnectionsManager
+import com.lockwood.connections.model.EndpointId
 
 internal class NearbyConnectionsManager(
-  private val application: ApplicationContext,
-) : INearbyConnectionsManager {
+		private val application: ApplicationContext,
+		private val advertisingManager: IAdvertisingConnectionsManager,
+		private val discoveryManager: IDiscoveryConnectionsManager
+) :
+		INearbyConnectionsManager,
+		IAdvertisingConnectionsManager by advertisingManager,
+		IDiscoveryConnectionsManager by discoveryManager {
 
-  private companion object {
+	internal companion object {
 
-    private const val SERVICE_ID = "com.lockwood.dwyw"
+		internal const val SERVICE_ID = "com.lockwood.dwyw"
 
-    private val CONNECTION_STRATEGY = Strategy.P2P_STAR
-  }
+		internal val CONNECTION_STRATEGY = Strategy.P2P_STAR
+	}
 
-  private val lifecycleCallback = ConnectionCallbackAdapter()
+	private val payloadCallbackAdapter = PayloadCallbackAdapter()
 
-  private val discoveryCallback = DiscoveryCallbackAdapter()
+	private val client: ConnectionsClient
+		get() = Nearby.getConnectionsClient(application.value)
 
-  private val client: ConnectionsClient
-    get() = Nearby.getConnectionsClient(application.value)
+	override fun acceptConnection(endpointId: EndpointId) {
+		client.acceptConnection(endpointId.toString(), payloadCallbackAdapter)
+	}
 
-  override fun startAdvertising(name: String): Task<Void> {
-    val options = AdvertisingOptions.Builder().setStrategy(CONNECTION_STRATEGY).build()
-    return client.startAdvertising(name, SERVICE_ID, lifecycleCallback, options)
-  }
+	override fun rejectConnection(endpointId: EndpointId) {
+		client.rejectConnection(endpointId.toString())
+	}
 
-  override fun startDiscovery(): Task<Void> {
-    val options = DiscoveryOptions.Builder().setStrategy(CONNECTION_STRATEGY).build()
-    return client.startDiscovery(SERVICE_ID, discoveryCallback, options)
-  }
+	override fun disconnectFromEndpoint(endpointId: EndpointId) {
+		client.disconnectFromEndpoint(endpointId.toString())
+	}
 
-  override fun addConnectionCallback(callback: ConnectionCallback) {
-    lifecycleCallback.addListener(callback)
-  }
+	override fun addPayloadCallback(callback: PayloadCallback) {
+		payloadCallbackAdapter.addListener(callback)
+	}
 
-  override fun addDiscoveryCallback(callback: DiscoveryCallback) {
-    discoveryCallback.addListener(callback)
-  }
+	override fun removePayloadCallback(callback: PayloadCallback) {
+		payloadCallbackAdapter.removeListener(callback)
+	}
 
-  override fun removeConnectionCallback(callback: ConnectionCallback) {
-    lifecycleCallback.removeListener(callback)
-  }
-
-  override fun removeDiscoveryCallback(callback: DiscoveryCallback) {
-    discoveryCallback.removeListener(callback)
-  }
-
-  override fun stopAdvertising() {
-    client.stopAdvertising()
-  }
-
-  override fun stopDiscovery() {
-    client.stopDiscovery()
-  }
 }

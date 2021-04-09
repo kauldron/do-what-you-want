@@ -2,5 +2,7 @@ package com.lockwood.replicant.feature
 
 interface Releasable {
 
-  fun release()
+	fun release()
 }
+
+// TODO: Make independent kotlin modules

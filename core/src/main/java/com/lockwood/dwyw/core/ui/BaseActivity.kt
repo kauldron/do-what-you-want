@@ -1,52 +1,38 @@
 package com.lockwood.dwyw.core.ui
 
+import android.widget.Toast
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
-import com.lockwood.automata.android.*
-import com.lockwood.automata.core.ZERO
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.lockwood.automata.android.showFragment
 import com.lockwood.replicant.base.FeatureActivity
 
 abstract class BaseActivity : FeatureActivity() {
 
-  override fun onBackPressed() {
-    with(supportFragmentManager) {
-      if (backStackEntryCount > Int.ZERO) {
-        popBackStack()
-        return@with
-      }
-    }
+	protected fun showToast(string: String) {
+		Toast.makeText(this, string, Toast.LENGTH_SHORT).show()
+	}
 
-    finish()
-  }
+	protected inline fun <reified T : Fragment> showFragment(
+			@IdRes id: Int,
+			fragment: Fragment,
+	) {
+		supportFragmentManager.showFragment<T>(id, fragment) {
+			setCustomAnimations(
+					android.R.anim.fade_in,
+					android.R.anim.fade_out,
+					android.R.anim.fade_in,
+					android.R.anim.fade_out,
+			)
+		}
+	}
 
-  protected fun clearBackStack() {
-    for (fragment in supportFragmentManager.fragments) {
-      supportFragmentManager.transact { remove(fragment) }
-    }
-  }
+	protected inline fun showDialog(
+			onBuild: MaterialAlertDialogBuilder.() -> MaterialAlertDialogBuilder
+	) {
+		MaterialAlertDialogBuilder(this).setCancelable(false).apply {
+			onBuild(this)
+		}.show()
+	}
 
-  protected inline fun <reified T : Fragment> showFragment(
-    @IdRes id: Int,
-    fragment: Fragment,
-  ) {
-    supportFragmentManager.showFragment<T>(id, fragment) {
-      setCustomAnimations(
-        android.R.anim.fade_in,
-        android.R.anim.fade_out,
-        android.R.anim.fade_in,
-        android.R.anim.fade_out,
-      )
-    }
-  }
-
-  protected fun showFragmentViaBackStack(@IdRes id: Int, fragment: Fragment) {
-    supportFragmentManager.showFragmentViaBackStack(id, fragment) {
-      setCustomAnimations(
-        android.R.anim.fade_in,
-        android.R.anim.fade_out,
-        android.R.anim.fade_in,
-        android.R.anim.fade_out,
-      )
-    }
-  }
 }

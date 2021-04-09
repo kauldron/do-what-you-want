@@ -10,50 +10,65 @@ import kotlin.math.max
 
 class AndroidExecutorProvider : ExecutorProvider {
 
-  private companion object {
+	private companion object {
 
-    @JvmStatic
-    private val isMainThread: Boolean
-      get() = Thread.currentThread() !== Looper.getMainLooper().thread
+		@JvmStatic
+		private val isMainThread: Boolean
+			get() = Thread.currentThread() !== Looper.getMainLooper().thread
 
-    private val CPU_COUNT = Runtime.getRuntime().availableProcessors()
-    private val IO_MAX_POOL_SIZE = max(2, CPU_COUNT / 4)
-    private val NETWORK_MAX_POOL_SIZE = max(5, (CPU_COUNT / 1.5).toInt())
+		private val CPU_COUNT = Runtime.getRuntime().availableProcessors()
+		private val IO_MAX_POOL_SIZE = max(2, CPU_COUNT / 4)
+		private val NETWORK_MAX_POOL_SIZE = max(5, (CPU_COUNT / 1.5).toInt())
 
-    private const val CORE_POOL_SIZE = 0
-    private const val KEEP_ALIVE_TIME = 1L
-  }
+		private const val CORE_POOL_SIZE = 0
+		private const val KEEP_ALIVE_TIME = 1L
+	}
 
-  private val ioExecutor = buildThreadPoolExecutor(IO_MAX_POOL_SIZE)
-  private val networkExecutor = buildThreadPoolExecutor(NETWORK_MAX_POOL_SIZE)
-  private val cpuExecutor = buildThreadPoolExecutor(CPU_COUNT)
-  private val mainExecutor = Executor { runOnUiThread(it) }
+	private val ioExecutor: Executor
+		get() = buildThreadPoolExecutor(IO_MAX_POOL_SIZE)
 
-  private val mainThreadHandler = Handler(Looper.getMainLooper())
+	private val networkExecutor: Executor
+		get() = buildThreadPoolExecutor(NETWORK_MAX_POOL_SIZE)
 
-  override fun main(): Executor = mainExecutor
+	private val cpuExecutor: Executor
+		get() = buildThreadPoolExecutor(CPU_COUNT)
 
-  override fun io(): Executor = ioExecutor
+	private val mainExecutor: Executor
+		get() = Executor { runOnUiThread(it) }
 
-  override fun network(): Executor = networkExecutor
+	private val mainThreadHandler = Handler(Looper.getMainLooper())
 
-  override fun cpu(): Executor = cpuExecutor
+	override fun main(): Executor = mainExecutor
 
-  private fun buildThreadPoolExecutor(maximumPoolSize: Int): Executor {
-    return ThreadPoolExecutor(
-      CORE_POOL_SIZE,
-      maximumPoolSize,
-      KEEP_ALIVE_TIME,
-      TimeUnit.MINUTES,
-      LinkedBlockingQueue()
-    )
-  }
+	override fun io(): Executor = ioExecutor
 
-  private fun runOnUiThread(action: Runnable) {
-    if (!isMainThread) {
-      mainThreadHandler.post(action)
-    } else {
-      action.run()
-    }
-  }
+	override fun network(): Executor = networkExecutor
+
+	override fun cpu(): Executor = cpuExecutor
+
+	override fun postMain(runnable: Runnable) {
+		mainThreadHandler.post(runnable)
+	}
+
+	override fun postMainDelay(runnable: Runnable, delay: Number) {
+		mainThreadHandler.postDelayed(runnable, delay.toLong())
+	}
+
+	private fun buildThreadPoolExecutor(maximumPoolSize: Int): Executor {
+		return ThreadPoolExecutor(
+				CORE_POOL_SIZE,
+				maximumPoolSize,
+				KEEP_ALIVE_TIME,
+				TimeUnit.MINUTES,
+				LinkedBlockingQueue()
+		)
+	}
+
+	private fun runOnUiThread(action: Runnable) {
+		if (!isMainThread) {
+			mainThreadHandler.post(action)
+		} else {
+			action.run()
+		}
+	}
 }

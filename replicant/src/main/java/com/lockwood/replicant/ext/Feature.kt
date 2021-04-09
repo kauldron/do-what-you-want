@@ -3,7 +3,9 @@
 package com.lockwood.replicant.ext
 
 import android.app.Application
+import androidx.annotation.MainThread
 import com.lockwood.replicant.feature.Feature
+import com.lockwood.replicant.feature.PermissionsFeature
 import com.lockwood.replicant.feature.ReleasableFeature
 import java.lang.reflect.Type
 import kotlin.reflect.KProperty1
@@ -13,17 +15,23 @@ import kotlin.reflect.jvm.javaType
 var features: Map<Type, KProperty1<out Application, *>>? = null
 
 inline fun <reified T : Feature> Application.getProperty(): KProperty1<Application, T> {
-  if (features.isNullOrEmpty()) {
-    features = this::class.declaredMemberProperties.map { it.returnType.javaType to it }.toMap()
-  }
+	if (features.isNullOrEmpty()) {
+		features = this::class.declaredMemberProperties.map { it.returnType.javaType to it }.toMap()
+	}
 
-  return requireNotNull(features)[T::class.javaObjectType] as KProperty1<Application, T>
+	return requireNotNull(features)[T::class.javaObjectType] as KProperty1<Application, T>
 }
 
+@MainThread
 inline fun <reified T : Feature> Application.getFeature(): T {
-  return getProperty<T>().get(this)
+	return getProperty<T>().get(this)
 }
 
+@MainThread
 inline fun <reified T : ReleasableFeature> Application.releaseFeature() {
-  getFeature<T>().release()
+	getFeature<T>().release()
+}
+
+fun <T : PermissionsFeature> mergePermissions(vararg features: T): Array<String> {
+	return features.flatMap { it.requiredPermissions.asIterable() }.toTypedArray()
 }

@@ -1,0 +1,22 @@
+plugins {
+    id "com.android.library"
+    id "kotlin-android"
+}
+
+apply from: rootProject.file("gradle/android/config.gradle")
+apply from: rootProject.file("gradle/android/kotlin.gradle")
+
+dependencies {
+    implementation project(":automata:core")
+    implementation project(":automata:android")
+
+    implementation project(":replicant")
+
+    implementation project(":core")
+
+    implementation "com.jakewharton.timber:timber:4.7.1"
+
+    testImplementation "junit:junit:4.13.2"
+    androidTestImplementation "androidx.test.ext:junit:1.1.3-alpha05"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.4.0-alpha05"
+}

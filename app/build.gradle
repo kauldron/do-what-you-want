@@ -1,39 +1,53 @@
 plugins {
-    id 'com.android.application'
-    id 'kotlin-android'
+    id "com.android.application"
+    id "kotlin-android"
+    id "com.google.android.gms.oss-licenses-plugin"
 }
 
-apply from: rootProject.file('gradle/android/config.gradle')
-apply from: rootProject.file('gradle/android/build.gradle')
-apply from: rootProject.file('gradle/android/flavors.gradle')
-apply from: rootProject.file('gradle/android/kotlin.gradle')
+apply from: rootProject.file("gradle/android/config.gradle")
+apply from: rootProject.file("gradle/android/build.gradle")
+apply from: rootProject.file("gradle/android/flavors.gradle")
+apply from: rootProject.file("gradle/android/kotlin.gradle")
 
 android {
     defaultConfig {
         applicationId "com.lockwood.dwyw"
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    dexOptions {
+        preDexLibraries true
+        jumboMode true
     }
 }
 
 dependencies {
-    implementation project(':core')
-    implementation project(':core:ui')
-    implementation project(':replicant')
-    implementation project(':feature:connections')
-    implementation project(':feature:room')
-    implementation project(':automata:android')
+    implementation project(":core")
+    implementation project(":core:ui")
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation project(":automata:core")
+    implementation project(":automata:android")
 
-    compileOnly 'androidx.fragment:fragment-ktx:1.3.1'
+    implementation project(":replicant")
+    implementation project(":replicant:executor")
+
+    implementation project(":feature:connections")
+    implementation project(":feature:room")
+    implementation project(":feature:player")
+    implementation project(":feature:recorder")
+
+    implementation "com.jakewharton.timber:timber:4.7.1"
+
+    implementation "com.google.android.material:material:1.4.0-alpha02"
+    implementation "androidx.fragment:fragment-ktx:1.3.2"
+    implementation "com.google.android.gms:play-services-oss-licenses:17.0.0"
 
     // https://square.github.io/leakcanary/
-    implementation 'com.jakewharton.timber:timber:4.7.1'
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.6'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3-alpha04'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0-alpha04'
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:2.7"
+    testImplementation "junit:junit:4.13.2"
+    androidTestImplementation "androidx.test.ext:junit:1.1.3-alpha05"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.4.0-alpha05"
 }

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-  <style name="Button" parent="TextAppearance.AppCompat.Button">
-    <item name="backgroundTint">#44475a</item>
-    <item name="android:backgroundTint">#44475a</item>
-    <item name="android:textColor">#bd93f9</item>
-    <item name="fontFamily">sans-serif-medium</item>
-    <item name="android:padding">16dp</item>
-    <item name="textAllCaps">false</item>
-  </style>
+	<style name="Button" parent="TextAppearance.AppCompat.Button">
+		<item name="backgroundTint">#44475a</item>
+		<item name="android:backgroundTint">#44475a</item>
+		<item name="android:textColor">#bd93f9</item>
+		<item name="fontFamily">sans-serif-medium</item>
+		<item name="android:padding">16dp</item>
+		<item name="textAllCaps">false</item>
+	</style>
 
-  <style name="Button.Reverse" parent="Button">
-    <item name="backgroundTint">#ff5555</item>
-    <item name="android:backgroundTint">#ff5555</item>
-    <item name="android:textColor">#44475a</item>
-  </style>
+	<style name="Button.Reverse" parent="Button">
+		<item name="backgroundTint">#ff5555</item>
+		<item name="android:backgroundTint">#ff5555</item>
+		<item name="android:textColor">#44475a</item>
+	</style>
 
 </resources>

@@ -1,36 +1,60 @@
 package com.lockwood.connections.callback.adapter
 
-import com.google.android.gms.nearby.connection.ConnectionInfo
 import com.google.android.gms.nearby.connection.ConnectionLifecycleCallback
 import com.google.android.gms.nearby.connection.ConnectionResolution
+import com.google.android.gms.nearby.connection.ConnectionsStatusCodes.STATUS_CONNECTION_REJECTED
+import com.google.android.gms.nearby.connection.ConnectionsStatusCodes.STATUS_ERROR
+import com.google.android.gms.nearby.connection.ConnectionsStatusCodes.STATUS_OK
 import com.lockwood.connections.callback.ConnectionCallback
-import timber.log.Timber
+import com.lockwood.connections.model.ConnectionError
+import com.lockwood.connections.model.ConnectionInfo
+import com.lockwood.connections.model.ConnectionRejected
+import com.lockwood.connections.model.ConnectionSuccess
+import com.lockwood.connections.model.ConnectionUnknownStatus
+import com.lockwood.connections.model.ConnectionsStatus
+import com.lockwood.connections.model.EndpointId
+
+private typealias NearbyConnectionInfo = com.google.android.gms.nearby.connection.ConnectionInfo
 
 internal class ConnectionCallbackAdapter :
-  ConnectionLifecycleCallback(), CallbackAdapter<ConnectionCallback> {
+		ConnectionLifecycleCallback(), CallbackAdapter<ConnectionCallback> {
 
-  private val listeners: MutableList<ConnectionCallback> = mutableListOf()
+	// TODO: Add OneWayMapper<NearbyConnectionInfo, ConnectionInfo>
+	// TODO: Add OneWayMapper<NearbyConnectionResolution, ConnectionInfo>
+	private val listeners: MutableList<ConnectionCallback> = mutableListOf()
 
-  override fun onConnectionInitiated(endpointId: String, connectionInfo: ConnectionInfo) {
-    Timber.d("onConnectionInitiated = endpointId: $endpointId; connectionInfo: $connectionInfo.")
-    listeners.forEach(ConnectionCallback::onConnectionInitiated)
-  }
+	override fun onConnectionInitiated(id: String, info: NearbyConnectionInfo) {
+		val endpointId = EndpointId(id)
+		val connectionInfo = ConnectionInfo(info.isIncomingConnection, info.authenticationToken, info.endpointName)
 
-  override fun onConnectionResult(endpointId: String, resolution: ConnectionResolution) {
-    Timber.d("onConnectionResult = endpointId: $endpointId; resolution: ${resolution.status}")
-    listeners.forEach(ConnectionCallback::onConnectionResult)
-  }
+		listeners.forEach { it.onConnectionInitiated(endpointId, connectionInfo) }
+	}
 
-  override fun onDisconnected(endpointId: String) {
-    Timber.d("onDisconnected = endpointId: $endpointId")
-    listeners.forEach(ConnectionCallback::onDisconnected)
-  }
+	override fun onConnectionResult(id: String, resolution: ConnectionResolution) {
+		val endpointId = EndpointId(id)
+		val connectionStatus: ConnectionsStatus = when (resolution.status.statusCode) {
+			STATUS_OK -> ConnectionSuccess(resolution.status)
+			STATUS_CONNECTION_REJECTED -> ConnectionRejected(resolution.status)
+			STATUS_ERROR -> ConnectionError(resolution.status)
+			else -> ConnectionUnknownStatus(resolution.status)
+		}
 
-  override fun addListener(callback: ConnectionCallback) {
-    listeners.add(callback)
-  }
+		listeners.forEach { it.onConnectionResult(endpointId, connectionStatus) }
+	}
 
-  override fun removeListener(callback: ConnectionCallback) {
-    listeners.remove(callback)
-  }
+	override fun onDisconnected(id: String) {
+		val endpointId = EndpointId(id)
+
+		listeners.forEach { it.onDisconnected(endpointId) }
+	}
+
+	override fun addListener(callback: ConnectionCallback) {
+		if (!listeners.contains(callback)) {
+			listeners.add(callback)
+		}
+	}
+
+	override fun removeListener(callback: ConnectionCallback) {
+		listeners.remove(callback)
+	}
 }

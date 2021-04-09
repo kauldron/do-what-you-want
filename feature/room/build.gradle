@@ -1,29 +1,37 @@
 plugins {
-    id 'com.android.library'
-    id 'kotlin-android'
+    id "com.android.library"
+    id "kotlin-android"
 }
 
-apply from: rootProject.file('gradle/android/config.gradle')
-apply from: rootProject.file('gradle/android/kotlin.gradle')
+apply from: rootProject.file("gradle/android/config.gradle")
+apply from: rootProject.file("gradle/android/kotlin.gradle")
 
 dependencies {
-    implementation project(':core')
-    implementation project(':core:ui')
-    implementation project(':replicant')
-    implementation project(':automata:core')
-    implementation project(':automata:android')
-    implementation project(':automata:recycler')
-    implementation project(':replicant:delegate')
-    implementation project(':feature:connections')
+    implementation project(":core")
+    implementation project(":core:ui")
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.fragment:fragment-ktx:1.3.1'
-    implementation 'androidx.recyclerview:recyclerview:1.2.0-beta02'
-    implementation 'com.jakewharton.timber:timber:4.7.1'
+    implementation project(":automata:core")
+    implementation project(":automata:android")
+    implementation project(":automata:recycler")
+    implementation project(":automata:intent")
 
-    compileOnly 'com.google.android.gms:play-services-tasks:17.0.0'
+    implementation project(":replicant")
+    implementation project(":replicant:delegate")
+    implementation project(":replicant:executor")
 
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3-alpha04'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0-alpha04'
+    implementation project(":feature:connections")
+    implementation project(":feature:player")
+    implementation project(":feature:recorder")
+
+    implementation "androidx.fragment:fragment-ktx:1.3.2"
+    implementation "androidx.recyclerview:recyclerview:1.2.0-rc01"
+    implementation "com.jakewharton.timber:timber:4.7.1"
+    implementation "com.google.android.gms:play-services-oss-licenses:17.0.0"
+
+    implementation "com.google.android.material:material:1.4.0-alpha02"
+    implementation "com.google.android.gms:play-services-tasks:17.0.0"
+
+    testImplementation "junit:junit:4.13.2"
+    androidTestImplementation "androidx.test.ext:junit:1.1.3-alpha05"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.4.0-alpha05"
 }

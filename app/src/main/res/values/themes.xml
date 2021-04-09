@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-  <style name="AppTheme.Launcher" parent="AppTheme">
-    <item name="android:windowBackground">#44475A</item>
-  </style>
+	<style name="AppTheme.Launcher" parent="AppTheme">
+		<item name="android:windowBackground">@drawable/splash</item>
+	</style>
+
+	<style name="AppTheme.License" parent="AppTheme">
+		<item name="colorPrimary">#282a36</item>
+		<item name="backgroundColor">#17181f</item>
+		<item name="android:colorBackground">#17181f</item>
+	</style>
 
 </resources>

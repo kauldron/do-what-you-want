@@ -4,8 +4,8 @@ android {
             minifyEnabled false
             shrinkResources false
             signingConfig signingConfigs.debug
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'),
-                    'r8.pro', 'props.pro'
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"),
+                    "r8.pro", "props.pro", "record.pro"
         }
         release {
             minifyEnabled true
@@ -16,8 +16,8 @@ android {
             pseudoLocalesEnabled false
             zipAlignEnabled true
             signingConfig signingConfigs.debug
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'),
-                    'r8.pro', 'props.pro', 'remove.pro'
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"),
+                    "r8.pro", "props.pro", "record.pro", "remove.pro"
         }
     }
 }

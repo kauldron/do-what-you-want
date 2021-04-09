@@ -1,43 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent"
-  android:padding="32dp"
-  android:orientation="vertical"
-  >
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical"
+	android:padding="32dp"
+	>
 
-  <ImageView
-    android:id="@+id/stub_image_view"
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="0.75"
-    android:scaleX="0.5"
-    android:scaleY="0.5"
-    android:src="@drawable/ic_broadcast"
-    />
+	<ImageView
+		android:id="@+id/stub_image_view"
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:layout_weight="0.75"
+		android:scaleX="0.5"
+		android:scaleY="0.5"
+		android:src="@drawable/ic_broadcast"
+		/>
 
-  <TextView
-    android:id="@+id/stub_title_text_view"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center"
-    android:text="You are\nBroadcasting now"
-    android:textAlignment="center"
-    android:textAppearance="@style/Title"
-    />
+	<TextView
+		android:id="@+id/stub_title_text_view"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center"
+		android:textAlignment="center"
+		android:textAppearance="@style/Title"
+		tools:text="You are\nBroadcasting now"
+		/>
 
-  <Space
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_weight="0.1"
-    />
+	<Space
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_weight="0.1"
+		/>
 
-  <Button
-    android:id="@+id/start_discovery_button"
-    style="@style/Button.Reverse"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="Stop"
-    />
+	<Button
+		android:id="@+id/start_discovery_button"
+		style="@style/Button.Reverse"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		tools:text="Stop"
+		/>
 
 </LinearLayout>
