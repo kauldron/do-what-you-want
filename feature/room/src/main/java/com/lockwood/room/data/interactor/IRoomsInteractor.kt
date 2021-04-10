@@ -7,8 +7,6 @@ import com.lockwood.room.data.repostiory.IRoomsRepository
 
 interface IRoomsInteractor : IRoomsRepository, IRoomPreferenceCacheManager {
 
-	fun startAdvertising(): Task<Void>
-
 	fun requestConnection(endpointId: EndpointId): Task<Void>
 
 	fun resetCacheState()

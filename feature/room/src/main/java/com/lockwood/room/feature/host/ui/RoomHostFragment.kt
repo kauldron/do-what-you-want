@@ -18,7 +18,6 @@ import com.lockwood.automata.android.newFragment
 import com.lockwood.automata.android.startForegroundService
 import com.lockwood.automata.android.stopService
 import com.lockwood.dwyw.core.ui.BaseFragment
-import com.lockwood.dwyw.core.wrapper.WrapperFeature
 import com.lockwood.dwyw.ui.core.Colors
 import com.lockwood.recorder.IAudioRecorder
 import com.lockwood.recorder.feature.RecorderFeature
@@ -31,7 +30,6 @@ import com.lockwood.replicant.view.ext.requireMessageView
 import com.lockwood.replicant.view.ext.requireProgressView
 import com.lockwood.replicant.view.ext.setDebouncingOnClickListener
 import com.lockwood.room.R
-import com.lockwood.room.data.interactor.IRoomsInteractor
 import com.lockwood.room.feature.RoomsFeature
 import com.lockwood.room.feature.discover.event.ShowAcceptConnectionEvent
 import com.lockwood.room.feature.host.event.RequestCaptureEvent
@@ -46,14 +44,8 @@ internal class RoomHostFragment : BaseFragment<RoomHostViewState>(), IHostView {
 		getFeature<RoomsFeature>().viewModelsFactory
 	}
 
-	private val deviceName: String
-		get() = getFeature<WrapperFeature>().buildConfigWrapper.deviceModel
-
 	private val audioRecorder: IAudioRecorder
 		get() = getFeature<RecorderFeature>().audioRecorder
-
-	private val roomInteractor: IRoomsInteractor
-		get() = getFeature<RoomsFeature>().roomsInteractor
 
 	private val appContext: Context
 		get() {
@@ -161,6 +153,7 @@ internal class RoomHostFragment : BaseFragment<RoomHostViewState>(), IHostView {
 				ColorStateList.valueOf(Colors.GRAY)
 			}
 			setImageTintList(this, imageTintList)
+			setImageDrawable(getDrawable(requireContext(), com.lockwood.dwyw.ui.core.R.drawable.ic_broadcast))
 		}
 	}
 

@@ -49,7 +49,7 @@ class RoomsFeature(
 	}
 
 	private val roomsRepository: IRoomsRepository by notSafeLazy {
-		RoomsRepository(connectionsManager)
+		RoomsRepository(connectionsManager, executorProvider)
 	}
 
 	val roomsLauncher: IRoomsLauncher

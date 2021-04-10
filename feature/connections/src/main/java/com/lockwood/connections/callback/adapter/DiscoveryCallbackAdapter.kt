@@ -9,7 +9,6 @@ import com.lockwood.connections.model.EndpointInfo
 internal class DiscoveryCallbackAdapter :
 		EndpointDiscoveryCallback(), CallbackAdapter<DiscoveryCallback> {
 
-	// TODO: Add OneWayMapper<DiscoveredEndpointInfo, EndpointInfo>
 	private val listeners: MutableList<DiscoveryCallback> = mutableListOf()
 
 	override fun onEndpointFound(id: String, info: DiscoveredEndpointInfo) {

@@ -13,14 +13,11 @@ import com.lockwood.connections.model.ConnectionSuccess
 import com.lockwood.connections.model.ConnectionUnknownStatus
 import com.lockwood.connections.model.ConnectionsStatus
 import com.lockwood.connections.model.EndpointId
-
-private typealias NearbyConnectionInfo = com.google.android.gms.nearby.connection.ConnectionInfo
+import com.lockwood.connections.model.NearbyConnectionInfo
 
 internal class ConnectionCallbackAdapter :
 		ConnectionLifecycleCallback(), CallbackAdapter<ConnectionCallback> {
 
-	// TODO: Add OneWayMapper<NearbyConnectionInfo, ConnectionInfo>
-	// TODO: Add OneWayMapper<NearbyConnectionResolution, ConnectionInfo>
 	private val listeners: MutableList<ConnectionCallback> = mutableListOf()
 
 	override fun onConnectionInitiated(id: String, info: NearbyConnectionInfo) {

@@ -7,6 +7,7 @@ import com.lockwood.dwyw.core.media.AudioParams
 import com.lockwood.recorder.callback.RecordCallback
 import com.lockwood.recorder.factory.AudioRecordFactory
 import com.lockwood.recorder.manager.IMediaProjectionManager
+import timber.log.Timber
 
 internal class AudioRecorder(
 		private val manager: IMediaProjectionManager,
@@ -68,9 +69,14 @@ internal class AudioRecorder(
 	}
 
 	override fun release() {
-		listeners.clear()
 		stop()
-		audioRecord.release()
+		listeners.clear()
+
+		try {
+			audioRecord.release()
+		} catch (e: Exception) {
+			Timber.e(e)
+		}
 	}
 
 }

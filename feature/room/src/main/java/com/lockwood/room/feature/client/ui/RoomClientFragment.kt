@@ -119,6 +119,7 @@ internal class RoomClientFragment : BaseFragment<RoomClientViewState>() {
 				ColorStateList.valueOf(Colors.GRAY)
 			}
 			setImageTintList(this, imageTintList)
+			setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_headset))
 		}
 	}
 

@@ -1,6 +1,7 @@
 package com.lockwood.player
 
 import android.media.AudioTrack
+import timber.log.Timber
 
 internal class PlayerManager(
 		private val audioTrack: AudioTrack
@@ -39,7 +40,12 @@ internal class PlayerManager(
 
 	override fun release() {
 		stop()
-		audioTrack.release()
+
+		try {
+			audioTrack.release()
+		} catch (e: Exception) {
+			Timber.e(e)
+		}
 	}
 
 }

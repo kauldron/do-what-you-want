@@ -13,6 +13,8 @@ import com.lockwood.connections.model.ConnectionInfo
 import com.lockwood.connections.model.ConnectionSuccess
 import com.lockwood.connections.model.ConnectionsStatus
 import com.lockwood.connections.model.EndpointId
+import java.io.InputStream
+
 
 class AdvertisingConnectionsManager(
 		private val application: ApplicationContext,
@@ -53,9 +55,9 @@ class AdvertisingConnectionsManager(
 		return client.startAdvertising(name, NearbyConnectionsManager.SERVICE_ID, lifecycleCallback, options)
 	}
 
-	override fun sendPayload(byteArray: ByteArray) {
-		if (connectedEndpoints.isNotEmpty() && byteArray.isNotEmpty()) {
-			val streamPayload: Payload = Payload.fromBytes(byteArray)
+	override fun sendPayload(inputStream: InputStream) {
+		if (connectedEndpoints.isNotEmpty()) {
+			val streamPayload: Payload = Payload.fromStream(inputStream)
 			val endpoints = connectedEndpoints.map(EndpointId::toString)
 			client.sendPayload(endpoints, streamPayload)
 		}

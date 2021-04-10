@@ -3,7 +3,6 @@ package com.lockwood.room.feature.client.service
 import android.app.Notification
 import android.content.Intent
 import androidx.annotation.WorkerThread
-import com.lockwood.automata.core.toHexString
 import com.lockwood.connections.callback.PayloadCallback
 import com.lockwood.connections.model.EndpointId
 import com.lockwood.dwyw.core.feature.CoreFeature
@@ -13,8 +12,8 @@ import com.lockwood.replicant.executor.ExecutorProvider
 import com.lockwood.room.base.BaseRoomService
 import com.lockwood.room.data.interactor.IRoomsInteractor
 import com.lockwood.room.feature.RoomsFeature
+import java.io.InputStream
 import java.util.concurrent.Executor
-import timber.log.Timber
 
 internal class ClientForegroundService : BaseRoomService() {
 
@@ -28,8 +27,8 @@ internal class ClientForegroundService : BaseRoomService() {
 	}
 
 	private val payloadCallback = object : PayloadCallback {
-		override fun onPayloadReceived(endpointId: EndpointId, byteArray: ByteArray) {
-			handleData(byteArray)
+		override fun onPayloadTransferUpdate(endpointId: EndpointId, inputStream: InputStream) {
+			handleData(inputStream)
 		}
 	}
 
@@ -59,8 +58,9 @@ internal class ClientForegroundService : BaseRoomService() {
 
 	override fun onDestroy() {
 		super.onDestroy()
-		roomsInteractor.removePayloadCallback(payloadCallback)
 		roomsInteractor.stopDiscovery()
+		roomsInteractor.resetCacheState()
+		roomsInteractor.removePayloadCallback(payloadCallback)
 		releaseFeature<PlayerFeature>()
 	}
 
@@ -75,9 +75,9 @@ internal class ClientForegroundService : BaseRoomService() {
 	}
 
 	@WorkerThread
-	private fun handleData(byteArray: ByteArray) = readerExecutor.execute {
+	private fun handleData(inputStream: InputStream) = readerExecutor.execute {
 		while (playerManager.getIsPlaying()) {
-			Timber.d("Handle data: ${byteArray.toHexString()}")
+			val byteArray = inputStream.readBytes()
 			playerManager.write(byteArray)
 		}
 	}

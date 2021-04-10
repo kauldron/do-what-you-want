@@ -7,9 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toolbar
-import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import com.lockwood.automata.android.clearBackStack
@@ -30,15 +28,14 @@ import com.lockwood.room.feature.client.ui.RoomClientFragment
 import com.lockwood.room.feature.discover.ui.RoomsDiscoverFragment
 import com.lockwood.room.feature.host.ui.IHostView
 import com.lockwood.room.feature.host.ui.RoomHostFragment
+import com.lockwood.room.model.PermissionsResultCallback
+import com.lockwood.room.model.PermissionsResultLauncher
+import com.lockwood.room.model.UnitResultLauncher
 import com.lockwood.room.navigation.launcher.RoomArgs.IS_SHOW_ADVERTISING
 import com.lockwood.room.navigation.launcher.RoomArgs.ROOM_TO_SHOW
 import com.lockwood.room.screen.RoomConnectionScreen
 import com.lockwood.room.screen.RoomsAdvertisingScreen
 import com.lockwood.room.screen.RoomsDiscoveryScreen
-
-private typealias UnitResultLauncher = ActivityResultContract<Unit, Boolean>
-private typealias PermissionsResultLauncher = ActivityResultLauncher<Array<String>>
-private typealias PermissionsResultCallback = ActivityResultCallback<Map<String, Boolean>>
 
 internal class RoomConnectionActivity : BaseActivity(),
 		MessageView,

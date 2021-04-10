@@ -1,34 +1,44 @@
 package com.lockwood.connections.callback.adapter
 
+import androidx.collection.SimpleArrayMap
 import com.google.android.gms.nearby.connection.Payload
 import com.google.android.gms.nearby.connection.PayloadTransferUpdate
+import com.lockwood.automata.core.toHexString
 import com.lockwood.connections.callback.PayloadCallback
 import com.lockwood.connections.model.EndpointId
+import com.lockwood.connections.model.NearbyPayloadCallback
+import java.io.InputStream
 import timber.log.Timber
 
-private typealias NearbyPayloadCallback = com.google.android.gms.nearby.connection.PayloadCallback
 
 internal class PayloadCallbackAdapter :
 		NearbyPayloadCallback(), CallbackAdapter<PayloadCallback> {
 
+	private val incomingPayloads: SimpleArrayMap<Long, Payload> = SimpleArrayMap()
+
 	private val listeners: MutableList<PayloadCallback> = mutableListOf()
 
-	// TODO: Add OneWayMapper<NearbyPayload, Payload>
 	override fun onPayloadReceived(id: String, payload: Payload) {
-		Timber.d(
-				"onPayloadReceived = endpointId: $id; payload: ${payload.asBytes()?.size}}"
-		)
+		incomingPayloads.put(payload.id, payload);
+		Timber.d("onPayloadReceived: ${payload.id}")
 
 		val endpointId = EndpointId(id)
-		val byteArray = payload.asBytes() ?: return
 
-		listeners.forEach { it.onPayloadReceived(endpointId, byteArray) }
+		listeners.forEach { it.onPayloadReceived(endpointId) }
 	}
 
 	override fun onPayloadTransferUpdate(id: String, transferUpdate: PayloadTransferUpdate) {
-		val endpointId = EndpointId(id)
+		Timber.d("onPayloadTransferUpdate: ${transferUpdate.status}")
 
-		listeners.forEach { it.onPayloadTransferUpdate(endpointId) }
+		if (transferUpdate.status == PayloadTransferUpdate.Status.SUCCESS) {
+			val endpointId = EndpointId(id)
+			val payload = incomingPayloads[transferUpdate.payloadId]
+			payload ?: return
+
+			Timber.d("onPayloadTransfer: ${payload.asInputStream().readBytes().toHexString()}")
+
+			listeners.forEach { it.onPayloadTransferUpdate(endpointId, payload.asInputStream()) }
+		}
 	}
 
 	override fun addListener(callback: PayloadCallback) {
@@ -37,6 +47,10 @@ internal class PayloadCallbackAdapter :
 
 	override fun removeListener(callback: PayloadCallback) {
 		listeners.remove(callback)
+	}
+
+	private fun Payload.asInputStream(): InputStream {
+		return requireNotNull(asStream()).asInputStream()
 	}
 
 }

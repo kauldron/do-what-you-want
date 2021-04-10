@@ -14,6 +14,7 @@ import com.lockwood.room.data.interactor.IRoomsInteractor
 import com.lockwood.room.feature.RoomsFeature
 import java.util.concurrent.Executor
 
+
 internal class HostForegroundService : BaseRoomService() {
 
 	private companion object {
@@ -23,10 +24,6 @@ internal class HostForegroundService : BaseRoomService() {
 	}
 
 	private val recorderExecutor: Executor by lazy {
-		executorProvider.io()
-	}
-
-	private val sendExecutor: Executor by lazy {
 		executorProvider.io()
 	}
 
@@ -58,19 +55,20 @@ internal class HostForegroundService : BaseRoomService() {
 
 	override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 		startForeground()
+		roomsInteractor.startAdvertising(deviceName)
 
 		return START_STICKY_COMPATIBILITY
 	}
 
 	override fun onCreate() {
 		super.onCreate()
-		roomsInteractor.startAdvertising(deviceName)
 		audioRecorder.addRecordCallback(recordCallback)
 	}
 
 	override fun onDestroy() {
 		super.onDestroy()
 		roomsInteractor.stopAdvertising()
+		roomsInteractor.resetCacheState()
 		audioRecorder.removeRecordCallback(recordCallback)
 		releaseFeature<RecorderFeature>()
 	}
@@ -94,7 +92,7 @@ internal class HostForegroundService : BaseRoomService() {
 	}
 
 	@WorkerThread
-	private fun shareData(byteArray: ByteArray) = sendExecutor.execute {
+	private fun shareData(byteArray: ByteArray) {
 		roomsInteractor.sendPayload(byteArray)
 	}
 
