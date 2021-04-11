@@ -35,7 +35,12 @@ internal class AudioRecorder(
 	}
 
 	override fun read() {
-		audioRecord.read(byteArray, 0, preferredBufferSize)
+		try {
+			audioRecord.read(byteArray, 0, preferredBufferSize)
+		} catch (e: IllegalStateException) {
+			Timber.e(e)
+			return
+		}
 
 		listeners.forEach { recordCallback -> recordCallback.onRead(byteArray) }
 	}
@@ -51,8 +56,8 @@ internal class AudioRecorder(
 
 	override fun stop() {
 		if (isRecording) {
-			audioRecord.stop()
 			isRecording = false
+			audioRecord.stop()
 
 			listeners.forEach(RecordCallback::onStopRecord)
 		}

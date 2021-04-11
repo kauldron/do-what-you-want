@@ -2,7 +2,6 @@ package com.lockwood.dwyw.core.media
 
 import android.media.AudioFormat
 import android.media.AudioRecord
-import android.media.AudioTrack
 
 object AudioParams {
 
@@ -24,9 +23,6 @@ object AudioParams {
 				.setSampleRate(DEFAULT_RATE_HZ)
 				.setEncoding(DEFAULT_FORMAT)
 				.build()
-
-	val minPlayBufferedSize: Int
-		get() = AudioTrack.getMinBufferSize(DEFAULT_RATE_HZ, DEFAULT_PLAY_CHANNEL, DEFAULT_FORMAT)
 
 	val minRecordBufferedSize: Int
 		get() = AudioRecord.getMinBufferSize(DEFAULT_RATE_HZ, DEFAULT_RECORD_CHANNEL, DEFAULT_FORMAT)

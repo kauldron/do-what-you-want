@@ -5,7 +5,7 @@ import com.lockwood.connections.model.EndpointInfo
 
 interface DiscoveryCallback {
 
-	fun onEndpointFound(endpointId: EndpointId, info: EndpointInfo)
+	fun onEndpointFound(endpointId: EndpointId, info: EndpointInfo) = Unit
 
-	fun onEndpointLost(endpointId: EndpointId)
+	fun onEndpointLost(endpointId: EndpointId) = Unit
 }

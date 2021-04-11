@@ -23,15 +23,15 @@ class DiscoveryConnectionsManager(
 		return client.startDiscovery(NearbyConnectionsManager.SERVICE_ID, discoveryCallback, options)
 	}
 
+	override fun stopDiscovery() {
+		client.stopDiscovery()
+	}
+
 	override fun addDiscoveryCallback(callback: DiscoveryCallback) {
 		discoveryCallback.addListener(callback)
 	}
 
 	override fun removeDiscoveryCallback(callback: DiscoveryCallback) {
 		discoveryCallback.removeListener(callback)
-	}
-
-	override fun stopDiscovery() {
-		client.stopDiscovery()
 	}
 }

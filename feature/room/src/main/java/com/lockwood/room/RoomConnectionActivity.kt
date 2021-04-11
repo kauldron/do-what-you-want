@@ -13,8 +13,8 @@ import androidx.fragment.app.Fragment
 import com.lockwood.automata.android.clearBackStack
 import com.lockwood.automata.android.requireFragmentType
 import com.lockwood.automata.intent.openWebPage
+import com.lockwood.dwyw.core.feature.wrapper.WrapperFeature
 import com.lockwood.dwyw.core.ui.BaseActivity
-import com.lockwood.dwyw.core.wrapper.WrapperFeature
 import com.lockwood.player.feature.PlayerFeature
 import com.lockwood.recorder.feature.RecorderFeature
 import com.lockwood.recorder.manager.IMediaProjectionManager
@@ -87,6 +87,7 @@ internal class RoomConnectionActivity : BaseActivity(),
 		super.onCreate(savedInstanceState)
 
 		setContentView(R.layout.activity_rooms)
+
 		initActionBar()
 
 		handleIntent()
@@ -110,8 +111,8 @@ internal class RoomConnectionActivity : BaseActivity(),
 	}
 
 	override fun onDestroy() {
-		super.onDestroy()
 		supportFragmentManager.clearBackStack()
+		super.onDestroy()
 	}
 
 	override fun onActivityResult(result: Map<String, Boolean>) {
@@ -124,13 +125,11 @@ internal class RoomConnectionActivity : BaseActivity(),
 		}
 	}
 
-	override fun showScreen(screen: Screen) {
-		return when (screen) {
-			is RoomsDiscoveryScreen -> showFragment { RoomsDiscoverFragment.newInstance() }
-			is RoomsAdvertisingScreen -> showFragment { RoomHostFragment.newInstance() }
-			is RoomConnectionScreen -> showFragment { RoomClientFragment.newInstance() }
-			else -> super.showScreen(screen)
-		}
+	override fun showScreen(screen: Screen) = when (screen) {
+		is RoomsDiscoveryScreen -> showFragment { RoomsDiscoverFragment.newInstance() }
+		is RoomsAdvertisingScreen -> showFragment { RoomHostFragment.newInstance() }
+		is RoomConnectionScreen -> showFragment { RoomClientFragment.newInstance() }
+		else -> super.showScreen(screen)
 	}
 
 	override fun showProgress() {

@@ -55,5 +55,4 @@ internal abstract class BaseConnectionViewModel<VS : ViewState>(
 		connectionsManager.removeConnectionCallback(callback)
 	}
 
-
 }

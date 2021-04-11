@@ -6,8 +6,6 @@ import com.google.android.gms.nearby.connection.PayloadTransferUpdate
 import com.lockwood.connections.callback.PayloadCallback
 import com.lockwood.connections.model.EndpointId
 import com.lockwood.connections.model.NearbyPayloadCallback
-import java.io.InputStream
-
 
 internal class PayloadCallbackAdapter :
 		NearbyPayloadCallback(), CallbackAdapter<PayloadCallback> {
@@ -20,18 +18,16 @@ internal class PayloadCallbackAdapter :
 		incomingPayloads.put(payload.id, payload);
 
 		val endpointId = EndpointId(id)
+		val byteArray = payload.asBytes()
+		byteArray ?: return
 
-		listeners.forEach { it.onPayloadReceived(endpointId) }
+		listeners.forEach { it.onPayloadReceived(endpointId, byteArray) }
 	}
 
 	override fun onPayloadTransferUpdate(id: String, transferUpdate: PayloadTransferUpdate) {
-		if (transferUpdate.status == PayloadTransferUpdate.Status.SUCCESS) {
-			val endpointId = EndpointId(id)
-			val payload = incomingPayloads[transferUpdate.payloadId]
-			payload ?: return
+		val endpointId = EndpointId(id)
 
-			listeners.forEach { it.onPayloadTransferUpdate(endpointId, payload.asInputStream()) }
-		}
+		listeners.forEach { it.onPayloadTransferUpdate(endpointId) }
 	}
 
 	override fun addListener(callback: PayloadCallback) {
@@ -40,10 +36,6 @@ internal class PayloadCallbackAdapter :
 
 	override fun removeListener(callback: PayloadCallback) {
 		listeners.remove(callback)
-	}
-
-	private fun Payload.asInputStream(): InputStream {
-		return requireNotNull(asStream()).asInputStream()
 	}
 
 }

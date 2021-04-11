@@ -6,7 +6,7 @@ import android.widget.Toast
 import androidx.annotation.MainThread
 import androidx.annotation.WorkerThread
 import com.lockwood.dwyw.core.feature.CoreFeature
-import com.lockwood.dwyw.core.wrapper.WrapperFeature
+import com.lockwood.dwyw.core.feature.wrapper.WrapperFeature
 import com.lockwood.recorder.IAudioRecorder
 import com.lockwood.recorder.callback.RecordCallback
 import com.lockwood.recorder.feature.RecorderFeature
@@ -14,7 +14,6 @@ import com.lockwood.replicant.executor.ExecutorProvider
 import com.lockwood.room.base.BaseRoomService
 import com.lockwood.room.data.interactor.IRoomsInteractor
 import com.lockwood.room.feature.RoomsFeature
-import java.io.ByteArrayInputStream
 import java.util.concurrent.Executor
 
 
@@ -27,6 +26,10 @@ internal class HostForegroundService : BaseRoomService() {
 	}
 
 	private val recorderExecutor: Executor by lazy {
+		executorProvider.io()
+	}
+
+	private val payloadExecutor: Executor by lazy {
 		executorProvider.io()
 	}
 
@@ -46,9 +49,8 @@ internal class HostForegroundService : BaseRoomService() {
 	private val deviceName: String
 		get() = getFeature<WrapperFeature>().buildConfigWrapper.deviceModel
 
-	private val roomsInteractor: IRoomsInteractor by lazy {
-		getFeature<RoomsFeature>().roomsInteractor
-	}
+	private val roomsInteractor: IRoomsInteractor
+		get() = getFeature<RoomsFeature>().roomsInteractor
 
 	private val audioRecorder: IAudioRecorder
 		get() = getFeature<RecorderFeature>().audioRecorder
@@ -75,8 +77,10 @@ internal class HostForegroundService : BaseRoomService() {
 
 	override fun onDestroy() {
 		super.onDestroy()
-		roomsInteractor.stopAdvertising()
-		roomsInteractor.resetCacheState()
+		with(roomsInteractor) {
+			stopAdvertising()
+			resetCacheState()
+		}
 		audioRecorder.removeRecordCallback(recordCallback)
 		releaseFeature<RecorderFeature>()
 	}
@@ -100,8 +104,8 @@ internal class HostForegroundService : BaseRoomService() {
 	}
 
 	@WorkerThread
-	private fun shareData(byteArray: ByteArray) {
-		roomsInteractor.sendPayload(ByteArrayInputStream(byteArray))
+	private fun shareData(byteArray: ByteArray) = payloadExecutor.execute {
+		roomsInteractor.sendPayload(byteArray)
 	}
 
 	@MainThread

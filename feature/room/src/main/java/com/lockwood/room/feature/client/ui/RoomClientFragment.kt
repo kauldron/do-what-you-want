@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat.setImageTintList
 import androidx.core.widget.ImageViewCompat.setImageTintMode
@@ -53,12 +54,10 @@ internal class RoomClientFragment : BaseFragment<RoomClientViewState>() {
 		}
 	}
 
-	override fun onEvent(event: Event) {
-		when (event) {
-			is StartClientServiceEvent -> requireContext().startForegroundService<ClientForegroundService>()
-			is StopClientServiceEvent -> requireContext().stopService<ClientForegroundService>()
-			else -> super.onEvent(event)
-		}
+	override fun onEvent(event: Event) = when (event) {
+		is StartClientServiceEvent -> requireContext().startForegroundService<ClientForegroundService>()
+		is StopClientServiceEvent -> requireContext().stopService<ClientForegroundService>()
+		else -> super.onEvent(event)
 	}
 
 	override fun renderState(viewState: RoomClientViewState) = with(viewState) {
@@ -78,11 +77,7 @@ internal class RoomClientFragment : BaseFragment<RoomClientViewState>() {
 			setOnClickListener {}
 		}
 
-		requireImageView().apply {
-			setImageTintMode(this, PorterDuff.Mode.SRC_IN)
-			setImageTintList(this, ColorStateList.valueOf(Colors.BLACK))
-			setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_headset))
-		}
+		renderImage(Colors.BLACK)
 	}
 
 	private fun renderButtonPlaying(isConnected: Boolean, room: Room) {
@@ -112,13 +107,18 @@ internal class RoomClientFragment : BaseFragment<RoomClientViewState>() {
 	}
 
 	private fun renderImage(isConnected: Boolean) {
+		val imageTintList = if (isConnected) {
+			Colors.PURPLE_VARIANT
+		} else {
+			Colors.GRAY
+		}
+		renderImage(imageTintList)
+	}
+
+	private fun renderImage(@ColorInt tint: Int) {
 		requireImageView().apply {
-			val imageTintList = if (isConnected) {
-				ColorStateList.valueOf(Colors.PURPLE_VARIANT)
-			} else {
-				ColorStateList.valueOf(Colors.GRAY)
-			}
-			setImageTintList(this, imageTintList)
+			setImageTintMode(this, PorterDuff.Mode.SRC_IN)
+			setImageTintList(this, ColorStateList.valueOf(tint))
 			setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_headset))
 		}
 	}

@@ -6,9 +6,9 @@ import com.lockwood.connections.model.EndpointId
 
 interface ConnectionCallback {
 
-	fun onConnectionInitiated(endpointId: EndpointId, connectionInfo: ConnectionInfo)
+	fun onConnectionInitiated(endpointId: EndpointId, connectionInfo: ConnectionInfo) = Unit
 
-	fun onConnectionResult(endpointId: EndpointId, connectionStatus: ConnectionsStatus)
+	fun onConnectionResult(endpointId: EndpointId, connectionStatus: ConnectionsStatus) = Unit
 
-	fun onDisconnected(endpointId: EndpointId)
+	fun onDisconnected(endpointId: EndpointId) = Unit
 }

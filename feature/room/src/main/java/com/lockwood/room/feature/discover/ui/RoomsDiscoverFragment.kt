@@ -57,15 +57,13 @@ internal class RoomsDiscoverFragment : BaseFragment<RoomsDiscoverViewState>() {
 	}
 
 	override fun onDestroyView() {
-		super.onDestroyView()
 		roomsInteractor.stopDiscovery()
+		super.onDestroyView()
 	}
 
-	override fun onEvent(event: Event) {
-		when (event) {
-			is ShowAcceptConnectionEvent -> showConnectionDialog(event.room)
-			else -> super.onEvent(event)
-		}
+	override fun onEvent(event: Event) = when (event) {
+		is ShowAcceptConnectionEvent -> showConnectionDialog(event.room)
+		else -> super.onEvent(event)
 	}
 
 	override fun renderState(viewState: RoomsDiscoverViewState) {
@@ -101,21 +99,11 @@ internal class RoomsDiscoverFragment : BaseFragment<RoomsDiscoverViewState>() {
 		}
 	}
 
-	private fun initRoomsRecyclerView() {
-		requireRoomsView().apply {
-			applyLayoutManager(RecyclerView.VERTICAL)
-			addDividerItemDecoration(RecyclerView.VERTICAL) {
-				DrawableCompat.setTint(requireNotNull(drawable), Colors.PURPLE)
-			}
+	private fun initRoomsRecyclerView() = requireRoomsView().apply {
+		applyLayoutManager(RecyclerView.VERTICAL)
+		addDividerItemDecoration(RecyclerView.VERTICAL) {
+			DrawableCompat.setTint(requireNotNull(drawable), Colors.PURPLE)
 		}
-	}
-
-	private fun requireRoomsView(): RecyclerView {
-		return requireView().findViewById(R.id.rooms_list)
-	}
-
-	private fun requireStubView(): View {
-		return requireView().findViewById(R.id.rooms_stub)
 	}
 
 	private fun initStubView() {
@@ -126,6 +114,14 @@ internal class RoomsDiscoverFragment : BaseFragment<RoomsDiscoverViewState>() {
 			isVisible = isAudioRecordEnabled
 			setDebouncingOnClickListener { viewModel.navigateToAdvertising() }
 		}
+	}
+
+	private fun requireRoomsView(): RecyclerView {
+		return requireView().findViewById(R.id.rooms_list)
+	}
+
+	private fun requireStubView(): View {
+		return requireView().findViewById(R.id.rooms_stub)
 	}
 
 	companion object {

@@ -12,9 +12,9 @@
 		android:extractNativeLibs="true"
 		android:icon="@mipmap/ic_launcher"
 		android:label="Do what you want"
+		android:roundIcon="@mipmap/ic_launcher"
 		android:supportsRtl="true"
 		android:theme="@style/AppTheme"
-		tools:ignore="MipmapIcons"
 		>
 
 		<activity
@@ -36,18 +36,6 @@
 			android:name="com.lockwood.room.RoomConnectionActivity"
 			android:launchMode="singleInstance"
 			android:screenOrientation="portrait"
-			/>
-
-		<activity
-			android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
-			android:screenOrientation="portrait"
-			android:theme="@style/AppTheme.License"
-			/>
-
-		<activity
-			android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
-			android:screenOrientation="portrait"
-			android:theme="@style/AppTheme.License"
 			/>
 
 		<service

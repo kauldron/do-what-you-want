@@ -6,5 +6,22 @@
 
 	<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
+	<application>
+
+		<activity
+			android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
+			android:launchMode="singleInstance"
+			android:screenOrientation="portrait"
+			android:theme="@style/AppTheme.License"
+			/>
+
+		<activity
+			android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
+			android:launchMode="singleInstance"
+			android:screenOrientation="portrait"
+			android:theme="@style/AppTheme.License"
+			/>
+
+	</application>
 
 </manifest>

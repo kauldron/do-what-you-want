@@ -22,18 +22,18 @@ internal class ConnectionCallbackAdapter :
 
 	override fun onConnectionInitiated(id: String, info: NearbyConnectionInfo) {
 		val endpointId = EndpointId(id)
-		val connectionInfo = ConnectionInfo(info.isIncomingConnection, info.authenticationToken, info.endpointName)
+		val connectionInfo = ConnectionInfo(info.endpointName)
 
 		listeners.forEach { it.onConnectionInitiated(endpointId, connectionInfo) }
 	}
 
-	override fun onConnectionResult(id: String, resolution: ConnectionResolution) {
+	override fun onConnectionResult(id: String, resolution: ConnectionResolution) = with(resolution.status) {
 		val endpointId = EndpointId(id)
-		val connectionStatus: ConnectionsStatus = when (resolution.status.statusCode) {
-			STATUS_OK -> ConnectionSuccess(resolution.status)
-			STATUS_CONNECTION_REJECTED -> ConnectionRejected(resolution.status)
-			STATUS_ERROR -> ConnectionError(resolution.status)
-			else -> ConnectionUnknownStatus(resolution.status)
+		val connectionStatus: ConnectionsStatus = when (statusCode) {
+			STATUS_OK -> ConnectionSuccess(this)
+			STATUS_CONNECTION_REJECTED -> ConnectionRejected(this)
+			STATUS_ERROR -> ConnectionError(this)
+			else -> ConnectionUnknownStatus(this)
 		}
 
 		listeners.forEach { it.onConnectionResult(endpointId, connectionStatus) }

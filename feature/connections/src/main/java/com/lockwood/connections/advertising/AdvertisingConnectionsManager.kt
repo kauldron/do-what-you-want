@@ -9,32 +9,21 @@ import com.lockwood.automata.android.ApplicationContext
 import com.lockwood.connections.NearbyConnectionsManager
 import com.lockwood.connections.callback.ConnectionCallback
 import com.lockwood.connections.callback.adapter.ConnectionCallbackAdapter
-import com.lockwood.connections.model.ConnectionInfo
 import com.lockwood.connections.model.ConnectionSuccess
 import com.lockwood.connections.model.ConnectionsStatus
 import com.lockwood.connections.model.EndpointId
-import java.io.InputStream
 
 
 class AdvertisingConnectionsManager(
 		private val application: ApplicationContext,
 ) : IAdvertisingConnectionsManager {
 
-	private val lifecycleCallback = ConnectionCallbackAdapter()
-
 	private val connectedEndpoints = mutableListOf<EndpointId>()
 
+	private val lifecycleCallback = ConnectionCallbackAdapter()
+
 	private val connectedEndpointsCallback = object : ConnectionCallback {
-
-		override fun onConnectionInitiated(
-				endpointId: EndpointId,
-				connectionInfo: ConnectionInfo
-		) = Unit
-
-		override fun onConnectionResult(
-				endpointId: EndpointId,
-				connectionStatus: ConnectionsStatus
-		) {
+		override fun onConnectionResult(endpointId: EndpointId, connectionStatus: ConnectionsStatus) {
 			if (connectionStatus is ConnectionSuccess) {
 				connectedEndpoints.add(endpointId)
 			}
@@ -55,9 +44,9 @@ class AdvertisingConnectionsManager(
 		return client.startAdvertising(name, NearbyConnectionsManager.SERVICE_ID, lifecycleCallback, options)
 	}
 
-	override fun sendPayload(inputStream: InputStream) {
+	override fun sendPayload(byteArray: ByteArray) {
 		if (connectedEndpoints.isNotEmpty()) {
-			val streamPayload: Payload = Payload.fromStream(inputStream)
+			val streamPayload: Payload = Payload.fromBytes(byteArray)
 			val endpoints = connectedEndpoints.map(EndpointId::toString)
 			client.sendPayload(endpoints, streamPayload)
 		}
@@ -67,17 +56,17 @@ class AdvertisingConnectionsManager(
 		return client.requestConnection(name, endpointId.toString(), lifecycleCallback)
 	}
 
+	override fun stopAdvertising() {
+		connectedEndpoints.clear()
+		client.stopAdvertising()
+	}
+
 	override fun addConnectionCallback(callback: ConnectionCallback) {
 		lifecycleCallback.addListener(callback)
 	}
 
 	override fun removeConnectionCallback(callback: ConnectionCallback) {
 		lifecycleCallback.removeListener(callback)
-	}
-
-	override fun stopAdvertising() {
-		connectedEndpoints.clear()
-		client.stopAdvertising()
 	}
 
 }

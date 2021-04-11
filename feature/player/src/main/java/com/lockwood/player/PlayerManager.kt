@@ -7,14 +7,7 @@ internal class PlayerManager(
 		private val audioTrack: AudioTrack
 ) : IPlayerManager {
 
-//	private companion object {
-//
-//		private val preferredBufferSize = AudioParams.minPlayBufferedSize
-//	}
-
 	private var isPlaying: Boolean = false
-
-	private val preferredBufferSize = audioTrack.bufferSizeInFrames
 
 	override fun getIsPlaying(): Boolean {
 		return isPlaying
@@ -29,13 +22,17 @@ internal class PlayerManager(
 
 	override fun stop() {
 		if (isPlaying) {
-			audioTrack.pause()
 			isPlaying = false
+			audioTrack.pause()
 		}
 	}
 
 	override fun write(byteArray: ByteArray) {
-		audioTrack.write(byteArray, 0, preferredBufferSize, AudioTrack.WRITE_NON_BLOCKING)
+		try {
+			audioTrack.write(byteArray, 0, byteArray.size)
+		} catch (e: IllegalStateException) {
+			Timber.e(e)
+		}
 	}
 
 	override fun release() {

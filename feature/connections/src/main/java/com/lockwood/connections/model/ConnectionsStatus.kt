@@ -3,10 +3,9 @@ package com.lockwood.connections.model
 import com.google.android.gms.common.api.Status
 
 sealed class ConnectionsStatus(
-		status: Status,
-		private val message: String = status.statusMessage.toString()
+		private val status: Status,
 ) {
-	override fun toString(): String = message
+	override fun toString(): String = status.statusMessage.toString()
 }
 
 class ConnectionSuccess(status: Status) : ConnectionsStatus(status)

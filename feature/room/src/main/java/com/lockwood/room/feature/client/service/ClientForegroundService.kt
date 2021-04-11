@@ -12,9 +12,7 @@ import com.lockwood.replicant.executor.ExecutorProvider
 import com.lockwood.room.base.BaseRoomService
 import com.lockwood.room.data.interactor.IRoomsInteractor
 import com.lockwood.room.feature.RoomsFeature
-import java.io.InputStream
 import java.util.concurrent.Executor
-import timber.log.Timber
 
 internal class ClientForegroundService : BaseRoomService() {
 
@@ -28,8 +26,8 @@ internal class ClientForegroundService : BaseRoomService() {
 	}
 
 	private val payloadCallback = object : PayloadCallback {
-		override fun onPayloadTransferUpdate(endpointId: EndpointId, inputStream: InputStream) {
-			handleData(inputStream)
+		override fun onPayloadReceived(endpointId: EndpointId, byteArray: ByteArray) {
+			handleData(byteArray)
 		}
 	}
 
@@ -59,9 +57,12 @@ internal class ClientForegroundService : BaseRoomService() {
 
 	override fun onDestroy() {
 		super.onDestroy()
-		roomsInteractor.stopDiscovery()
-		roomsInteractor.resetCacheState()
-		roomsInteractor.removePayloadCallback(payloadCallback)
+		with(roomsInteractor) {
+			stopDiscovery()
+			resetCacheState()
+			removePayloadCallback(payloadCallback)
+		}
+
 		releaseFeature<PlayerFeature>()
 	}
 
@@ -76,14 +77,8 @@ internal class ClientForegroundService : BaseRoomService() {
 	}
 
 	@WorkerThread
-	private fun handleData(inputStream: InputStream) = readerExecutor.execute {
-		while (playerManager.getIsPlaying()) {
-			val byteArray = inputStream.readBytes()
-			if (byteArray.isNotEmpty()) {
-				Timber.d("handleData: ${byteArray.size}")
-				playerManager.write(byteArray)
-			}
-		}
+	private fun handleData(byteArray: ByteArray) = readerExecutor.execute {
+		playerManager.write(byteArray)
 	}
 
 }

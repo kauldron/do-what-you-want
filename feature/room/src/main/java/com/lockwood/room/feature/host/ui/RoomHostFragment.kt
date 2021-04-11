@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat.getDrawable
 import androidx.core.widget.ImageViewCompat.setImageTintList
 import androidx.core.widget.ImageViewCompat.setImageTintMode
@@ -25,6 +26,7 @@ import com.lockwood.replicant.context.ApplicationContextProvider
 import com.lockwood.replicant.event.Event
 import com.lockwood.replicant.event.observeEvents
 import com.lockwood.replicant.ext.observeState
+import com.lockwood.replicant.view.ScreenView
 import com.lockwood.replicant.view.ext.requireActivityType
 import com.lockwood.replicant.view.ext.requireMessageView
 import com.lockwood.replicant.view.ext.requireProgressView
@@ -37,6 +39,7 @@ import com.lockwood.room.feature.host.event.StartHostServiceEvent
 import com.lockwood.room.feature.host.event.StopHostServiceEvent
 import com.lockwood.room.feature.host.service.HostForegroundService
 import com.lockwood.room.model.Room
+import com.lockwood.room.screen.RoomsDiscoveryScreen
 
 internal class RoomHostFragment : BaseFragment<RoomHostViewState>(), IHostView {
 
@@ -70,17 +73,15 @@ internal class RoomHostFragment : BaseFragment<RoomHostViewState>(), IHostView {
 		}
 	}
 
-	override fun onEvent(event: Event) {
-		when (event) {
-			is RequestCaptureEvent -> requestCapture()
-			is StartHostServiceEvent -> appContext.startForegroundService<HostForegroundService>()
-			is StopHostServiceEvent -> appContext.stopService<HostForegroundService>()
-			is ShowAcceptConnectionEvent -> showConnectionDialog(event.room)
-			else -> super.onEvent(event)
-		}
+	override fun onEvent(event: Event) = when (event) {
+		is RequestCaptureEvent -> requestCapture()
+		is StartHostServiceEvent -> appContext.startForegroundService<HostForegroundService>()
+		is StopHostServiceEvent -> stopHost()
+		is ShowAcceptConnectionEvent -> showConnectionDialog(event.room)
+		else -> super.onEvent(event)
 	}
 
-	override fun renderState(viewState: RoomHostViewState) = with(viewState) {
+	override fun renderState(viewState: RoomHostViewState): Unit = with(viewState) {
 		if (isEnabled) {
 			renderActionButton(isSharing)
 			renderImage(isSharing)
@@ -102,61 +103,6 @@ internal class RoomHostFragment : BaseFragment<RoomHostViewState>(), IHostView {
 		requireMessageView().showError("Not all permissions granted ( ｰ̀εｰ́ )")
 	}
 
-	private fun renderDisabled() {
-		requireButtonView().apply {
-			backgroundTintMode = PorterDuff.Mode.SRC_IN
-			backgroundTintList = ColorStateList.valueOf(Colors.GRAY)
-			setOnClickListener {}
-		}
-
-		requireImageView().apply {
-			setImageTintMode(this, PorterDuff.Mode.SRC_IN)
-			setImageTintList(this, ColorStateList.valueOf(Colors.BLACK))
-			setImageDrawable(getDrawable(requireContext(), com.lockwood.dwyw.ui.core.R.drawable.ic_broadcast))
-		}
-	}
-
-	private fun renderActionButton(isSharing: Boolean) {
-		requireButtonView().apply {
-			if (isSharing) {
-				isEnabled = true
-				text = "Stop"
-				backgroundTintList = ColorStateList.valueOf(Colors.RED)
-				setTextColor(Colors.WHITE)
-				setDebouncingOnClickListener { viewModel.stopBroadcasting() }
-			} else {
-				// temporary workaround to prevent crash because of uninitialized AudioRecord
-				isEnabled = false
-				text = "Start"
-				backgroundTintList = ColorStateList.valueOf(Colors.GRAY)
-				setTextColor(Colors.PURPLE)
-				setDebouncingOnClickListener { viewModel.startBroadcasting() }
-			}
-		}
-	}
-
-	private fun renderCaption(isSharing: Boolean) {
-		requireTextView().apply {
-			text = if (isSharing) {
-				"You are\nBroadcasting now"
-			} else {
-				"You are not\nBroadcasting now"
-			}
-		}
-	}
-
-	private fun renderImage(isSharing: Boolean) {
-		requireImageView().apply {
-			val imageTintList = if (isSharing) {
-				ColorStateList.valueOf(Colors.PURPLE_VARIANT)
-			} else {
-				ColorStateList.valueOf(Colors.GRAY)
-			}
-			setImageTintList(this, imageTintList)
-			setImageDrawable(getDrawable(requireContext(), com.lockwood.dwyw.ui.core.R.drawable.ic_broadcast))
-		}
-	}
-
 	private fun showConnectionDialog(room: Room) = showDialog {
 		setTitle("Attention")
 		setMessage("Accept connection with ${room.name}?")
@@ -166,6 +112,61 @@ internal class RoomHostFragment : BaseFragment<RoomHostViewState>(), IHostView {
 		}
 		setPositiveButton("Yes") { _, _ ->
 			viewModel.acceptConnection(room)
+		}
+	}
+
+	private fun stopHost() {
+		appContext.stopService<HostForegroundService>()
+		requireActivityType<ScreenView>().showScreen(RoomsDiscoveryScreen)
+	}
+
+	private fun renderDisabled() {
+		requireButtonView().apply {
+			backgroundTintMode = PorterDuff.Mode.SRC_IN
+			backgroundTintList = ColorStateList.valueOf(Colors.GRAY)
+			setOnClickListener {}
+		}
+
+		renderImage(Colors.BLACK)
+	}
+
+	private fun renderActionButton(isSharing: Boolean) = requireButtonView().apply {
+		if (isSharing) {
+			text = "Stop"
+			backgroundTintList = ColorStateList.valueOf(Colors.RED)
+			setTextColor(Colors.WHITE)
+			setDebouncingOnClickListener { viewModel.stopBroadcasting() }
+		} else {
+			// temporary workaround to prevent crash because of uninitialized AudioRecord
+			text = "Start"
+			backgroundTintList = ColorStateList.valueOf(Colors.GRAY)
+			setTextColor(Colors.PURPLE)
+			setDebouncingOnClickListener { viewModel.startBroadcasting() }
+		}
+	}
+
+	private fun renderCaption(isSharing: Boolean) = requireTextView().apply {
+		text = if (isSharing) {
+			"You are\nBroadcasting now"
+		} else {
+			"You are not\nBroadcasting now"
+		}
+	}
+
+	private fun renderImage(isSharing: Boolean) {
+		val imageTintList = if (isSharing) {
+			Colors.PURPLE_VARIANT
+		} else {
+			Colors.GRAY
+		}
+		renderImage(imageTintList)
+	}
+
+	private fun renderImage(@ColorInt tintColor: Int) {
+		requireImageView().apply {
+			setImageTintMode(this, PorterDuff.Mode.SRC_IN)
+			setImageTintList(this, ColorStateList.valueOf(tintColor))
+			setImageDrawable(getDrawable(requireContext(), com.lockwood.dwyw.ui.core.R.drawable.ic_broadcast))
 		}
 	}
 

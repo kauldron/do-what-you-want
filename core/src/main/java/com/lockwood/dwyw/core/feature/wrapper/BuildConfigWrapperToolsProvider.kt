@@ -1,4 +1,4 @@
-package com.lockwood.dwyw.core.wrapper
+package com.lockwood.dwyw.core.feature.wrapper
 
 interface BuildConfigWrapperToolsProvider {
 

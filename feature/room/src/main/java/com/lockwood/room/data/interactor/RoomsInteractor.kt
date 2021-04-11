@@ -29,8 +29,10 @@ internal class RoomsInteractor(
 		}
 
 	override fun startAdvertising(name: String): Task<Void> {
-		preferenceManager.isBroadcasting = true
-		preferenceManager.sharingRoomName = name
+		with(preferenceManager) {
+			isBroadcasting = true
+			sharingRoomName = name
+		}
 		return repository.startAdvertising(name)
 	}
 

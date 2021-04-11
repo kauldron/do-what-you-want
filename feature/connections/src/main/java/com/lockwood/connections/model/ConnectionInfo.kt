@@ -1,7 +1,5 @@
 package com.lockwood.connections.model
 
-class ConnectionInfo(
-		val isIncomingConnection: Boolean,
-		val authenticationToken: String,
+inline class ConnectionInfo(
 		val endpointName: String
 )
