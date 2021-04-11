@@ -14,6 +14,7 @@ import com.lockwood.replicant.executor.ExecutorProvider
 import com.lockwood.room.base.BaseRoomService
 import com.lockwood.room.data.interactor.IRoomsInteractor
 import com.lockwood.room.feature.RoomsFeature
+import java.io.ByteArrayInputStream
 import java.util.concurrent.Executor
 
 
@@ -100,7 +101,7 @@ internal class HostForegroundService : BaseRoomService() {
 
 	@WorkerThread
 	private fun shareData(byteArray: ByteArray) {
-		roomsInteractor.sendPayload(byteArray)
+		roomsInteractor.sendPayload(ByteArrayInputStream(byteArray))
 	}
 
 	@MainThread

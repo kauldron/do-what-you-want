@@ -14,6 +14,7 @@ import com.lockwood.room.data.interactor.IRoomsInteractor
 import com.lockwood.room.feature.RoomsFeature
 import java.io.InputStream
 import java.util.concurrent.Executor
+import timber.log.Timber
 
 internal class ClientForegroundService : BaseRoomService() {
 
@@ -78,7 +79,10 @@ internal class ClientForegroundService : BaseRoomService() {
 	private fun handleData(inputStream: InputStream) = readerExecutor.execute {
 		while (playerManager.getIsPlaying()) {
 			val byteArray = inputStream.readBytes()
-			playerManager.write(byteArray)
+			if (byteArray.isNotEmpty()) {
+				Timber.d("handleData: ${byteArray.size}")
+				playerManager.write(byteArray)
+			}
 		}
 	}
 
