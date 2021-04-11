@@ -1,5 +1,6 @@
 package com.lockwood.room.feature.client.ui
 
+import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.PorterDuff
 import android.os.Bundle
@@ -19,9 +20,12 @@ import com.lockwood.automata.android.startForegroundService
 import com.lockwood.automata.android.stopService
 import com.lockwood.dwyw.core.ui.BaseFragment
 import com.lockwood.dwyw.ui.core.Colors
+import com.lockwood.replicant.context.ApplicationContextProvider
 import com.lockwood.replicant.event.Event
 import com.lockwood.replicant.event.observeEvents
 import com.lockwood.replicant.ext.observeState
+import com.lockwood.replicant.view.ScreenView
+import com.lockwood.replicant.view.ext.requireActivityType
 import com.lockwood.replicant.view.ext.requireProgressView
 import com.lockwood.replicant.view.ext.setDebouncingOnClickListener
 import com.lockwood.room.R
@@ -30,12 +34,19 @@ import com.lockwood.room.feature.client.event.StartClientServiceEvent
 import com.lockwood.room.feature.client.event.StopClientServiceEvent
 import com.lockwood.room.feature.client.service.ClientForegroundService
 import com.lockwood.room.model.Room
+import com.lockwood.room.screen.RoomsDiscoveryScreen
 
 internal class RoomClientFragment : BaseFragment<RoomClientViewState>() {
 
 	private val viewModel by viewModels<RoomClientViewModel> {
 		getFeature<RoomsFeature>().viewModelsFactory
 	}
+
+	private val appContext: Context
+		get() {
+			val contextProvider = (requireContext().applicationContext as ApplicationContextProvider)
+			return contextProvider.applicationContext.value
+		}
 
 	override fun onCreateView(
 			inflater: LayoutInflater,
@@ -55,8 +66,8 @@ internal class RoomClientFragment : BaseFragment<RoomClientViewState>() {
 	}
 
 	override fun onEvent(event: Event) = when (event) {
-		is StartClientServiceEvent -> requireContext().startForegroundService<ClientForegroundService>()
-		is StopClientServiceEvent -> requireContext().stopService<ClientForegroundService>()
+		is StartClientServiceEvent -> appContext.startForegroundService<ClientForegroundService>()
+		is StopClientServiceEvent -> stopConnect()
 		else -> super.onEvent(event)
 	}
 
@@ -68,6 +79,11 @@ internal class RoomClientFragment : BaseFragment<RoomClientViewState>() {
 		} else {
 			renderDisabled()
 		}
+	}
+
+	private fun stopConnect() {
+		appContext.stopService<ClientForegroundService>()
+		requireActivityType<ScreenView>().showScreen(RoomsDiscoveryScreen)
 	}
 
 	private fun renderDisabled() {
