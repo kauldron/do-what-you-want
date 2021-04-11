@@ -1,6 +1,5 @@
 package com.lockwood.recorder
 
-import android.annotation.SuppressLint
 import android.media.AudioRecord
 import com.lockwood.automata.core.notSafeLazy
 import com.lockwood.dwyw.core.media.AudioParams
@@ -36,7 +35,7 @@ internal class AudioRecorder(
 	}
 
 	override fun read() {
-		audioRecord.read(byteArray, 0, preferredBufferSize, AudioRecord.READ_NON_BLOCKING)
+		audioRecord.read(byteArray, 0, preferredBufferSize)
 
 		listeners.forEach { recordCallback -> recordCallback.onRead(byteArray) }
 	}
