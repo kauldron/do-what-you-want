@@ -2,6 +2,8 @@ package com.lockwood.room.feature.host.service
 
 import android.app.Notification
 import android.content.Intent
+import android.widget.Toast
+import androidx.annotation.MainThread
 import androidx.annotation.WorkerThread
 import com.lockwood.dwyw.core.feature.CoreFeature
 import com.lockwood.dwyw.core.wrapper.WrapperFeature
@@ -55,9 +57,14 @@ internal class HostForegroundService : BaseRoomService() {
 
 	override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 		startForeground()
-		roomsInteractor.startAdvertising(deviceName)
+		startAdvertising()
 
 		return START_STICKY_COMPATIBILITY
+	}
+
+	private fun startAdvertising() {
+		roomsInteractor.startAdvertising(deviceName)
+				.addOnFailureListener { showToast(it.message.toString()) }
 	}
 
 	override fun onCreate() {
@@ -94,6 +101,11 @@ internal class HostForegroundService : BaseRoomService() {
 	@WorkerThread
 	private fun shareData(byteArray: ByteArray) {
 		roomsInteractor.sendPayload(byteArray)
+	}
+
+	@MainThread
+	private fun showToast(string: String) = executorProvider.main().execute {
+		Toast.makeText(this, string, Toast.LENGTH_SHORT).show()
 	}
 
 }

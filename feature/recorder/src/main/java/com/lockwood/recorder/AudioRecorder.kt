@@ -35,7 +35,6 @@ internal class AudioRecorder(
 		return isRecording
 	}
 
-	@SuppressLint("NewApi")
 	override fun read() {
 		audioRecord.read(byteArray, 0, preferredBufferSize, AudioRecord.READ_NON_BLOCKING)
 
