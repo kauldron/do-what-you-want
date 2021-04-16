@@ -1,16 +1,17 @@
 package com.lockwood.replicant.executor
 
 import java.util.concurrent.Executor
+import java.util.concurrent.ExecutorService
 
 interface ExecutorProvider {
 
 	fun main(): Executor
 
-	fun io(): Executor
+	fun io(): ExecutorService
 
-	fun network(): Executor
+	fun network(): ExecutorService
 
-	fun cpu(): Executor
+	fun cpu(): ExecutorService
 
 	fun postMain(runnable: Runnable)
 

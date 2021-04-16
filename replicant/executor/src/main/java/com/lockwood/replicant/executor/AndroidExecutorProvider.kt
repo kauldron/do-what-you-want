@@ -3,6 +3,7 @@ package com.lockwood.replicant.executor
 import android.os.Handler
 import android.os.Looper
 import java.util.concurrent.Executor
+import java.util.concurrent.ExecutorService
 import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.ThreadPoolExecutor
 import java.util.concurrent.TimeUnit
@@ -24,13 +25,13 @@ class AndroidExecutorProvider : ExecutorProvider {
 		private const val KEEP_ALIVE_TIME = 1L
 	}
 
-	private val ioExecutor: Executor
+	private val ioExecutor: ExecutorService
 		get() = buildThreadPoolExecutor(IO_MAX_POOL_SIZE)
 
-	private val networkExecutor: Executor
+	private val networkExecutor: ExecutorService
 		get() = buildThreadPoolExecutor(NETWORK_MAX_POOL_SIZE)
 
-	private val cpuExecutor: Executor
+	private val cpuExecutor: ExecutorService
 		get() = buildThreadPoolExecutor(CPU_COUNT)
 
 	private val mainExecutor: Executor
@@ -40,11 +41,11 @@ class AndroidExecutorProvider : ExecutorProvider {
 
 	override fun main(): Executor = mainExecutor
 
-	override fun io(): Executor = ioExecutor
+	override fun io(): ExecutorService = ioExecutor
 
-	override fun network(): Executor = networkExecutor
+	override fun network(): ExecutorService = networkExecutor
 
-	override fun cpu(): Executor = cpuExecutor
+	override fun cpu(): ExecutorService = cpuExecutor
 
 	override fun postMain(runnable: Runnable) {
 		mainThreadHandler.post(runnable)
@@ -54,7 +55,7 @@ class AndroidExecutorProvider : ExecutorProvider {
 		mainThreadHandler.postDelayed(runnable, delay.toLong())
 	}
 
-	private fun buildThreadPoolExecutor(maximumPoolSize: Int): Executor {
+	private fun buildThreadPoolExecutor(maximumPoolSize: Int): ExecutorService {
 		return ThreadPoolExecutor(
 				CORE_POOL_SIZE,
 				maximumPoolSize,

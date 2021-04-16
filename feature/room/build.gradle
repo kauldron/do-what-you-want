@@ -18,6 +18,7 @@ dependencies {
     implementation project(":replicant")
     implementation project(":replicant:delegate")
     implementation project(":replicant:executor")
+    implementation project(":replicant:inflater")
 
     implementation project(":feature:connections")
     implementation project(":feature:player")

@@ -19,6 +19,7 @@ import com.lockwood.player.feature.PlayerFeature
 import com.lockwood.recorder.feature.RecorderFeature
 import com.lockwood.recorder.manager.IMediaProjectionManager
 import com.lockwood.replicant.ext.mergePermissions
+import com.lockwood.replicant.inflater.ext.setContentViewAsync
 import com.lockwood.replicant.screen.Screen
 import com.lockwood.replicant.view.MessageView
 import com.lockwood.replicant.view.ProgressView
@@ -86,12 +87,12 @@ internal class RoomConnectionActivity : BaseActivity(),
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
-		setContentView(R.layout.activity_rooms)
+		setContentViewAsync(R.layout.activity_rooms) {
+			initActionBar()
 
-		initActionBar()
-
-		handleIntent()
-		requestPermissions()
+			handleIntent()
+			requestPermissions()
+		}
 	}
 
 	override fun onCreateOptionsMenu(menu: Menu): Boolean = with(menu) {

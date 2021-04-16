@@ -7,4 +7,4 @@ include ":automata:android", ":automata:core", ":automata:file",
         ":automata:intent", ":automata:notification", ":automata:text",
         ":automata:view", ":automata:screen", ":automata:recycler"
 include ":replicant", ":replicant:delegate", ":replicant:executor", ":replicant:imageloader",
-        ":replicant:locale"
+        ":replicant:inflater", ":replicant:locale"
