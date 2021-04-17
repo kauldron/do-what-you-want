@@ -86,7 +86,6 @@ internal class RoomConnectionActivity : BaseActivity(),
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-
 		setContentViewAsync(R.layout.activity_rooms) {
 			initActionBar()
 

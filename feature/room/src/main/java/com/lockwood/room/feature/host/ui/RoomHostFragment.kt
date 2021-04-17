@@ -26,7 +26,6 @@ import com.lockwood.replicant.context.ApplicationContextProvider
 import com.lockwood.replicant.event.Event
 import com.lockwood.replicant.event.observeEvents
 import com.lockwood.replicant.ext.observeState
-import com.lockwood.replicant.view.ScreenView
 import com.lockwood.replicant.view.ext.requireActivityType
 import com.lockwood.replicant.view.ext.requireMessageView
 import com.lockwood.replicant.view.ext.requireProgressView
@@ -39,7 +38,6 @@ import com.lockwood.room.feature.host.event.StartHostServiceEvent
 import com.lockwood.room.feature.host.event.StopHostServiceEvent
 import com.lockwood.room.feature.host.service.HostForegroundService
 import com.lockwood.room.model.Room
-import com.lockwood.room.screen.RoomsDiscoveryScreen
 
 internal class RoomHostFragment : BaseFragment<RoomHostViewState>(), IHostView {
 
@@ -76,7 +74,7 @@ internal class RoomHostFragment : BaseFragment<RoomHostViewState>(), IHostView {
 	override fun onEvent(event: Event) = when (event) {
 		is RequestCaptureEvent -> requestCapture()
 		is StartHostServiceEvent -> appContext.startForegroundService<HostForegroundService>()
-		is StopHostServiceEvent -> stopHost()
+		is StopHostServiceEvent -> appContext.stopService<HostForegroundService>()
 		is ShowAcceptConnectionEvent -> showConnectionDialog(event.room)
 		else -> super.onEvent(event)
 	}
@@ -115,11 +113,6 @@ internal class RoomHostFragment : BaseFragment<RoomHostViewState>(), IHostView {
 		}
 	}
 
-	private fun stopHost() {
-		appContext.stopService<HostForegroundService>()
-		requireActivityType<ScreenView>().showScreen(RoomsDiscoveryScreen)
-	}
-
 	private fun renderDisabled() {
 		requireButtonView().apply {
 			backgroundTintMode = PorterDuff.Mode.SRC_IN
@@ -137,11 +130,13 @@ internal class RoomHostFragment : BaseFragment<RoomHostViewState>(), IHostView {
 			setTextColor(Colors.WHITE)
 			setDebouncingOnClickListener { viewModel.stopBroadcasting() }
 		} else {
-			// temporary workaround to prevent crash because of uninitialized AudioRecord
 			text = "Start"
 			backgroundTintList = ColorStateList.valueOf(Colors.GRAY)
 			setTextColor(Colors.PURPLE)
-			setDebouncingOnClickListener { viewModel.startBroadcasting() }
+			setDebouncingOnClickListener {
+				// temporary workaround to prevent crash because of uninitialized AudioRecord
+				// viewModel.startBroadcasting()
+			}
 		}
 	}
 

@@ -8,7 +8,7 @@ import com.lockwood.replicant.inflater.AsyncLayoutInflater
 inline fun Activity.setContentViewAsync(
 		@LayoutRes resID: Int,
 		crossinline callback: (View) -> Unit
-) = AsyncLayoutInflater(this).inflate(resId = resID) { view, _, _ ->
+) = AsyncLayoutInflater(this).inflate(resID) { view, _, _ ->
 	setContentView(view)
 	callback.invoke(view)
 }

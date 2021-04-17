@@ -7,68 +7,51 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.annotation.UiThread
-import androidx.annotation.WorkerThread
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.LinkedBlockingQueue
-import java.util.concurrent.ThreadPoolExecutor
-import java.util.concurrent.TimeUnit.MINUTES
 
 class AsyncLayoutInflater(
-		context: Context,
-		executorService: ExecutorService = ThreadPoolExecutor(
-				CORE_POOL_SIZE,
-				MAX_POOL_SIZE,
-				KEEP_ALIVE_TIME,
-				MINUTES,
-				LinkedBlockingQueue()
-		)
-) : BaseAsyncLayoutInflater(context, executorService) {
+		context: Context
+) : BaseAsyncLayoutInflater(context) {
 
 	private companion object {
 
 		private const val TAG = "AsyncLayoutInflater"
-
-
-		private val CPU_COUNT: Int = Runtime.getRuntime().availableProcessors()
-		private val MAX_POOL_SIZE: Int = 2.coerceAtLeast(CPU_COUNT / 4)
-
-		private const val CORE_POOL_SIZE: Int = 0
-		private const val KEEP_ALIVE_TIME: Long = 1L
 	}
 
-	private val basicInflater: LayoutInflater = BasicInflater(context)
-
-	override fun cloneInContext(newContext: Context): LayoutInflater = BasicInflater(newContext)
+	override fun cloneInContext(
+			newContext: Context
+	): LayoutInflater = AsyncLayoutInflater(newContext)
 
 	@UiThread
 	override fun inflate(
 			@LayoutRes resId: Int,
 			viewGroup: ViewGroup?,
 			callback: (View, Int, ViewGroup?) -> Unit,
-	): Unit = runOnWorkerThread { tryInflateAsync(resId, viewGroup, callback) }
+	) {
+		try {
+			inflateOnWorkerThread(resId, viewGroup, callback)
+		} catch (e: RuntimeException) {
+			Log.w(TAG, "Failed to inflate in the background ${e.javaClass.simpleName}! Retrying on the UI thread")
+			inflateOnUiThread(resId, viewGroup, callback)
+		}
+	}
 
-	@WorkerThread
-	override fun tryInflateAsync(
+	@kotlin.jvm.Throws(RuntimeException::class)
+	private fun inflateOnWorkerThread(
 			@LayoutRes resId: Int,
 			viewGroup: ViewGroup?,
 			callback: (View, Int, ViewGroup?) -> Unit
-	) {
-		try {
-			val view = basicInflater.inflate(resId, viewGroup, false)
-			runOnUiThread {
-				callback.invoke(view, resId, viewGroup)
-			}
-		} catch (e: RuntimeException) {
-			Log.w(
-					TAG,
-					"Failed to inflate resource in the background cause ${e.javaClass.simpleName}! Retrying on the UI thread"
-			)
+	) = runOnWorkerThread {
+		val view = inflate(resId, viewGroup, false)
+		runOnUiThread { callback.invoke(view, resId, viewGroup) }
+	}
 
-			runOnUiThread {
-				val view = basicInflater.inflate(resId, viewGroup, false)
-				callback.invoke(view, resId, viewGroup)
-			}
-		}
+	private fun inflateOnUiThread(
+			@LayoutRes resId: Int,
+			viewGroup: ViewGroup?,
+			callback: (View, Int, ViewGroup?) -> Unit
+	) = runOnUiThread {
+		val view = inflate(resId, viewGroup, false)
+		callback.invoke(view, resId, viewGroup)
 	}
 
 }
