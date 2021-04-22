@@ -1,7 +1,15 @@
 package com.lockwood.automata.core
 
-inline class NotEmptyString(val value: String) {
+inline class NotEmptyString(
+		val value: String
+) {
+
+	init {
+		require(value.isNotEmpty())
+	}
+
 	override fun toString(): String = value
+
 }
 
 @kotlin.jvm.Throws(IllegalArgumentException::class)

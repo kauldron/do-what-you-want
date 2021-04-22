@@ -9,10 +9,6 @@ import com.lockwood.replicant.base.FeatureActivity
 
 abstract class BaseActivity : FeatureActivity() {
 
-	protected fun showToast(string: String) {
-		Toast.makeText(this, string, Toast.LENGTH_SHORT).show()
-	}
-
 	protected inline fun <reified T : Fragment> showFragment(
 			@IdRes id: Int,
 			fragment: Fragment,
@@ -35,4 +31,7 @@ abstract class BaseActivity : FeatureActivity() {
 		}.show()
 	}
 
+	protected fun showToast(string: String) {
+		Toast.makeText(this, string, Toast.LENGTH_SHORT).show()
+	}
 }

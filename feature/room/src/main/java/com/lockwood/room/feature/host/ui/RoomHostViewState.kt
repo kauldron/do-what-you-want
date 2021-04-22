@@ -16,24 +16,6 @@ internal data class RoomHostViewState(
 			}
 	}
 
-	override fun equals(other: Any?): Boolean {
-		if (this === other) return true
-		if (javaClass != other?.javaClass) return false
-
-		other as RoomHostViewState
-
-		if (isEnabled != other.isEnabled) return false
-		if (isSharing != other.isSharing) return false
-
-		return true
-	}
-
-	override fun hashCode(): Int {
-		var result = isEnabled.hashCode()
-		result = 31 * result + isSharing.hashCode()
-		return result
-	}
-
 	override fun toString(): String {
 		return super.toString()
 	}
