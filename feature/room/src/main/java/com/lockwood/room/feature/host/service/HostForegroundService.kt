@@ -14,7 +14,7 @@ import com.lockwood.replicant.executor.ExecutorProvider
 import com.lockwood.room.base.BaseRoomService
 import com.lockwood.room.data.interactor.IRoomsInteractor
 import com.lockwood.room.feature.RoomsFeature
-import java.util.concurrent.Executor
+import java.util.concurrent.ExecutorService
 
 
 internal class HostForegroundService : BaseRoomService() {
@@ -25,11 +25,11 @@ internal class HostForegroundService : BaseRoomService() {
 
 	}
 
-	private val recorderExecutor: Executor by lazy {
+	private val recorderExecutor: ExecutorService by lazy {
 		executorProvider.io()
 	}
 
-	private val payloadExecutor: Executor by lazy {
+	private val payloadExecutor: ExecutorService by lazy {
 		executorProvider.io()
 	}
 
@@ -82,6 +82,10 @@ internal class HostForegroundService : BaseRoomService() {
 			resetCacheState()
 		}
 		audioRecorder.removeRecordCallback(recordCallback)
+
+		recorderExecutor.shutdown()
+		payloadExecutor.shutdown()
+
 		releaseFeature<RecorderFeature>()
 	}
 

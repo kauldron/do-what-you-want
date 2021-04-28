@@ -102,12 +102,12 @@ internal class RoomClientFragment : BaseFragment<RoomClientViewState>() {
 				text = "Disconnect"
 				backgroundTintList = ColorStateList.valueOf(Colors.RED)
 				setTextColor(Colors.WHITE)
-				setDebouncingOnClickListener { viewModel.onDisconnect() }
+				setDebouncingOnClickListener(viewModel::onDisconnect)
 			} else {
 				text = "Connect to ${room.name}"
 				backgroundTintList = ColorStateList.valueOf(Colors.GRAY)
 				setTextColor(Colors.PURPLE)
-				setDebouncingOnClickListener { viewModel.requestConnection() }
+				setDebouncingOnClickListener(viewModel::requestConnection)
 			}
 		}
 	}

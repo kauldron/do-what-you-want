@@ -13,6 +13,7 @@ import com.lockwood.room.base.BaseRoomService
 import com.lockwood.room.data.interactor.IRoomsInteractor
 import com.lockwood.room.feature.RoomsFeature
 import java.util.concurrent.Executor
+import java.util.concurrent.ExecutorService
 
 internal class ClientForegroundService : BaseRoomService() {
 
@@ -21,7 +22,7 @@ internal class ClientForegroundService : BaseRoomService() {
 		private const val NOTIFICATION_ID = 1080
 	}
 
-	private val readerExecutor: Executor by lazy {
+	private val readerExecutor: ExecutorService by lazy {
 		executorProvider.io()
 	}
 
@@ -62,6 +63,8 @@ internal class ClientForegroundService : BaseRoomService() {
 			resetCacheState()
 			removePayloadCallback(payloadCallback)
 		}
+
+		readerExecutor.shutdown()
 
 		releaseFeature<PlayerFeature>()
 	}

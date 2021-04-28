@@ -1,11 +1,12 @@
 package com.lockwood.room.feature.discover.ui
 
+import com.lockwood.dwyw.core.ui.state.LoadingState
 import com.lockwood.replicant.state.ViewState
-import com.lockwood.room.model.Room
+import com.lockwood.room.feature.discover.model.RoomsArray
 
 internal data class RoomsDiscoverViewState(
-		val rooms: Array<Room>,
-		val isLoading: Boolean,
+		val rooms: RoomsArray,
+		val isLoading: LoadingState,
 ) : ViewState {
 
 	companion object {
@@ -14,8 +15,8 @@ internal data class RoomsDiscoverViewState(
 			@JvmStatic
 			get() {
 				return RoomsDiscoverViewState(
-						rooms = emptyArray(),
-						isLoading = true,
+						rooms = RoomsArray(emptyArray()),
+						isLoading = LoadingState(true),
 				)
 			}
 	}
@@ -26,14 +27,14 @@ internal data class RoomsDiscoverViewState(
 
 		other as RoomsDiscoverViewState
 
-		if (!rooms.contentEquals(other.rooms)) return false
+		if (!rooms.value.contentEquals(other.rooms.value)) return false
 		if (isLoading != other.isLoading) return false
 
 		return true
 	}
 
 	override fun hashCode(): Int {
-		var result = rooms.contentHashCode()
+		var result = rooms.value.contentHashCode()
 		result = 31 * result + isLoading.hashCode()
 		return result
 	}

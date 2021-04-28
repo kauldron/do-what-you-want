@@ -77,7 +77,7 @@ internal class RoomClientViewModel(
 		stopPlaying()
 	}
 
-	private fun startPlaying() {
+	private fun startPlaying()  {
 		mutateState { state.copy(isEnabled = true, isConnected = true, room = roomsInteractor.connectedRoom) }
 		offerEvent { StartClientServiceEvent }
 	}

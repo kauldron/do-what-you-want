@@ -9,13 +9,16 @@ import com.lockwood.connections.model.ConnectionSuccess
 import com.lockwood.connections.model.ConnectionsStatus
 import com.lockwood.connections.model.EndpointId
 import com.lockwood.connections.model.EndpointInfo
+import com.lockwood.dwyw.core.ui.state.LoadingState
 import com.lockwood.replicant.event.Event
 import com.lockwood.replicant.event.MessageEvent
 import com.lockwood.replicant.event.ShowScreenEvent
 import com.lockwood.replicant.executor.ExecutorProvider
+import com.lockwood.replicant.transform.StateTransformer
 import com.lockwood.room.base.BaseConnectionViewModel
 import com.lockwood.room.data.interactor.IRoomsInteractor
 import com.lockwood.room.feature.discover.event.ShowAcceptConnectionEvent
+import com.lockwood.room.feature.discover.model.RoomsArray
 import com.lockwood.room.model.Room
 import com.lockwood.room.screen.RoomConnectionScreen
 import com.lockwood.room.screen.RoomsAdvertisingScreen
@@ -31,10 +34,12 @@ internal class RoomsDiscoverViewModel(
 		initState = RoomsDiscoverViewState.initialState
 ) {
 
+	override val stateTransformer: StateTransformer<RoomsDiscoverViewState> = RoomsDiscoverStateTransformer()
+
 	private val discoveryCallback: Lazy<DiscoveryCallback> = notSafeLazy {
 		object : DiscoveryCallback {
-			override fun onEndpointFound(endpointId: EndpointId, info: EndpointInfo) = with(info) {
-				addRoom(Room(endpointId = endpointId, name = name))
+			override fun onEndpointFound(endpointId: EndpointId, info: EndpointInfo) {
+				addRoom(Room(endpointId = endpointId, name = info.name))
 			}
 
 			override fun onEndpointLost(endpointId: EndpointId) {
@@ -48,23 +53,20 @@ internal class RoomsDiscoverViewModel(
 			override fun onConnectionInitiated(endpointId: EndpointId, connectionInfo: ConnectionInfo) {
 				val room = Room(endpointId = endpointId, name = connectionInfo.endpointName)
 
-				offerEvent { ShowAcceptConnectionEvent(room) }
+				withEvent { ShowAcceptConnectionEvent(room) }
 			}
 
 			override fun onConnectionResult(endpointId: EndpointId, connectionStatus: ConnectionsStatus) {
-				mutateState { state.copy(isLoading = false) }
-
 				val statusEvent = when (connectionStatus) {
 					is ConnectionSuccess -> navigateToConnectedRoom()
 					else -> MessageEvent("Connection result with $endpointId: $connectionStatus")
 				}
-				offerEvent { statusEvent }
+
+				withEvent { statusEvent }
 			}
 
 			override fun onDisconnected(endpointId: EndpointId) {
-				mutateState { state.copy(isLoading = false) }
-
-				offerEvent { MessageEvent("Disconnected from $endpointId") }
+				acceptLoading().withEvent { MessageEvent("Disconnected from $endpointId") }
 			}
 		}
 	}
@@ -76,44 +78,39 @@ internal class RoomsDiscoverViewModel(
 	}
 
 	override fun requestConnection(item: Room) {
-		mutateState { state.copy(isLoading = true) }
-
 		addConnectionCallback(connectionCallback)
-
-		roomsInteractor.connectedRoom = item
+		acceptLoading(true).also { roomsInteractor.connectedRoom = item }
 		super.requestConnection(item)
 	}
 
 	override fun acceptConnection(item: Room) {
 		super.acceptConnection(item)
-
-		mutateState { state.copy(isLoading = false) }
+		acceptLoading()
 	}
 
 	override fun rejectConnection(item: Room) {
 		super.rejectConnection(item)
-
-		mutateState { state.copy(isLoading = false) }
+		acceptLoading()
 	}
 
 	fun startDiscoveryRooms() {
-		mutateState { state.copy(isLoading = true) }
-
 		addDiscoveryCallback(discoveryCallback)
 
 		// post delay to get around of screen blinking
-		postDelay {
-			roomsInteractor
-					.startDiscovery()
-					.addOnCompleteListener {
-						// post delay to workaround of getting single endpoint with nearby api
-						postDelay { mutateState { state.copy(isLoading = false) } }
-					}
-		}
+		acceptLoading(true).also { postDelay(::startDiscovery) }
 	}
 
 	fun navigateToAdvertising() {
 		navigateTo(RoomsAdvertisingScreen)
+	}
+
+	private fun startDiscovery() {
+		roomsInteractor
+				.startDiscovery()
+				.addOnCompleteListener {
+					// post delay to workaround of getting single endpoint with nearby api
+					postDelay { acceptLoading() }
+				}
 	}
 
 	private fun navigateToConnectedRoom(): Event {
@@ -122,21 +119,30 @@ internal class RoomsDiscoverViewModel(
 	}
 
 	private fun addRoom(room: Room) {
-		val rooms = state.rooms
+		// TODO: Add action
+		state.rooms.value
 				.toMutableSet()
 				.apply { add(room) }
 				.sortedBy(Room::name)
 				.toTypedArray()
-
-		mutateState { state.copy(rooms = rooms) }
+				.also(::acceptRooms)
 	}
 
 	private fun removeRoom(endpointId: EndpointId) {
-		val rooms = state.rooms
+		// TODO: Add action
+		state.rooms.value
 				.toList()
 				.filterNot { room -> room.endpointId == endpointId }
 				.toTypedArray()
-
-		mutateState { state.copy(rooms = rooms) }
+				.also(::acceptRooms)
 	}
+
+	private fun acceptLoading(isLoading: Boolean = false) {
+		stateTransformer.accept(LoadingState(isLoading), state)
+	}
+
+	private fun acceptRooms(rooms: Array<Room>) {
+		stateTransformer.accept(RoomsArray(rooms), state)
+	}
+
 }

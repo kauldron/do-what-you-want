@@ -128,15 +128,13 @@ internal class RoomHostFragment : BaseFragment<RoomHostViewState>(), IHostView {
 			text = "Stop"
 			backgroundTintList = ColorStateList.valueOf(Colors.RED)
 			setTextColor(Colors.WHITE)
-			setDebouncingOnClickListener { viewModel.stopBroadcasting() }
+			setDebouncingOnClickListener(viewModel::stopBroadcasting)
 		} else {
 			text = "Start"
 			backgroundTintList = ColorStateList.valueOf(Colors.GRAY)
 			setTextColor(Colors.PURPLE)
-			setDebouncingOnClickListener {
-				// temporary workaround to prevent crash because of uninitialized AudioRecord
-				// viewModel.startBroadcasting()
-			}
+			// temporary workaround to prevent crash because of uninitialized AudioRecord
+//			setDebouncingOnClickListener(viewModel::startBroadcasting)
 		}
 	}
 

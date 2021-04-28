@@ -68,8 +68,8 @@ internal class RoomsDiscoverFragment : BaseFragment<RoomsDiscoverViewState>() {
 
 	override fun renderState(viewState: RoomsDiscoverViewState) {
 		with(viewState) {
-			renderLoading(isLoading, rooms.isNullOrEmpty())
-			renderRooms(rooms)
+			renderLoading(isLoading.value, rooms.value.isNullOrEmpty())
+			renderRooms(rooms.value)
 		}
 	}
 
@@ -108,11 +108,11 @@ internal class RoomsDiscoverFragment : BaseFragment<RoomsDiscoverViewState>() {
 
 	private fun initStubView() {
 		requireView().findViewById<View>(R.id.start_discovery_button).apply {
-			setDebouncingOnClickListener { viewModel.startDiscoveryRooms() }
+			setDebouncingOnClickListener(viewModel::startDiscoveryRooms)
 		}
 		requireView().findViewById<View>(R.id.start_broadcasting_button).apply {
 			isVisible = isAudioRecordEnabled
-			setDebouncingOnClickListener { viewModel.navigateToAdvertising() }
+			setDebouncingOnClickListener(viewModel::navigateToAdvertising)
 		}
 	}
 
