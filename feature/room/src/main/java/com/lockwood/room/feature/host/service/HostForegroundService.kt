@@ -10,7 +10,7 @@ import com.lockwood.dwyw.core.feature.wrapper.WrapperFeature
 import com.lockwood.recorder.IAudioRecorder
 import com.lockwood.recorder.callback.RecordCallback
 import com.lockwood.recorder.feature.RecorderFeature
-import com.lockwood.replicant.executor.ExecutorProvider
+import com.lockwood.replicant.executor.provider.ExecutorProvider
 import com.lockwood.room.base.BaseRoomService
 import com.lockwood.room.data.interactor.IRoomsInteractor
 import com.lockwood.room.feature.RoomsFeature

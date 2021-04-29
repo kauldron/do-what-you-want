@@ -8,11 +8,10 @@ import com.lockwood.connections.model.EndpointId
 import com.lockwood.dwyw.core.feature.CoreFeature
 import com.lockwood.player.IPlayerManager
 import com.lockwood.player.feature.PlayerFeature
-import com.lockwood.replicant.executor.ExecutorProvider
+import com.lockwood.replicant.executor.provider.ExecutorProvider
 import com.lockwood.room.base.BaseRoomService
 import com.lockwood.room.data.interactor.IRoomsInteractor
 import com.lockwood.room.feature.RoomsFeature
-import java.util.concurrent.Executor
 import java.util.concurrent.ExecutorService
 
 internal class ClientForegroundService : BaseRoomService() {

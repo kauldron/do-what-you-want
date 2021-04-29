@@ -7,7 +7,8 @@ import com.lockwood.connections.model.ConnectionInfo
 import com.lockwood.connections.model.ConnectionsStatus
 import com.lockwood.connections.model.EndpointId
 import com.lockwood.replicant.event.MessageEvent
-import com.lockwood.replicant.executor.ExecutorProvider
+import com.lockwood.replicant.executor.provider.ExecutorProvider
+import com.lockwood.replicant.transform.StateTransformer
 import com.lockwood.room.base.BaseConnectionViewModel
 import com.lockwood.room.data.interactor.IRoomsInteractor
 import com.lockwood.room.feature.discover.event.ShowAcceptConnectionEvent
@@ -26,6 +27,13 @@ internal class RoomHostViewModel(
 		executorProvider = executorProvider,
 		initState = RoomHostViewState.initialState
 ) {
+
+	// TODO: Replace with reducer
+	override val stateTransformer: StateTransformer<RoomHostViewState> = object : StateTransformer<RoomHostViewState> {
+		override fun <T> accept(data: T, state: RoomHostViewState): RoomHostViewState {
+			return state
+		}
+	}
 
 	private val connectionCallback: Lazy<ConnectionCallback> = notSafeLazy {
 		object : ConnectionCallback {

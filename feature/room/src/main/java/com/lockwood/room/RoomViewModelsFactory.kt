@@ -3,7 +3,7 @@ package com.lockwood.room
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.lockwood.connections.INearbyConnectionsManager
-import com.lockwood.replicant.executor.ExecutorProvider
+import com.lockwood.replicant.executor.provider.ExecutorProvider
 import com.lockwood.room.data.interactor.IRoomsInteractor
 import com.lockwood.room.feature.client.ui.RoomClientViewModel
 import com.lockwood.room.feature.discover.ui.RoomsDiscoverViewModel

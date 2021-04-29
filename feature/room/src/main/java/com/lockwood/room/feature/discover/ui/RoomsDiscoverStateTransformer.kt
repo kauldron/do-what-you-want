@@ -7,6 +7,7 @@ import timber.log.Timber
 
 internal class RoomsDiscoverStateTransformer : StateTransformer<RoomsDiscoverViewState> {
 
+	// TODO: Replace with reducer
 	override fun <T> accept(
 			data: T,
 			state: RoomsDiscoverViewState

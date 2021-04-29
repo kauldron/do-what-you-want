@@ -1,11 +1,8 @@
 package com.lockwood.replicant.executor
 
-import java.util.concurrent.Executor
 import java.util.concurrent.ExecutorService
 
-interface ExecutorProvider {
-
-	fun main(): Executor
+interface ExecutorFactory {
 
 	fun io(): ExecutorService
 
@@ -13,7 +10,4 @@ interface ExecutorProvider {
 
 	fun cpu(): ExecutorService
 
-	fun postMain(runnable: Runnable)
-
-	fun postMainDelay(runnable: Runnable, delay: Number)
 }

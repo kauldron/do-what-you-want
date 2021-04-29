@@ -34,7 +34,7 @@ abstract class ReplicantViewModel<VS : ViewState>(initialState: VS) : ViewModel(
 
 	@Deprecated(
 			message = "Will be removed",
-			replaceWith = ReplaceWith("stateTransformer"),
+			replaceWith = ReplaceWith("stateReducer"),
 			level = WARNING
 	)
 	protected inline fun mutateState(mutate: () -> VS) {

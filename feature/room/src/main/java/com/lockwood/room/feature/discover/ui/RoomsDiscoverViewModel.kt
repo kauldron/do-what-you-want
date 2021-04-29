@@ -13,7 +13,7 @@ import com.lockwood.dwyw.core.ui.state.LoadingState
 import com.lockwood.replicant.event.Event
 import com.lockwood.replicant.event.MessageEvent
 import com.lockwood.replicant.event.ShowScreenEvent
-import com.lockwood.replicant.executor.ExecutorProvider
+import com.lockwood.replicant.executor.provider.ExecutorProvider
 import com.lockwood.replicant.transform.StateTransformer
 import com.lockwood.room.base.BaseConnectionViewModel
 import com.lockwood.room.data.interactor.IRoomsInteractor

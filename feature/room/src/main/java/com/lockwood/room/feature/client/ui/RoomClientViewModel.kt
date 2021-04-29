@@ -8,7 +8,8 @@ import com.lockwood.connections.model.ConnectionSuccess
 import com.lockwood.connections.model.ConnectionsStatus
 import com.lockwood.connections.model.EndpointId
 import com.lockwood.replicant.event.MessageEvent
-import com.lockwood.replicant.executor.ExecutorProvider
+import com.lockwood.replicant.executor.provider.ExecutorProvider
+import com.lockwood.replicant.transform.StateTransformer
 import com.lockwood.room.base.BaseConnectionViewModel
 import com.lockwood.room.data.interactor.IRoomsInteractor
 import com.lockwood.room.feature.client.event.StartClientServiceEvent
@@ -25,6 +26,13 @@ internal class RoomClientViewModel(
 		executorProvider = executorProvider,
 		initState = RoomClientViewState.initialState
 ) {
+
+	override val stateTransformer: StateTransformer<RoomClientViewState> = object : StateTransformer<RoomClientViewState> {
+		override fun <T> accept(data: T, state: RoomClientViewState): RoomClientViewState {
+			// TODO: Replace with reducer
+			return state
+		}
+	}
 
 	private val connectionCallback: Lazy<ConnectionCallback> = notSafeLazy {
 		object : ConnectionCallback {
@@ -77,7 +85,7 @@ internal class RoomClientViewModel(
 		stopPlaying()
 	}
 
-	private fun startPlaying()  {
+	private fun startPlaying() {
 		mutateState { state.copy(isEnabled = true, isConnected = true, room = roomsInteractor.connectedRoom) }
 		offerEvent { StartClientServiceEvent }
 	}

@@ -8,7 +8,7 @@ import com.lockwood.player.IPlayerManager
 import com.lockwood.replicant.cache.preference.IPreferenceCacheManager
 import com.lockwood.replicant.cache.preference.PreferenceCacheManager
 import com.lockwood.replicant.context.ApplicationContextProvider
-import com.lockwood.replicant.executor.ExecutorProvider
+import com.lockwood.replicant.executor.provider.ExecutorProvider
 import com.lockwood.replicant.feature.Feature
 import com.lockwood.room.RoomViewModelsFactory
 import com.lockwood.room.data.interactor.IRoomsInteractor

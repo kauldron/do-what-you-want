@@ -6,7 +6,7 @@ import com.lockwood.connections.callback.ConnectionCallback
 import com.lockwood.connections.callback.DiscoveryCallback
 import com.lockwood.connections.callback.PayloadCallback
 import com.lockwood.dwyw.core.BaseViewModel
-import com.lockwood.replicant.executor.ExecutorProvider
+import com.lockwood.replicant.executor.provider.ExecutorProvider
 import com.lockwood.replicant.state.ViewState
 import com.lockwood.room.data.interactor.IRoomsInteractor
 import com.lockwood.room.model.Room

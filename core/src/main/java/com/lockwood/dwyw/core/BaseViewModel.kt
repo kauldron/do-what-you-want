@@ -1,7 +1,7 @@
 package com.lockwood.dwyw.core
 
 import com.lockwood.replicant.base.ReplicantViewModel
-import com.lockwood.replicant.executor.ExecutorProvider
+import com.lockwood.replicant.executor.provider.ExecutorProvider
 import com.lockwood.replicant.state.ViewState
 
 abstract class BaseViewModel<VS : ViewState>(
