@@ -5,36 +5,32 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.provider.ContactsContract
-import com.lockwood.automata.android.buildIntent
 
 fun Activity.selectContact(
 		requestCode: Int,
 ): Intent {
-	return buildIntent(Intent.ACTION_PICK) {
+	return Intent(Intent.ACTION_PICK).apply {
 		type = ContactsContract.Contacts.CONTENT_TYPE
 
 		startActivityForResult(intent, requestCode)
-		return@buildIntent
 	}
 }
 
 fun Activity.selectContactByPhone(
 		requestCode: Int,
 ): Intent {
-	return buildIntent(Intent.ACTION_PICK) {
+	return Intent(Intent.ACTION_PICK).apply {
 		type = ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE
 
 		startActivityForResult(intent, requestCode)
-		return@buildIntent
 	}
 }
 
 fun Context.viewContact(
 		contactUri: Uri,
 ): Intent {
-	return buildIntent(Intent.ACTION_VIEW, contactUri) {
+	return Intent(Intent.ACTION_VIEW, contactUri).apply {
 		startActivity(this)
-		return@buildIntent
 	}
 }
 
@@ -54,11 +50,10 @@ fun Context.editContact(
 		name: String,
 		value: String,
 ): Intent {
-	return buildIntent(Intent.ACTION_EDIT, contactUri) {
+	return Intent(Intent.ACTION_EDIT, contactUri).apply {
 		putExtra(name, value)
 
 		startActivity(this)
-		return@buildIntent
 	}
 }
 
@@ -66,12 +61,11 @@ fun Context.insertContact(
 		name: String,
 		email: String,
 ): Intent {
-	return buildIntent(Intent.ACTION_INSERT) {
+	return Intent(Intent.ACTION_INSERT).apply {
 		type = ContactsContract.Contacts.CONTENT_TYPE
 		putExtra(ContactsContract.Intents.Insert.NAME, name)
 		putExtra(ContactsContract.Intents.Insert.EMAIL, email)
 
 		startActivity(this)
-		return@buildIntent
 	}
 }

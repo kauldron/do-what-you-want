@@ -4,8 +4,6 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.FragmentActivity
-import com.lockwood.automata.core.ZERO
 
 @kotlin.jvm.Throws(ActivityNotFoundException::class)
 fun Context.launchActivity(
@@ -36,20 +34,4 @@ inline fun <reified T : Any> Context.launchActivity(
 	}
 
 	startActivity(intent)
-}
-
-// Workaround for [Android Q Beta] Memory leak in IRequestFinishCallback$Stub
-// https://issuetracker.google.com/issues/139738913
-fun FragmentActivity.handleIRequestFinishCallbackMemoryLeak() {
-	handleIRequestFinishCallbackMemoryLeak { onBackPressed() }
-}
-
-inline fun FragmentActivity.handleIRequestFinishCallbackMemoryLeak(action: () -> Unit) {
-	if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-		if (isTaskRoot && supportFragmentManager.backStackEntryCount == Int.ZERO) {
-			finishAfterTransition()
-		}
-	} else {
-		action()
-	}
 }

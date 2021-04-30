@@ -3,7 +3,6 @@ package com.lockwood.automata.intent
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import com.lockwood.automata.android.buildIntent
 import com.lockwood.automata.core.EMPTY
 
 fun Context.showLocationOnMap(
@@ -11,9 +10,8 @@ fun Context.showLocationOnMap(
 		lng: String,
 		label: String = String.EMPTY,
 ): Intent {
-	return buildIntent(Intent.ACTION_VIEW, buildLocationUri(lat, lng, label)) {
+	return Intent(Intent.ACTION_VIEW, buildLocationUri(lat, lng, label)).apply {
 		startActivity(this)
-		return@buildIntent
 	}
 }
 
@@ -22,12 +20,11 @@ private fun buildLocationUri(
 		lng: String,
 		label: String = String.EMPTY,
 ): Uri {
-	val geoLocation =
-			if (label.isEmpty()) {
-				"geo:$lat,$lng"
-			} else {
-				"geo:0,0?q=$lat,$lng($label)"
-			}
+	val geoLocation = if (label.isEmpty()) {
+		"geo:$lat,$lng"
+	} else {
+		"geo:0,0?q=$lat,$lng($label)"
+	}
 
 	return Uri.parse(geoLocation)
 }

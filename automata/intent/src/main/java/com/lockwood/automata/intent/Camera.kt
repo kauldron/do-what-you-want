@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.provider.MediaStore
-import com.lockwood.automata.android.buildIntent
 
 fun Activity.capturePhoto(
 		uri: Uri,
@@ -44,10 +43,9 @@ private fun Activity.startCameraAction(
 		action: String,
 		requestCode: Int,
 ): Intent {
-	return buildIntent(action) {
+	return Intent(action).apply {
 		putExtra(MediaStore.EXTRA_OUTPUT, uri)
 
 		startActivityForResult(intent, requestCode)
-		return@buildIntent
 	}
 }

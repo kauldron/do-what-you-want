@@ -4,17 +4,15 @@ package com.lockwood.automata.android
 
 import android.content.SharedPreferences
 import android.content.SharedPreferences.Editor
-import com.lockwood.automata.core.EMPTY
 
 @kotlin.jvm.Throws(IllegalArgumentException::class)
 inline fun <T> SharedPreferences.findPreference(name: String, default: T): T {
-	val res: Any? =
-			when (default) {
-				is Number -> getNumber(name, default)
-				is String -> getString(name, default)
-				is Boolean -> getBoolean(name, default)
-				else -> throw IllegalArgumentException("This [$default] type cannot be saved in Preferences")
-			}
+	val res: Any? = when (default) {
+		is Number -> getNumber(name, default)
+		is String -> getString(name, default)
+		is Boolean -> getBoolean(name, default)
+		else -> throw IllegalArgumentException("This [$default] type cannot be saved in Preferences")
+	}
 	return res as T
 }
 
@@ -55,7 +53,3 @@ inline fun SharedPreferences.getNumber(
 		else -> throw IllegalArgumentException("This type ${default::class} of value cannot be saved in Preferences")
 	}
 }
-
-fun SharedPreferences.getStringOrEmpty(
-		key: String,
-): String = getString(key, String.EMPTY) ?: String.EMPTY

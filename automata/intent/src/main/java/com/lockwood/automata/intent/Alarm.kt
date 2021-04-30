@@ -1,51 +1,39 @@
 package com.lockwood.automata.intent
 
-import android.Manifest.permission.SET_ALARM
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.provider.AlarmClock
-import androidx.annotation.RequiresApi
-import androidx.annotation.RequiresPermission
-import com.lockwood.automata.android.buildIntent
 
-@RequiresPermission(SET_ALARM)
 fun Context.createAlarm(
 		message: String,
 		hour: Int,
 		minutes: Int,
 ): Intent {
-	return buildIntent(AlarmClock.ACTION_SET_ALARM) {
+	return Intent(AlarmClock.ACTION_SET_ALARM).apply {
 		putExtra(AlarmClock.EXTRA_MESSAGE, message)
 		putExtra(AlarmClock.EXTRA_HOUR, hour)
 		putExtra(AlarmClock.EXTRA_MINUTES, minutes)
 
 		startActivity(this)
-		return@buildIntent
 	}
 }
 
-@RequiresApi(Build.VERSION_CODES.KITKAT)
-@RequiresPermission(SET_ALARM)
 fun Context.startTimer(
 		message: String,
 		seconds: Int,
 		skipUi: Boolean = false,
 ): Intent {
-	return buildIntent(AlarmClock.ACTION_SET_TIMER) {
+	return Intent(AlarmClock.ACTION_SET_TIMER).apply {
 		putExtra(AlarmClock.EXTRA_MESSAGE, message)
 		putExtra(AlarmClock.EXTRA_LENGTH, seconds)
 		putExtra(AlarmClock.EXTRA_SKIP_UI, skipUi)
 
 		startActivity(this)
-		return@buildIntent
 	}
 }
 
-@RequiresApi(Build.VERSION_CODES.KITKAT)
 fun Context.showAlarms(): Intent {
-	return buildIntent(AlarmClock.ACTION_SHOW_ALARMS) {
+	return Intent(AlarmClock.ACTION_SHOW_ALARMS).apply {
 		startActivity(this)
-		return@buildIntent
 	}
 }

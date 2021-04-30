@@ -1,4 +1,4 @@
-package com.lockwood.automata.intent
+package com.lockwood.automata.android
 
 import android.app.Activity
 import android.content.Context
@@ -7,7 +7,6 @@ import android.net.Uri
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.content.FileProvider
-import com.lockwood.automata.android.buildIntent
 import java.io.File
 
 @RequiresApi(Build.VERSION_CODES.KITKAT)

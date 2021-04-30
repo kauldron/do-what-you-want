@@ -8,8 +8,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.LayoutRes
-import androidx.annotation.UiThread
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -48,9 +46,8 @@ abstract class BaseAsyncLayoutInflater(
 		return super.onCreateView(name, attrs)
 	}
 
-	@UiThread
 	abstract fun inflate(
-			@LayoutRes resId: Int,
+			resId: Int,
 			viewGroup: ViewGroup? = null,
 			callback: (View, Int, ViewGroup?) -> Unit
 	)

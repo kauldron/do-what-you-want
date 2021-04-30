@@ -3,7 +3,7 @@ package com.lockwood.replicant.imageloader.request
 import com.lockwood.replicant.imageloader.options.ImageOptions
 import com.lockwood.replicant.imageloader.target.Target
 
-class RequestBuilder() {
+class RequestBuilder {
 
 	private var imageOptions: ImageOptions? = null
 

@@ -3,7 +3,6 @@ package com.lockwood.automata.intent
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import com.lockwood.automata.android.buildIntent
 import com.lockwood.automata.core.EMPTY
 import com.lockwood.automata.core.LINE_SEPARATOR
 import com.lockwood.automata.core.SINGLE
@@ -23,9 +22,8 @@ fun Context.composeEmail(
 		subject: String,
 		body: String = String.EMPTY,
 ): Intent {
-	return buildIntent(Intent.ACTION_SENDTO, buildValidMailUri(address, subject, body)) {
+	return Intent(Intent.ACTION_SENDTO, buildValidMailUri(address, subject, body)).apply {
 		startActivity(this)
-		return@buildIntent
 	}
 }
 
@@ -46,13 +44,12 @@ fun Context.composeEmail(
 		subject: String,
 		vararg attachments: Uri,
 ) {
-	val intent: Intent =
-			buildIntent(attachments.sendAction) {
-				type = WILDCARD
-				putExtra(Intent.EXTRA_EMAIL, addresses)
-				putExtra(Intent.EXTRA_SUBJECT, subject)
-				putExtra(Intent.EXTRA_STREAM, attachments)
-			}
+	val intent: Intent = Intent(attachments.sendAction).apply {
+		type = WILDCARD
+		putExtra(Intent.EXTRA_EMAIL, addresses)
+		putExtra(Intent.EXTRA_SUBJECT, subject)
+		putExtra(Intent.EXTRA_STREAM, attachments)
+	}
 
 	startActivity(intent)
 }

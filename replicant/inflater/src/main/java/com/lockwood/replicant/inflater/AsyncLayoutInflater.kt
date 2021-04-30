@@ -5,8 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.LayoutRes
-import androidx.annotation.UiThread
 
 class AsyncLayoutInflater(
 		context: Context
@@ -21,9 +19,8 @@ class AsyncLayoutInflater(
 			newContext: Context
 	): LayoutInflater = AsyncLayoutInflater(newContext)
 
-	@UiThread
 	override fun inflate(
-			@LayoutRes resId: Int,
+			resId: Int,
 			viewGroup: ViewGroup?,
 			callback: (View, Int, ViewGroup?) -> Unit,
 	) {
@@ -37,7 +34,7 @@ class AsyncLayoutInflater(
 
 	@kotlin.jvm.Throws(RuntimeException::class)
 	private fun inflateOnWorkerThread(
-			@LayoutRes resId: Int,
+			resId: Int,
 			viewGroup: ViewGroup?,
 			callback: (View, Int, ViewGroup?) -> Unit
 	) = runOnWorkerThread {
@@ -46,7 +43,7 @@ class AsyncLayoutInflater(
 	}
 
 	private fun inflateOnUiThread(
-			@LayoutRes resId: Int,
+			resId: Int,
 			viewGroup: ViewGroup?,
 			callback: (View, Int, ViewGroup?) -> Unit
 	) = runOnUiThread {

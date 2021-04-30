@@ -1,5 +1,7 @@
 buildscript {
-    ext.kotlin_version = "1.4.32"
+    ext {
+        kotlin_version = "1.4.32"
+    }
     repositories {
         google()
         mavenCentral()
@@ -18,7 +20,7 @@ buildscript {
 
 plugins {
     // https://github.com/gradle/android-cache-fix-gradle-plugin
-    id "org.gradle.android.cache-fix" version "2.2.0" apply false
+    id "org.gradle.android.cache-fix" version "2.3.0" apply false
     // https://github.com/plnice/can-i-drop-jetifier
     id "com.github.plnice.canidropjetifier" version "0.5"
     // https://runningcode.github.io/gradle-doctor/
@@ -26,6 +28,10 @@ plugins {
     // https://github.com/ben-manes/gradle-versions-plugin
     id "com.github.ben-manes.versions" version "0.38.0"
 }
+
+apply plugin: AndroidJarPlugin
+
+ext.androidJar = androidJar.find(30)
 
 allprojects {
     repositories {
