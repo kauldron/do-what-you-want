@@ -39,7 +39,14 @@ internal class RoomsDiscoverViewModel(
 	private val discoveryCallback: Lazy<DiscoveryCallback> = notSafeLazy {
 		object : DiscoveryCallback {
 			override fun onEndpointFound(endpointId: EndpointId, info: EndpointInfo) {
-				addRoom(Room(endpointId = endpointId, name = info.name))
+				val room = Room(endpointId = endpointId, name = info.name)
+
+				// workaround for duplicate advertising
+				if (roomsInteractor.isSameHostRoom(room)) {
+					roomsInteractor.stopAdvertising()
+				} else {
+					addRoom(room)
+				}
 			}
 
 			override fun onEndpointLost(endpointId: EndpointId) {
@@ -137,11 +144,11 @@ internal class RoomsDiscoverViewModel(
 				.also(::acceptRooms)
 	}
 
-	private fun acceptLoading(isLoading: Boolean = false) {
+	private fun acceptLoading(isLoading: Boolean = false) = mutateState {
 		stateTransformer.accept(LoadingState(isLoading), state)
 	}
 
-	private fun acceptRooms(rooms: Array<Room>) {
+	private fun acceptRooms(rooms: Array<Room>) = mutateState {
 		stateTransformer.accept(RoomsArray(rooms), state)
 	}
 

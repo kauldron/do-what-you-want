@@ -2,9 +2,9 @@ package com.lockwood.replicant.cache.preference
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.lockwood.replicant.cache.CacheManager
+import com.lockwood.replicant.cache.CacheStore
 
-interface IPreferenceCacheManager : CacheManager {
+interface IPreferenceCacheManager : CacheStore {
 
 	val appPreference: SharedPreferences
 

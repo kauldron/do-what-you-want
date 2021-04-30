@@ -43,11 +43,17 @@ internal class ClientForegroundService : BaseRoomService() {
 	private val playerManager: IPlayerManager
 		get() = getFeature<PlayerFeature>().playerManager
 
-	override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-		startForeground()
-		playerManager.play()
+	override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+		return if (isStopService(intent)) {
+			stopForegroundSelf()
 
-		return START_STICKY
+			START_NOT_STICKY
+		} else {
+			startForeground()
+			playerManager.play()
+
+			START_STICKY
+		}
 	}
 
 	override fun onCreate() {
@@ -57,15 +63,7 @@ internal class ClientForegroundService : BaseRoomService() {
 
 	override fun onDestroy() {
 		super.onDestroy()
-		with(roomsInteractor) {
-			stopDiscovery()
-			resetCacheState()
-			removePayloadCallback(payloadCallback)
-		}
-
-		readerExecutor.shutdown()
-
-		releaseFeature<PlayerFeature>()
+		releaseSelf()
 	}
 
 	private fun startForeground() = with(roomsInteractor.connectedRoom) {
@@ -76,6 +74,17 @@ internal class ClientForegroundService : BaseRoomService() {
 		}
 
 		startForeground(NOTIFICATION_ID, notification)
+	}
+
+	private fun releaseSelf() {
+		with(roomsInteractor) {
+			stopDiscovery()
+			removePayloadCallback(payloadCallback)
+		}
+
+		readerExecutor.shutdown()
+
+		releaseFeature<PlayerFeature>()
 	}
 
 	@WorkerThread

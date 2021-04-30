@@ -11,8 +11,11 @@ import com.lockwood.room.feature.host.ui.RoomHostViewModel
 
 @Suppress("UNCHECKED_CAST", "IMPLICIT_CAST_TO_ANY")
 class RoomViewModelsFactory(
+		@JvmField
 		private val roomsInteractor: IRoomsInteractor,
+		@JvmField
 		private val connectionsManager: INearbyConnectionsManager,
+		@JvmField
 		private val executorProvider: ExecutorProvider,
 ) : ViewModelProvider.Factory {
 

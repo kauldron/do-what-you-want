@@ -7,6 +7,7 @@ import com.lockwood.room.screen.RoomsAdvertisingScreen
 import com.lockwood.room.screen.RoomsDiscoveryScreen
 
 internal class RoomsRouter(
+		@JvmField
 		private val roomsInteractor: IRoomsInteractor
 ) : IRoomsRouter {
 

@@ -26,6 +26,7 @@ import com.lockwood.room.feature.discover.adapter.RoomsAdapter
 import com.lockwood.room.feature.discover.event.ShowAcceptConnectionEvent
 import com.lockwood.room.model.Room
 
+
 internal class RoomsDiscoverFragment : BaseFragment<RoomsDiscoverViewState>() {
 
 	private val viewModel by viewModels<RoomsDiscoverViewModel> {
@@ -68,8 +69,8 @@ internal class RoomsDiscoverFragment : BaseFragment<RoomsDiscoverViewState>() {
 
 	override fun renderState(viewState: RoomsDiscoverViewState) {
 		with(viewState) {
-			renderLoading(isLoading.value, rooms.value.isNullOrEmpty())
-			renderRooms(rooms.value)
+			remember(::renderLoading, isLoading.value, rooms.value.isNullOrEmpty())
+			remember(::renderRooms, rooms.value)
 		}
 	}
 

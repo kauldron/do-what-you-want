@@ -133,11 +133,11 @@ internal class RoomConnectionActivity : BaseActivity(),
 	}
 
 	override fun showProgress() {
-		findViewById<View>(com.lockwood.replicant.R.id.progress_bar).visibility = View.VISIBLE
+		findViewById<View>(com.lockwood.replicant.R.id.progress_bar)?.visibility = View.VISIBLE
 	}
 
 	override fun hideProgress() {
-		findViewById<View>(com.lockwood.replicant.R.id.progress_bar).visibility = View.GONE
+		findViewById<View>(com.lockwood.replicant.R.id.progress_bar)?.visibility = View.GONE
 	}
 
 	override fun showMessage(message: String) {

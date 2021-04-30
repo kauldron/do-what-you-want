@@ -7,6 +7,7 @@ import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 
 abstract class ReplicantAdapter<T : Any>(
+		@JvmField
 		val data: Array<T>,
 ) : RecyclerView.Adapter<ReplicantViewHolder>() {
 

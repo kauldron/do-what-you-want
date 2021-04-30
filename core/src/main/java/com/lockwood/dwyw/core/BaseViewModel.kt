@@ -6,6 +6,7 @@ import com.lockwood.replicant.state.ViewState
 
 abstract class BaseViewModel<VS : ViewState>(
 		initState: VS,
+		@JvmField
 		private val executorProvider: ExecutorProvider
 ) : ReplicantViewModel<VS>(initState) {
 

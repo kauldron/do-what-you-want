@@ -15,6 +15,11 @@ import com.lockwood.room.RoomConnectionActivity
 
 internal abstract class BaseRoomService : ReplicantService() {
 
+	companion object {
+
+		const val STOP_SERVICE = "stopService"
+	}
+
 	protected val pendingIntent: PendingIntent
 		get() {
 			val notificationIntent = Intent(this, RoomConnectionActivity::class.java)
@@ -44,4 +49,14 @@ internal abstract class BaseRoomService : ReplicantService() {
 				getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 		notificationManager.createNotificationChannel(channel)
 	}
+
+	protected fun stopForegroundSelf() {
+		stopForeground(true)
+		stopSelf()
+	}
+
+	protected fun isStopService(intent: Intent): Boolean {
+		return intent.action.equals(STOP_SERVICE)
+	}
+
 }

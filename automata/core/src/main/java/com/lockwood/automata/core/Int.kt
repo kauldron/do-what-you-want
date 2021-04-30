@@ -9,6 +9,9 @@ val Int.isEven: Boolean
 val Int.Companion.SINGLE: Int
 	get() = 1
 
+val Int.Companion.BITES_OFFSET: Int
+	get() = SIZE_BITS - 1
+
 val Int.Companion.ZERO: Int
 	get() = 0
 

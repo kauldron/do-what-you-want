@@ -5,7 +5,9 @@ import com.lockwood.replicant.state.ViewState
 import com.lockwood.room.feature.discover.model.RoomsArray
 
 internal data class RoomsDiscoverViewState(
+		@JvmField
 		val rooms: RoomsArray,
+		@JvmField
 		val isLoading: LoadingState,
 ) : ViewState {
 

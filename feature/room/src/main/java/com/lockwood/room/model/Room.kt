@@ -7,7 +7,9 @@ import com.lockwood.automata.core.EMPTY
 import com.lockwood.connections.model.EndpointId
 
 data class Room(
+		@JvmField
 		val endpointId: EndpointId,
+		@JvmField
 		val name: String,
 ) : Parcelable {
 

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.widget.Toast
 import androidx.annotation.MainThread
 import androidx.annotation.WorkerThread
+import com.google.android.gms.common.api.ApiException
 import com.lockwood.dwyw.core.feature.CoreFeature
 import com.lockwood.dwyw.core.feature.wrapper.WrapperFeature
 import com.lockwood.recorder.IAudioRecorder
@@ -22,7 +23,7 @@ internal class HostForegroundService : BaseRoomService() {
 	private companion object {
 
 		private const val NOTIFICATION_ID = 720
-
+		private const val STATUS_ALREADY_ADVERTISING = 8001
 	}
 
 	private val recorderExecutor: ExecutorService by lazy {
@@ -58,16 +59,28 @@ internal class HostForegroundService : BaseRoomService() {
 	private val executorProvider: ExecutorProvider
 		get() = getFeature<CoreFeature>().executorProvider
 
-	override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-		startForeground()
-		startAdvertising()
+	override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+		return if (isStopService(intent)) {
+			stopForegroundSelf()
 
-		return START_STICKY_COMPATIBILITY
+			START_NOT_STICKY
+		} else {
+			startForeground()
+			startAdvertising()
+
+			START_STICKY
+		}
 	}
 
 	private fun startAdvertising() {
 		roomsInteractor.startAdvertising(deviceName)
-				.addOnFailureListener { showToast(it.message.toString()) }
+				.addOnFailureListener {
+					if (it is ApiException && it.statusCode == STATUS_ALREADY_ADVERTISING) {
+						return@addOnFailureListener
+					}
+
+					showToast(it.message.toString())
+				}
 	}
 
 	override fun onCreate() {
@@ -77,16 +90,7 @@ internal class HostForegroundService : BaseRoomService() {
 
 	override fun onDestroy() {
 		super.onDestroy()
-		with(roomsInteractor) {
-			stopAdvertising()
-			resetCacheState()
-		}
-		audioRecorder.removeRecordCallback(recordCallback)
-
-		recorderExecutor.shutdown()
-		payloadExecutor.shutdown()
-
-		releaseFeature<RecorderFeature>()
+		releaseSelf()
 	}
 
 	private fun startForeground() {
@@ -98,6 +102,16 @@ internal class HostForegroundService : BaseRoomService() {
 				}
 
 		startForeground(NOTIFICATION_ID, notification)
+	}
+
+	private fun releaseSelf() {
+		roomsInteractor.stopAdvertising()
+		audioRecorder.removeRecordCallback(recordCallback)
+
+		recorderExecutor.shutdown()
+		payloadExecutor.shutdown()
+
+		releaseFeature<RecorderFeature>()
 	}
 
 	@WorkerThread

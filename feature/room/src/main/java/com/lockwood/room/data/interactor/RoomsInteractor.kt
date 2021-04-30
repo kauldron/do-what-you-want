@@ -45,6 +45,10 @@ internal class RoomsInteractor(
 		return repository.requestConnection(buildConfigWrapper.deviceModel, endpointId)
 	}
 
+	override fun isSameHostRoom(room: Room): Boolean {
+		return room.name == buildConfigWrapper.deviceModel
+	}
+
 	override fun resetCacheState() = with(preferenceManager) {
 		isBroadcasting = false
 		isConnected = false

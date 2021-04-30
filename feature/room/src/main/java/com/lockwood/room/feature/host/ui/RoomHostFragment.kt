@@ -17,7 +17,7 @@ import androidx.core.widget.ImageViewCompat.setImageTintMode
 import androidx.fragment.app.viewModels
 import com.lockwood.automata.android.newFragment
 import com.lockwood.automata.android.startForegroundService
-import com.lockwood.automata.android.stopService
+import com.lockwood.automata.android.startService
 import com.lockwood.dwyw.core.ui.BaseFragment
 import com.lockwood.dwyw.ui.core.Colors
 import com.lockwood.recorder.IAudioRecorder
@@ -31,6 +31,7 @@ import com.lockwood.replicant.view.ext.requireMessageView
 import com.lockwood.replicant.view.ext.requireProgressView
 import com.lockwood.replicant.view.ext.setDebouncingOnClickListener
 import com.lockwood.room.R
+import com.lockwood.room.base.BaseRoomService
 import com.lockwood.room.feature.RoomsFeature
 import com.lockwood.room.feature.discover.event.ShowAcceptConnectionEvent
 import com.lockwood.room.feature.host.event.RequestCaptureEvent
@@ -74,16 +75,14 @@ internal class RoomHostFragment : BaseFragment<RoomHostViewState>(), IHostView {
 	override fun onEvent(event: Event) = when (event) {
 		is RequestCaptureEvent -> requestCapture()
 		is StartHostServiceEvent -> appContext.startForegroundService<HostForegroundService>()
-		is StopHostServiceEvent -> appContext.stopService<HostForegroundService>()
+		is StopHostServiceEvent -> appContext.startService<HostForegroundService> { action = BaseRoomService.STOP_SERVICE }
 		is ShowAcceptConnectionEvent -> showConnectionDialog(event.room)
 		else -> super.onEvent(event)
 	}
 
 	override fun renderState(viewState: RoomHostViewState): Unit = with(viewState) {
 		if (isEnabled) {
-			renderActionButton(isSharing)
-			renderImage(isSharing)
-			renderCaption(isSharing)
+			remember(::renderIsSharing, isSharing)
 		} else {
 			renderDisabled()
 		}
@@ -136,6 +135,12 @@ internal class RoomHostFragment : BaseFragment<RoomHostViewState>(), IHostView {
 			// temporary workaround to prevent crash because of uninitialized AudioRecord
 //			setDebouncingOnClickListener(viewModel::startBroadcasting)
 		}
+	}
+
+	private fun renderIsSharing(isSharing: Boolean) {
+		renderActionButton(isSharing)
+		renderImage(isSharing)
+		renderCaption(isSharing)
 	}
 
 	private fun renderCaption(isSharing: Boolean) = requireTextView().apply {

@@ -17,7 +17,7 @@ import androidx.core.widget.ImageViewCompat.setImageTintMode
 import androidx.fragment.app.viewModels
 import com.lockwood.automata.android.newFragment
 import com.lockwood.automata.android.startForegroundService
-import com.lockwood.automata.android.stopService
+import com.lockwood.automata.android.startService
 import com.lockwood.dwyw.core.ui.BaseFragment
 import com.lockwood.dwyw.ui.core.Colors
 import com.lockwood.replicant.context.ApplicationContextProvider
@@ -29,6 +29,7 @@ import com.lockwood.replicant.view.ext.requireActivityType
 import com.lockwood.replicant.view.ext.requireProgressView
 import com.lockwood.replicant.view.ext.setDebouncingOnClickListener
 import com.lockwood.room.R
+import com.lockwood.room.base.BaseRoomService
 import com.lockwood.room.feature.RoomsFeature
 import com.lockwood.room.feature.client.event.StartClientServiceEvent
 import com.lockwood.room.feature.client.event.StopClientServiceEvent
@@ -67,22 +68,22 @@ internal class RoomClientFragment : BaseFragment<RoomClientViewState>() {
 
 	override fun onEvent(event: Event) = when (event) {
 		is StartClientServiceEvent -> appContext.startForegroundService<ClientForegroundService>()
-		is StopClientServiceEvent -> stopConnect()
+		is StopClientServiceEvent -> stopConnection()
 		else -> super.onEvent(event)
 	}
 
 	override fun renderState(viewState: RoomClientViewState) = with(viewState) {
 		if (isEnabled) {
-			renderImage(isConnected)
-			renderButtonPlaying(isConnected, room)
-			renderCaptionPlaying(isConnected, room)
+			remember(::renderImage, isConnected)
+			remember(::renderButtonPlaying, isConnected, room)
+			remember(::renderCaptionPlaying, isConnected, room)
 		} else {
 			renderDisabled()
 		}
 	}
 
-	private fun stopConnect() {
-		appContext.stopService<ClientForegroundService>()
+	private fun stopConnection() {
+		appContext.startService<ClientForegroundService> { action = BaseRoomService.STOP_SERVICE }
 		requireActivityType<ScreenView>().showScreen(RoomsDiscoveryScreen)
 	}
 

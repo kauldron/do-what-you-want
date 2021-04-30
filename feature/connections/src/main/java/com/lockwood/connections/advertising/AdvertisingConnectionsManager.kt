@@ -15,6 +15,7 @@ import com.lockwood.connections.model.EndpointId
 
 
 class AdvertisingConnectionsManager(
+		@JvmField
 		private val application: ApplicationContext,
 ) : IAdvertisingConnectionsManager {
 

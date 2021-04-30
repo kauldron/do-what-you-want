@@ -1,9 +1,9 @@
 package com.lockwood.replicant.cache
 
-interface CacheManager {
+interface CacheManager : CacheStore {
 
-	fun <T> get(key: String, default: T): T
+	fun invalidate(key: String)
 
-	fun <T> put(key: String, value: T)
+	fun invalidateAll()
 
 }

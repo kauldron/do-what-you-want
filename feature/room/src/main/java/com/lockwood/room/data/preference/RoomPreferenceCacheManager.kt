@@ -7,6 +7,7 @@ import com.lockwood.replicant.delegate.delegate
 import com.lockwood.room.model.Room
 
 internal class RoomPreferenceCacheManager(
+		@JvmField
 		private val preferenceCacheManager: IPreferenceCacheManager,
 ) : IRoomPreferenceCacheManager {
 

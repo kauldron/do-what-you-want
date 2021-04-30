@@ -7,6 +7,7 @@ import com.lockwood.automata.android.ApplicationContext
 import com.lockwood.automata.android.getSystemServiceSafe
 
 internal class MediaProjectionManager(
+		@JvmField
 		private val context: ApplicationContext
 ) : IMediaProjectionManager {
 

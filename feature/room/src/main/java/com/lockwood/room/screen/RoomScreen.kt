@@ -9,4 +9,4 @@ object RoomsDiscoveryScreen : RoomScreen
 
 object RoomsAdvertisingScreen : RoomScreen
 
-class RoomConnectionScreen(val room: Room) : RoomScreen
+class RoomConnectionScreen(@JvmField val room: Room) : RoomScreen
