@@ -7,4 +7,5 @@ interface RecordCallback {
 	fun onStopRecord() = Unit
 
 	fun onRead(byteArray: ByteArray) = Unit
+
 }

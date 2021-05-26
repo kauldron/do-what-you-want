@@ -1,5 +1,7 @@
 package com.lockwood.connections.feature
 
+import com.google.android.gms.nearby.Nearby
+import com.google.android.gms.nearby.connection.ConnectionsClient
 import com.lockwood.automata.core.notSafeLazy
 import com.lockwood.connections.INearbyConnectionsManager
 import com.lockwood.connections.NearbyConnectionsManager
@@ -16,15 +18,19 @@ class ConnectionsFeature(
 ) : Feature {
 
 	val nearbyConnectionsManager: INearbyConnectionsManager by notSafeLazy {
-		NearbyConnectionsManager(contextProvider.applicationContext, advertisingConnectionsManager, discoveryConnectionsManager)
+		NearbyConnectionsManager(client, advertisingConnectionsManager, discoveryConnectionsManager)
 	}
 
 	private val advertisingConnectionsManager: IAdvertisingConnectionsManager by notSafeLazy {
-		AdvertisingConnectionsManager(contextProvider.applicationContext)
+		AdvertisingConnectionsManager(client)
 	}
 
 	private val discoveryConnectionsManager: IDiscoveryConnectionsManager by notSafeLazy {
-		DiscoveryConnectionsManager(contextProvider.applicationContext)
+		DiscoveryConnectionsManager(client)
+	}
+
+	private val client: ConnectionsClient by notSafeLazy {
+		Nearby.getConnectionsClient(contextProvider.applicationContext.value)
 	}
 
 }

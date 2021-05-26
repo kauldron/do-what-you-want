@@ -1,9 +1,7 @@
 package com.lockwood.connections
 
-import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.connection.ConnectionsClient
 import com.google.android.gms.nearby.connection.Strategy
-import com.lockwood.automata.android.ApplicationContext
 import com.lockwood.connections.advertising.IAdvertisingConnectionsManager
 import com.lockwood.connections.callback.PayloadCallback
 import com.lockwood.connections.callback.adapter.PayloadCallbackAdapter
@@ -12,7 +10,7 @@ import com.lockwood.connections.model.EndpointId
 
 internal class NearbyConnectionsManager(
 		@JvmField
-		private val application: ApplicationContext,
+		private val client: ConnectionsClient,
 		@JvmField
 		private val advertisingManager: IAdvertisingConnectionsManager,
 		@JvmField
@@ -30,9 +28,6 @@ internal class NearbyConnectionsManager(
 	}
 
 	private val payloadCallbackAdapter = PayloadCallbackAdapter()
-
-	private val client: ConnectionsClient
-		get() = Nearby.getConnectionsClient(application.value)
 
 	override fun acceptConnection(endpointId: EndpointId) {
 		client.acceptConnection(endpointId.toString(), payloadCallbackAdapter)

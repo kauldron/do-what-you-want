@@ -8,11 +8,8 @@ internal class PlayerManager(
 		private val audioTrack: AudioTrack,
 ) : IPlayerManager {
 
-	private var isPlaying: Boolean = false
-
-	override fun getIsPlaying(): Boolean {
-		return isPlaying
-	}
+	override var isPlaying: Boolean = false
+		private set
 
 	override fun play() {
 		if (!isPlaying) {

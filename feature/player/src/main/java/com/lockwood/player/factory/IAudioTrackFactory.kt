@@ -2,7 +2,7 @@ package com.lockwood.player.factory
 
 import android.media.AudioTrack
 
-interface IAudioTrackFactory {
+internal interface IAudioTrackFactory {
 
 	fun make(): AudioTrack
 

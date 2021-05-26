@@ -6,12 +6,12 @@ import com.google.android.gms.nearby.connection.ConnectionsStatusCodes.STATUS_CO
 import com.google.android.gms.nearby.connection.ConnectionsStatusCodes.STATUS_ERROR
 import com.google.android.gms.nearby.connection.ConnectionsStatusCodes.STATUS_OK
 import com.lockwood.connections.callback.ConnectionCallback
-import com.lockwood.connections.model.ConnectionError
 import com.lockwood.connections.model.ConnectionInfo
-import com.lockwood.connections.model.ConnectionRejected
-import com.lockwood.connections.model.ConnectionSuccess
-import com.lockwood.connections.model.ConnectionUnknownStatus
-import com.lockwood.connections.model.ConnectionsStatus
+import com.lockwood.connections.model.ConnectionStatus
+import com.lockwood.connections.model.ConnectionStatus.Error
+import com.lockwood.connections.model.ConnectionStatus.Rejected
+import com.lockwood.connections.model.ConnectionStatus.Success
+import com.lockwood.connections.model.ConnectionStatus.Unknown
 import com.lockwood.connections.model.EndpointId
 import com.lockwood.connections.model.NearbyConnectionInfo
 
@@ -29,11 +29,11 @@ internal class ConnectionCallbackAdapter :
 
 	override fun onConnectionResult(id: String, resolution: ConnectionResolution) = with(resolution.status) {
 		val endpointId = EndpointId(id)
-		val connectionStatus: ConnectionsStatus = when (statusCode) {
-			STATUS_OK -> ConnectionSuccess(this)
-			STATUS_CONNECTION_REJECTED -> ConnectionRejected(this)
-			STATUS_ERROR -> ConnectionError(this)
-			else -> ConnectionUnknownStatus(this)
+		val connectionStatus: ConnectionStatus = when (statusCode) {
+			STATUS_OK -> Success(this)
+			STATUS_CONNECTION_REJECTED -> Rejected(this)
+			STATUS_ERROR -> Error(this)
+			else -> Unknown(this)
 		}
 
 		listeners.forEach { it.onConnectionResult(endpointId, connectionStatus) }

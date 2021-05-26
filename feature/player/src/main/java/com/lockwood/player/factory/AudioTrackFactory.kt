@@ -25,7 +25,6 @@ internal object AudioTrackFactory : IAudioTrackFactory {
 	}
 
 	private fun AudioTrack.Builder.setPowerSavingPerformanceMode(): AudioTrack.Builder = apply {
-		// TODO: Test with and without it
 		if (VERSION.SDK_INT >= VERSION_CODES.O) {
 			setPerformanceMode(AudioTrack.PERFORMANCE_MODE_POWER_SAVING)
 		}

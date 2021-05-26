@@ -5,7 +5,7 @@ import com.lockwood.replicant.feature.Releasable
 
 interface IAudioRecorder : Releasable {
 
-	fun getIsRecording(): Boolean
+	val isRecording: Boolean
 
 	fun start()
 

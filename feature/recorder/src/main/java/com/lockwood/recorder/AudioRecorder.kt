@@ -13,16 +13,12 @@ internal class AudioRecorder(
 		private val manager: IMediaProjectionManager,
 ) : IAudioRecorder {
 
-	private companion object {
-
-		private val preferredBufferSize = AudioParams.minRecordBufferedSize
-	}
-
-	private var isRecording: Boolean = false
+	override var isRecording: Boolean = false
+		private set
 
 	private val listeners: MutableList<RecordCallback> = mutableListOf()
 
-	private val byteArray = ByteArray(preferredBufferSize)
+	private val byteArray = ByteArray(AudioParams.minRecordBufferedSize)
 
 	private val audioRecord: AudioRecord by notSafeLazy {
 		val manager = manager.getCurrentMediaProjection()
@@ -31,13 +27,9 @@ internal class AudioRecorder(
 		AudioRecordFactory.make(manager)
 	}
 
-	override fun getIsRecording(): Boolean {
-		return isRecording
-	}
-
 	override fun read() {
 		try {
-			audioRecord.read(byteArray, 0, preferredBufferSize)
+			audioRecord.read(byteArray, 0, AudioParams.minRecordBufferedSize)
 		} catch (e: IllegalStateException) {
 			Timber.e(e)
 			return

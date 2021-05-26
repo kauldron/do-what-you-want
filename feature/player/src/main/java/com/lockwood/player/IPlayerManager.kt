@@ -4,7 +4,7 @@ import com.lockwood.replicant.feature.Releasable
 
 interface IPlayerManager : Releasable {
 
-	fun getIsPlaying(): Boolean
+	val isPlaying: Boolean
 
 	fun play()
 

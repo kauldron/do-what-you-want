@@ -1,22 +1,18 @@
 package com.lockwood.connections.advertising
 
-import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.connection.AdvertisingOptions
 import com.google.android.gms.nearby.connection.ConnectionsClient
 import com.google.android.gms.nearby.connection.Payload
 import com.google.android.gms.tasks.Task
-import com.lockwood.automata.android.ApplicationContext
 import com.lockwood.connections.NearbyConnectionsManager
 import com.lockwood.connections.callback.ConnectionCallback
 import com.lockwood.connections.callback.adapter.ConnectionCallbackAdapter
-import com.lockwood.connections.model.ConnectionSuccess
-import com.lockwood.connections.model.ConnectionsStatus
+import com.lockwood.connections.model.ConnectionStatus
 import com.lockwood.connections.model.EndpointId
-
 
 class AdvertisingConnectionsManager(
 		@JvmField
-		private val application: ApplicationContext,
+		private val client: ConnectionsClient,
 ) : IAdvertisingConnectionsManager {
 
 	private val connectedEndpoints = mutableListOf<EndpointId>()
@@ -24,8 +20,8 @@ class AdvertisingConnectionsManager(
 	private val lifecycleCallback = ConnectionCallbackAdapter()
 
 	private val connectedEndpointsCallback = object : ConnectionCallback {
-		override fun onConnectionResult(endpointId: EndpointId, connectionStatus: ConnectionsStatus) {
-			if (connectionStatus is ConnectionSuccess) {
+		override fun onConnectionResult(endpointId: EndpointId, connectionStatus: ConnectionStatus) {
+			if (connectionStatus is ConnectionStatus.Success) {
 				connectedEndpoints.add(endpointId)
 			}
 		}
@@ -34,9 +30,6 @@ class AdvertisingConnectionsManager(
 			connectedEndpoints.remove(endpointId)
 		}
 	}
-
-	private val client: ConnectionsClient
-		get() = Nearby.getConnectionsClient(application.value)
 
 	override fun startAdvertising(name: String): Task<Void> {
 		addConnectionCallback(connectedEndpointsCallback)
@@ -47,8 +40,9 @@ class AdvertisingConnectionsManager(
 
 	override fun sendPayload(byteArray: ByteArray) {
 		if (connectedEndpoints.isNotEmpty()) {
-			val streamPayload: Payload = Payload.fromBytes(byteArray)
+			val streamPayload = Payload.fromBytes(byteArray)
 			val endpoints = connectedEndpoints.map(EndpointId::toString)
+
 			client.sendPayload(endpoints, streamPayload)
 		}
 	}
@@ -58,8 +52,8 @@ class AdvertisingConnectionsManager(
 	}
 
 	override fun stopAdvertising() {
-		connectedEndpoints.clear()
 		client.stopAdvertising()
+		connectedEndpoints.clear()
 	}
 
 	override fun addConnectionCallback(callback: ConnectionCallback) {

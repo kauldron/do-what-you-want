@@ -1,6 +1,5 @@
 package com.lockwood.connections.callback.adapter
 
-import androidx.collection.SimpleArrayMap
 import com.google.android.gms.nearby.connection.Payload
 import com.google.android.gms.nearby.connection.PayloadTransferUpdate
 import com.lockwood.connections.callback.PayloadCallback
@@ -10,13 +9,9 @@ import com.lockwood.connections.model.NearbyPayloadCallback
 internal class PayloadCallbackAdapter :
 		NearbyPayloadCallback(), CallbackAdapter<PayloadCallback> {
 
-	private val incomingPayloads: SimpleArrayMap<Long, Payload> = SimpleArrayMap()
-
 	private val listeners: MutableList<PayloadCallback> = mutableListOf()
 
 	override fun onPayloadReceived(id: String, payload: Payload) {
-		incomingPayloads.put(payload.id, payload);
-
 		val endpointId = EndpointId(id)
 		val byteArray = payload.asBytes()
 		byteArray ?: return
