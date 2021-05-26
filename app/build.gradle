@@ -33,6 +33,7 @@ dependencies {
 
     implementation project(":replicant")
     implementation project(":replicant:executor")
+    implementation project(":replicant:feature")
 
     implementation project(":feature:connections")
     implementation project(":feature:room")
@@ -41,7 +42,7 @@ dependencies {
 
     implementation "com.jakewharton.timber:timber:4.7.1"
 
-    implementation "com.google.android.material:material:1.4.0-alpha02"
+    implementation "com.google.android.material:material:1.4.0-beta01"
 
     // https://square.github.io/leakcanary/
     debugImplementation "com.squareup.leakcanary:leakcanary-android:2.7"

@@ -30,3 +30,7 @@ internal constructor(
 		releasableValue = UNINITIALIZED_VALUE
 	}
 }
+
+fun <T : Any> notSafeReleasableLazy(initializer: () -> T): ReadOnlyProperty<Any?, T> {
+	return UnsafeReleasableLazy(initializer)
+}

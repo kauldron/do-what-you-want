@@ -9,10 +9,8 @@ import com.lockwood.connections.model.EndpointId
 import com.lockwood.replicant.event.MessageEvent
 import com.lockwood.replicant.executor.provider.ExecutorProvider
 import com.lockwood.replicant.transform.StateTransformer
-import com.lockwood.room.base.BaseConnectionViewModel
 import com.lockwood.room.data.interactor.IRoomsInteractor
 import com.lockwood.room.feature.discover.event.ShowAcceptConnectionEvent
-import com.lockwood.room.feature.host.event.RequestCaptureEvent
 import com.lockwood.room.feature.host.event.StartHostServiceEvent
 import com.lockwood.room.feature.host.event.StopHostServiceEvent
 import com.lockwood.room.model.Room

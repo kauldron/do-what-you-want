@@ -54,3 +54,7 @@ internal constructor(
 		}
 	}
 }
+
+fun <T : Any> releasableLazy(initializer: () -> T): ReadOnlyProperty<Any?, T> {
+	return SynchronizedReleasableLazy(initializer)
+}

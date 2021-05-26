@@ -4,7 +4,8 @@ import android.media.AudioTrack
 import timber.log.Timber
 
 internal class PlayerManager(
-		private val audioTrack: AudioTrack
+		@JvmField
+		private val audioTrack: AudioTrack,
 ) : IPlayerManager {
 
 	private var isPlaying: Boolean = false

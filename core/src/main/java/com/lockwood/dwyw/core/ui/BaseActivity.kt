@@ -5,9 +5,9 @@ import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.lockwood.automata.android.showFragment
-import com.lockwood.replicant.base.FeatureActivity
+import com.lockwood.replicant.base.ScreenActivity
 
-abstract class BaseActivity : FeatureActivity() {
+abstract class BaseActivity : ScreenActivity() {
 
 	protected inline fun <reified T : Fragment> showFragment(
 			@IdRes id: Int,
@@ -24,7 +24,7 @@ abstract class BaseActivity : FeatureActivity() {
 	}
 
 	protected inline fun showDialog(
-			onBuild: MaterialAlertDialogBuilder.() -> MaterialAlertDialogBuilder
+			onBuild: MaterialAlertDialogBuilder.() -> MaterialAlertDialogBuilder,
 	) {
 		MaterialAlertDialogBuilder(this).setCancelable(false).apply {
 			onBuild(this)

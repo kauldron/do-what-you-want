@@ -8,7 +8,8 @@ import com.lockwood.room.R
 import com.lockwood.room.model.Room
 
 internal class RoomsAdapter(
-		data: Array<Room>,
+		data: List<Room>,
+		@JvmField
 		private val listener: ItemClickListener<Room>,
 ) : ReplicantAdapter<Room>(data) {
 

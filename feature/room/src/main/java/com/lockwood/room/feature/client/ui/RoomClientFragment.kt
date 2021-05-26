@@ -11,7 +11,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.ColorInt
-import androidx.core.content.ContextCompat
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.widget.ImageViewCompat.setImageTintList
 import androidx.core.widget.ImageViewCompat.setImageTintMode
 import androidx.fragment.app.viewModels
@@ -21,13 +21,7 @@ import com.lockwood.automata.android.startService
 import com.lockwood.dwyw.core.ui.BaseFragment
 import com.lockwood.dwyw.ui.core.Colors
 import com.lockwood.replicant.context.ApplicationContextProvider
-import com.lockwood.replicant.event.Event
-import com.lockwood.replicant.event.observeEvents
-import com.lockwood.replicant.ext.observeState
 import com.lockwood.replicant.view.ScreenView
-import com.lockwood.replicant.view.ext.requireActivityType
-import com.lockwood.replicant.view.ext.requireProgressView
-import com.lockwood.replicant.view.ext.setDebouncingOnClickListener
 import com.lockwood.room.R
 import com.lockwood.room.base.BaseRoomService
 import com.lockwood.room.feature.RoomsFeature
@@ -35,7 +29,7 @@ import com.lockwood.room.feature.client.event.StartClientServiceEvent
 import com.lockwood.room.feature.client.event.StopClientServiceEvent
 import com.lockwood.room.feature.client.service.ClientForegroundService
 import com.lockwood.room.model.Room
-import com.lockwood.room.screen.RoomsDiscoveryScreen
+import com.lockwood.room.screen.DiscoveryScreen
 
 internal class RoomClientFragment : BaseFragment<RoomClientViewState>() {
 
@@ -84,7 +78,7 @@ internal class RoomClientFragment : BaseFragment<RoomClientViewState>() {
 
 	private fun stopConnection() {
 		appContext.startService<ClientForegroundService> { action = BaseRoomService.STOP_SERVICE }
-		requireActivityType<ScreenView>().showScreen(RoomsDiscoveryScreen)
+		requireActivityType<ScreenView>().showScreen(DiscoveryScreen)
 	}
 
 	private fun renderDisabled() {
@@ -136,7 +130,7 @@ internal class RoomClientFragment : BaseFragment<RoomClientViewState>() {
 		requireImageView().apply {
 			setImageTintMode(this, PorterDuff.Mode.SRC_IN)
 			setImageTintList(this, ColorStateList.valueOf(tint))
-			setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_headset))
+			setImageDrawable(context.getDrawable(R.drawable.ic_headset))
 		}
 	}
 

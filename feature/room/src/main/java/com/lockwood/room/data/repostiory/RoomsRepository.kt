@@ -4,7 +4,7 @@ import com.lockwood.connections.INearbyConnectionsManager
 
 internal class RoomsRepository(
 		@JvmField
-		private val nearbyConnectionsManager: INearbyConnectionsManager
+		private val nearbyConnectionsManager: INearbyConnectionsManager,
 ) :
 		IRoomsRepository,
 		INearbyConnectionsManager by nearbyConnectionsManager

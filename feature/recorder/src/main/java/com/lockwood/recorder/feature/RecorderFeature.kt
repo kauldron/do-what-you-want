@@ -8,13 +8,13 @@ import com.lockwood.recorder.IAudioRecorder
 import com.lockwood.recorder.manager.IMediaProjectionManager
 import com.lockwood.recorder.manager.MediaProjectionManager
 import com.lockwood.replicant.context.ApplicationContextProvider
-import com.lockwood.replicant.ext.notSafeReleasableLazy
 import com.lockwood.replicant.feature.PermissionsFeature
 import com.lockwood.replicant.feature.ReleasableFeature
+import com.lockwood.replicant.releasable.notSafeReleasableLazy
 
 class RecorderFeature(
 		@JvmField
-		private val contextProvider: ApplicationContextProvider
+		private val contextProvider: ApplicationContextProvider,
 ) : ReleasableFeature, PermissionsFeature {
 
 	override val requiredPermissions: Array<String>

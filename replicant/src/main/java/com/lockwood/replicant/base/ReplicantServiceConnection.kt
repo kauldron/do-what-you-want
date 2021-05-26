@@ -30,7 +30,7 @@ abstract class ReplicantServiceConnection : ServiceConnection {
 
 	protected inline fun <reified T : Service> bindService(
 			context: ApplicationContext,
-			flags: Int
+			flags: Int,
 	) = with(context.value) {
 		if (!isBound) {
 			val intent = newIntent<T>(this)

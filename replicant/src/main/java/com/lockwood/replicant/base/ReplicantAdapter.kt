@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 abstract class ReplicantAdapter<T : Any>(
 		@JvmField
-		val data: Array<T>,
+		val data: List<T>,
 ) : RecyclerView.Adapter<ReplicantViewHolder>() {
 
 	override fun getItemCount(): Int {

@@ -1,0 +1,13 @@
+plugins {
+    id "com.android.library"
+    id "kotlin-android"
+}
+
+apply from: rootProject.file("gradle/android/config.gradle")
+apply from: rootProject.file("gradle/android/kotlin.gradle")
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+
+    compileOnly "androidx.fragment:fragment-ktx:1.3.3"
+}

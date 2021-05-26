@@ -9,6 +9,7 @@ import com.lockwood.recorder.manager.IMediaProjectionManager
 import timber.log.Timber
 
 internal class AudioRecorder(
+		@JvmField
 		private val manager: IMediaProjectionManager,
 ) : IAudioRecorder {
 

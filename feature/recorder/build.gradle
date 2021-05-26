@@ -12,6 +12,7 @@ dependencies {
 
     implementation project(":replicant")
     implementation project(":replicant:executor")
+    implementation project(":replicant:feature")
 
     implementation project(":core")
 

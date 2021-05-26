@@ -11,6 +11,7 @@ dependencies {
     implementation project(":automata:android")
 
     implementation project(":replicant")
+    implementation project(":replicant:feature")
 
     implementation project(":core")
 

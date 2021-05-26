@@ -18,7 +18,7 @@ import com.lockwood.dwyw.core.ui.BaseActivity
 import com.lockwood.player.feature.PlayerFeature
 import com.lockwood.recorder.feature.RecorderFeature
 import com.lockwood.recorder.manager.IMediaProjectionManager
-import com.lockwood.replicant.ext.mergePermissions
+import com.lockwood.replicant.feature.ext.mergePermissions
 import com.lockwood.replicant.inflater.ext.setContentViewAsync
 import com.lockwood.replicant.screen.Screen
 import com.lockwood.replicant.view.MessageView
@@ -34,9 +34,9 @@ import com.lockwood.room.model.PermissionsResultLauncher
 import com.lockwood.room.model.UnitResultLauncher
 import com.lockwood.room.navigation.launcher.RoomArgs.IS_SHOW_ADVERTISING
 import com.lockwood.room.navigation.launcher.RoomArgs.ROOM_TO_SHOW
-import com.lockwood.room.screen.RoomConnectionScreen
-import com.lockwood.room.screen.RoomsAdvertisingScreen
-import com.lockwood.room.screen.RoomsDiscoveryScreen
+import com.lockwood.room.screen.AdvertisingScreen
+import com.lockwood.room.screen.ConnectionScreen
+import com.lockwood.room.screen.DiscoveryScreen
 
 internal class RoomConnectionActivity : BaseActivity(),
 		MessageView,
@@ -126,9 +126,9 @@ internal class RoomConnectionActivity : BaseActivity(),
 	}
 
 	override fun showScreen(screen: Screen) = when (screen) {
-		is RoomsDiscoveryScreen -> showFragment { RoomsDiscoverFragment.newInstance() }
-		is RoomsAdvertisingScreen -> showFragment { RoomHostFragment.newInstance() }
-		is RoomConnectionScreen -> showFragment { RoomClientFragment.newInstance() }
+		is DiscoveryScreen -> showFragment { RoomsDiscoverFragment.newInstance() }
+		is AdvertisingScreen -> showFragment { RoomHostFragment.newInstance() }
+		is ConnectionScreen -> showFragment { RoomClientFragment.newInstance() }
 		else -> super.showScreen(screen)
 	}
 

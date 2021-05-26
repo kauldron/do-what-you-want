@@ -4,34 +4,40 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.lockwood.automata.android.newFragment
 import com.lockwood.automata.recycler.addDividerItemDecoration
 import com.lockwood.automata.recycler.applyLayoutManager
+import com.lockwood.connections.feature.ConnectionsFeature
 import com.lockwood.dwyw.core.ui.BaseFragment
+import com.lockwood.dwyw.core.ui.state.LoadingState
+import com.lockwood.dwyw.core.ui.state.LoadingState.Content
+import com.lockwood.dwyw.core.ui.state.LoadingState.Loading
+import com.lockwood.dwyw.core.ui.state.LoadingState.Stub
 import com.lockwood.dwyw.ui.core.Colors
 import com.lockwood.recorder.feature.RecorderFeature
-import com.lockwood.replicant.event.Event
-import com.lockwood.replicant.event.observeEvents
-import com.lockwood.replicant.ext.observeState
 import com.lockwood.replicant.view.ext.requireProgressView
-import com.lockwood.replicant.view.ext.setDebouncingOnClickListener
+import com.lockwood.replicant.view.ext.requireScreenView
+import com.lockwood.replicant.view.listener.setDebouncingOnClickListener
 import com.lockwood.room.R
 import com.lockwood.room.data.interactor.IRoomsInteractor
 import com.lockwood.room.feature.RoomsFeature
+import com.lockwood.room.feature.discover.RoomsDiscoverViewState
+import com.lockwood.room.feature.discover.RoomsDiscoveryAction
+import com.lockwood.room.feature.discover.RoomsDiscoveryAction.AcceptConnection
+import com.lockwood.room.feature.discover.RoomsDiscoveryAction.DiscoverRooms
+import com.lockwood.room.feature.discover.RoomsDiscoveryAction.NavigateToScreen
+import com.lockwood.room.feature.discover.RoomsDiscoveryAction.RejectConnection
+import com.lockwood.room.feature.discover.RoomsDiscoveryEffects
+import com.lockwood.room.feature.discover.RoomsDiscoveryEffects.ShowAcceptConnection
+import com.lockwood.room.feature.discover.RoomsDiscoveryEffects.ShowScreen
+import com.lockwood.room.feature.discover.RoomsDiscoveryStore
 import com.lockwood.room.feature.discover.adapter.RoomsAdapter
-import com.lockwood.room.feature.discover.event.ShowAcceptConnectionEvent
 import com.lockwood.room.model.Room
+import com.lockwood.room.screen.AdvertisingScreen
 
-
-internal class RoomsDiscoverFragment : BaseFragment<RoomsDiscoverViewState>() {
-
-	private val viewModel by viewModels<RoomsDiscoverViewModel> {
-		getFeature<RoomsFeature>().viewModelsFactory
-	}
+internal class RoomsDiscoverFragment : BaseFragment<RoomsDiscoveryStore>() {
 
 	private val roomsInteractor: IRoomsInteractor
 		get() = getFeature<RoomsFeature>().roomsInteractor
@@ -46,14 +52,15 @@ internal class RoomsDiscoverFragment : BaseFragment<RoomsDiscoverViewState>() {
 	): View = inflater.inflate(R.layout.fragment_rooms_discovery, container, false)
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
 		initRoomsRecyclerView()
 		initStubView()
 
-		with(viewModel) {
-			observeState(liveState, ::renderState)
-			observeEvents(eventsQueue, ::onEvent)
+		with(store) {
+			listenEffect(::handleEffect)
+			listenState(::renderState)
 
-			startDiscoveryRooms()
+			accept(DiscoverRooms)
 		}
 	}
 
@@ -62,58 +69,79 @@ internal class RoomsDiscoverFragment : BaseFragment<RoomsDiscoverViewState>() {
 		super.onDestroyView()
 	}
 
-	override fun onEvent(event: Event) = when (event) {
-		is ShowAcceptConnectionEvent -> showConnectionDialog(event.room)
-		else -> super.onEvent(event)
+	override fun onSaveInstanceState(outState: Bundle) = with(outState) {
+		super.onSaveInstanceState(this)
+		RoomsDiscoverViewState.toBundle(this, store.currentState)
 	}
 
-	override fun renderState(viewState: RoomsDiscoverViewState) {
-		with(viewState) {
-			remember(::renderLoading, isLoading.value, rooms.value.isNullOrEmpty())
-			remember(::renderRooms, rooms.value)
-		}
+	override fun initStore(savedInstanceState: Bundle?): RoomsDiscoveryStore {
+		val state = RoomsDiscoverViewState.fromBundleOrDefault(savedInstanceState)
+
+		val roomsInteractor = getFeature<RoomsFeature>().roomsInteractor
+		val connectionsManager = getFeature<ConnectionsFeature>().nearbyConnectionsManager
+
+		return RoomsDiscoveryStore(roomsInteractor, connectionsManager, state)
 	}
 
-	private fun renderLoading(isLoading: Boolean, isRoomsEmpty: Boolean) {
+	private fun renderState(viewState: RoomsDiscoverViewState) = with(viewState) {
+		remember(::renderLoading, loadingState)
+		remember(::renderRooms, rooms)
+	}
+
+	private fun handleEffect(effect: RoomsDiscoveryEffects) = when (effect) {
+		is ShowAcceptConnection -> showConnectionDialog(effect.room)
+		is ShowScreen -> requireScreenView().showScreen(effect.screen)
+	}
+
+	private fun renderLoading(loadingState: LoadingState) = when (loadingState) {
+		is Loading -> renderLoading(isLoading = true)
+		is Content -> renderLoading(isShowRooms = true)
+		is Stub -> renderLoading(isStub = true)
+	}
+
+	private fun renderLoading(
+			isLoading: Boolean = false,
+			isStub: Boolean = false,
+			isShowRooms: Boolean = false
+	) {
 		requireProgressView().updateProgressVisibility(isLoading)
-		requireStubView().isVisible = !isLoading && isRoomsEmpty
-		requireRoomsView().isVisible = !isLoading && !isRoomsEmpty
+		requireStubView().isVisible = isStub
+		requireRoomsView().isVisible = isShowRooms
 	}
 
-	private fun renderRooms(rooms: Array<Room>) {
+	private fun renderRooms(rooms: List<Room>) {
 		requireRoomsView().adapter = if (rooms.isNullOrEmpty()) {
 			null
 		} else {
-			RoomsAdapter(rooms, viewModel::requestConnection)
+			RoomsAdapter(rooms) { clickedRoom ->
+				store.accept(RoomsDiscoveryAction.RequestConnection(clickedRoom))
+			}
 		}
 	}
 
-	private fun showConnectionDialog(room: Room) = showDialog {
-		setTitle("Attention")
-		setMessage("Do you want to connect with ${room.name}?")
-		setNegativeButton("No") { dialog, _ ->
-			viewModel.rejectConnection(room)
-			dialog.dismiss()
-		}
-		setPositiveButton("Yes") { _, _ ->
-			viewModel.acceptConnection(room)
+	private fun showConnectionDialog(room: Room) = with(store) {
+		showDialog {
+			setTitle("Attention")
+			setMessage("Do you want to connect with ${room.name}?")
+			setNegativeButton("No") { dialog, _ -> accept(RejectConnection(room)).also { dialog.dismiss() } }
+			setPositiveButton("Yes") { _, _ -> accept(AcceptConnection(room)) }
 		}
 	}
 
 	private fun initRoomsRecyclerView() = requireRoomsView().apply {
 		applyLayoutManager(RecyclerView.VERTICAL)
 		addDividerItemDecoration(RecyclerView.VERTICAL) {
-			DrawableCompat.setTint(requireNotNull(drawable), Colors.PURPLE)
+			requireNotNull(drawable).setTint(Colors.PURPLE)
 		}
 	}
 
 	private fun initStubView() {
 		requireView().findViewById<View>(R.id.start_discovery_button).apply {
-			setDebouncingOnClickListener(viewModel::startDiscoveryRooms)
+			setDebouncingOnClickListener { store.accept(DiscoverRooms) }
 		}
 		requireView().findViewById<View>(R.id.start_broadcasting_button).apply {
 			isVisible = isAudioRecordEnabled
-			setDebouncingOnClickListener(viewModel::navigateToAdvertising)
+			setDebouncingOnClickListener { store.accept(NavigateToScreen(AdvertisingScreen)) }
 		}
 	}
 
@@ -130,4 +158,5 @@ internal class RoomsDiscoverFragment : BaseFragment<RoomsDiscoverViewState>() {
 		@JvmStatic
 		fun newInstance(): RoomsDiscoverFragment = newFragment()
 	}
+
 }

@@ -23,7 +23,7 @@ internal object AudioRecordFactory : IAudioRecordFactory {
 	}
 
 	private fun AudioRecord.Builder.setAudioPlaybackCaptureConfig(
-			projection: MediaProjection
+			projection: MediaProjection,
 	): AudioRecord.Builder = apply {
 		val config = if (VERSION.SDK_INT >= VERSION_CODES.Q) {
 			AudioPlaybackCaptureConfiguration.Builder(projection)

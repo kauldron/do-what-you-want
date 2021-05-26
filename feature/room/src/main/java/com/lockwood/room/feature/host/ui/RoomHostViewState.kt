@@ -1,13 +1,15 @@
 package com.lockwood.room.feature.host.ui
 
-import com.lockwood.replicant.state.ViewState
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 internal data class RoomHostViewState(
 		@JvmField
 		val isEnabled: Boolean,
 		@JvmField
 		val isSharing: Boolean,
-) : ViewState {
+) : Parcelable {
 
 	companion object {
 

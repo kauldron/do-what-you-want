@@ -3,6 +3,7 @@ package com.lockwood.connections.model
 import com.google.android.gms.common.api.Status
 
 sealed class ConnectionsStatus(
+		@JvmField
 		private val status: Status,
 ) {
 	override fun toString(): String = status.statusMessage.toString()

@@ -11,11 +11,12 @@ dependencies {
     implementation project(":automata:android")
 
     implementation project(":replicant")
+    implementation project(":replicant:feature")
 
     implementation "com.jakewharton.timber:timber:4.7.1"
     implementation "com.google.android.gms:play-services-nearby:17.0.0"
 
-    compileOnly "com.google.android.material:material:1.4.0-alpha02"
+    compileOnly "com.google.android.material:material:1.4.0-beta01"
 
 
 }

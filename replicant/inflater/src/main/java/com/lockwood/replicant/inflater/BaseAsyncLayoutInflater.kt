@@ -12,7 +12,7 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 abstract class BaseAsyncLayoutInflater(
-		context: Context
+		context: Context,
 ) : LayoutInflater(context) {
 
 	private companion object {
@@ -49,7 +49,7 @@ abstract class BaseAsyncLayoutInflater(
 	abstract fun inflate(
 			resId: Int,
 			viewGroup: ViewGroup? = null,
-			callback: (View, Int, ViewGroup?) -> Unit
+			callback: (View, Int, ViewGroup?) -> Unit,
 	)
 
 	protected fun runOnUiThread(action: Runnable) {

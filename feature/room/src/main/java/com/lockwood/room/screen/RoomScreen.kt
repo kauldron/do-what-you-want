@@ -5,8 +5,6 @@ import com.lockwood.room.model.Room
 
 interface RoomScreen : Screen
 
-object RoomsDiscoveryScreen : RoomScreen
-
-object RoomsAdvertisingScreen : RoomScreen
-
-class RoomConnectionScreen(@JvmField val room: Room) : RoomScreen
+object DiscoveryScreen : RoomScreen
+object AdvertisingScreen : RoomScreen
+class ConnectionScreen(@JvmField val room: Room) : RoomScreen

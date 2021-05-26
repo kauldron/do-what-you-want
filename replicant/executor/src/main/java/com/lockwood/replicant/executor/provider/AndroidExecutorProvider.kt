@@ -7,8 +7,10 @@ import com.lockwood.replicant.executor.ExecutorServiceFactory
 import java.util.concurrent.Executor
 
 class AndroidExecutorProvider(
+		@JvmField
 		private val executorFactory: ExecutorFactory = ExecutorServiceFactory,
-		private val mainThreadHandler: Handler = Handler(Looper.getMainLooper())
+		@JvmField
+		private val mainThreadHandler: Handler = Handler(Looper.getMainLooper()),
 ) : ExecutorProvider, ExecutorFactory by executorFactory {
 
 	private companion object {

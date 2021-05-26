@@ -26,15 +26,11 @@ import com.lockwood.replicant.context.ApplicationContextProvider
 import com.lockwood.replicant.event.Event
 import com.lockwood.replicant.event.observeEvents
 import com.lockwood.replicant.ext.observeState
-import com.lockwood.replicant.view.ext.requireActivityType
-import com.lockwood.replicant.view.ext.requireMessageView
-import com.lockwood.replicant.view.ext.requireProgressView
 import com.lockwood.replicant.view.ext.setDebouncingOnClickListener
 import com.lockwood.room.R
 import com.lockwood.room.base.BaseRoomService
 import com.lockwood.room.feature.RoomsFeature
 import com.lockwood.room.feature.discover.event.ShowAcceptConnectionEvent
-import com.lockwood.room.feature.host.event.RequestCaptureEvent
 import com.lockwood.room.feature.host.event.StartHostServiceEvent
 import com.lockwood.room.feature.host.event.StopHostServiceEvent
 import com.lockwood.room.feature.host.service.HostForegroundService

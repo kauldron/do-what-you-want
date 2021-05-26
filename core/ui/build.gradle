@@ -7,5 +7,5 @@ apply from: rootProject.file("gradle/android/config.gradle")
 apply from: rootProject.file("gradle/android/kotlin.gradle")
 
 dependencies {
-    implementation "com.google.android.material:material:1.4.0-alpha02"
+    implementation "com.google.android.material:material:1.4.0-beta01"
 }

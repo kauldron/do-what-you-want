@@ -6,7 +6,6 @@ import com.lockwood.connections.INearbyConnectionsManager
 import com.lockwood.replicant.executor.provider.ExecutorProvider
 import com.lockwood.room.data.interactor.IRoomsInteractor
 import com.lockwood.room.feature.client.ui.RoomClientViewModel
-import com.lockwood.room.feature.discover.ui.RoomsDiscoverViewModel
 import com.lockwood.room.feature.host.ui.RoomHostViewModel
 
 @Suppress("UNCHECKED_CAST", "IMPLICIT_CAST_TO_ANY")

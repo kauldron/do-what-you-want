@@ -4,6 +4,8 @@ import com.lockwood.replicant.imageloader.options.ImageOptions
 import com.lockwood.replicant.imageloader.target.Target
 
 class Request(
+		@JvmField
 		val imageOptions: ImageOptions,
+		@JvmField
 		val imageCallback: Array<Target>,
 )

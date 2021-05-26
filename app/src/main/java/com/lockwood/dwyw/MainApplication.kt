@@ -27,10 +27,9 @@ class MainApplication : Application(), DoWhatYouWantApplication {
 
 	override val roomsFeature: RoomsFeature = RoomsFeature(
 			contextProvider = this,
-			playerManager = playerFeature.playerManager,
 			connectionsManager = connectionsFeature.nearbyConnectionsManager,
-			buildConfigWrapper = wrapperFeature.buildConfigWrapper,
-			executorProvider = coreFeature.executorProvider
+			playerManager = playerFeature.playerManager,
+			buildConfigWrapper = wrapperFeature.buildConfigWrapper
 	)
 
 	override fun onCreate() {

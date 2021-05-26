@@ -6,6 +6,7 @@ import androidx.core.os.ConfigurationCompat
 import java.util.Locale
 
 class AndroidLocaleManager(
+		@JvmField
 		private val context: Context,
 ) : LocaleManager {
 

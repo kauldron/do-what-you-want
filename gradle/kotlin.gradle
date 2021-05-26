@@ -1,7 +1,9 @@
 compileKotlin {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
-        useIR = true
-        freeCompilerArgs += ["-Xinline-classes", "-Xjvm-default=compatibility"]
+        freeCompilerArgs += [
+                "-Xinline-classes",
+                "-Xjvm-default=compatibility"
+        ]
     }
 }

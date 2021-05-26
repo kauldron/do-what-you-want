@@ -1,6 +1,8 @@
 package com.lockwood.connections.model
 
 class EndpointInfo(
+		@JvmField
 		val id: String,
-		val name: String
+		@JvmField
+		val name: String,
 )
