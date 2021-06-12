@@ -4,5 +4,5 @@ import android.app.Activity
 
 interface ICurrentActivityProvider {
 
-	var currentActivity: Activity?
+    var currentActivity: Activity?
 }

@@ -11,20 +11,20 @@ import com.lockwood.replicant.feature.ReleasableFeature
 
 class PlayerFeature : ReleasableFeature, PermissionsFeature {
 
-	override val requiredPermissions: Array<String>
-		get() = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
+    override val requiredPermissions: Array<String>
+        get() = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
 
-	val playerManager: IPlayerManager by lazy {
-		PlayerManager(audioTrack)
-	}
+    val playerManager: IPlayerManager by lazy {
+        PlayerManager(audioTrack)
+    }
 
-	private val audioTrack: AudioTrack by notSafeLazy {
-		AudioTrackFactory.make()
-	}
+    private val audioTrack: AudioTrack by notSafeLazy {
+        AudioTrackFactory.make()
+    }
 
-	override fun release() {
-		playerManager.release()
-		super.release()
-	}
+    override fun release() {
+        playerManager.release()
+        super.release()
+    }
 
 }

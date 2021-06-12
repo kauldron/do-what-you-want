@@ -2,5 +2,5 @@ package com.lockwood.player.feature
 
 interface PlayerToolsProvider {
 
-	val playerFeature: PlayerFeature
+    val playerFeature: PlayerFeature
 }

@@ -7,27 +7,27 @@ import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 
 abstract class ReplicantAdapter<T : Any>(
-		@JvmField
-		val data: List<T>,
+    @JvmField
+    val data: List<T>,
 ) : RecyclerView.Adapter<ReplicantViewHolder>() {
 
-	override fun getItemCount(): Int {
-		return data.size
-	}
+    override fun getItemCount(): Int {
+        return data.size
+    }
 
-	override fun onBindViewHolder(
-			holder: ReplicantViewHolder,
-			position: Int,
-	) {
-		holder.onBind(position)
-	}
+    override fun onBindViewHolder(
+        holder: ReplicantViewHolder,
+        position: Int,
+    ) {
+        holder.onBind(position)
+    }
 
-	protected companion object {
+    protected companion object {
 
-		@JvmStatic
-		protected fun ViewGroup.inflate(
-				@LayoutRes layoutRes: Int,
-				attachToRoot: Boolean = false,
-		): View = LayoutInflater.from(context).inflate(layoutRes, this, attachToRoot)
-	}
+        @JvmStatic
+        protected fun ViewGroup.inflate(
+            @LayoutRes layoutRes: Int,
+            attachToRoot: Boolean = false,
+        ): View = LayoutInflater.from(context).inflate(layoutRes, this, attachToRoot)
+    }
 }

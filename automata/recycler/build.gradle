@@ -7,5 +7,6 @@ apply from: rootProject.file("gradle/android/config.gradle")
 apply from: rootProject.file("gradle/android/kotlin.gradle")
 
 dependencies {
-    compileOnly "androidx.recyclerview:recyclerview:1.2.0"
+
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
 }

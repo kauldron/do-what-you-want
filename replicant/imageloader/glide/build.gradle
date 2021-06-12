@@ -8,6 +8,7 @@ apply from: rootProject.file("gradle/android/config.gradle")
 apply from: rootProject.file("gradle/android/kotlin.gradle")
 
 dependencies {
+
     implementation project(":replicant:imageloader")
 
     implementation "com.github.bumptech.glide:glide:4.12.0"

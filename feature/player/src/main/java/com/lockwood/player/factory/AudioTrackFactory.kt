@@ -8,26 +8,26 @@ import com.lockwood.dwyw.core.media.AudioParams
 
 internal object AudioTrackFactory : IAudioTrackFactory {
 
-	private val audioAttributes: AudioAttributes
-		get() = AudioAttributes.Builder()
-				.setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-				.setUsage(AudioAttributes.USAGE_MEDIA)
-				.build()
+    private val audioAttributes: AudioAttributes
+        get() = AudioAttributes.Builder()
+            .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+            .setUsage(AudioAttributes.USAGE_MEDIA)
+            .build()
 
-	override fun make(): AudioTrack {
-		return AudioTrack.Builder()
-				.setAudioAttributes(audioAttributes)
-				.setAudioFormat(AudioParams.playAudioFormat)
-				.setBufferSizeInBytes(AudioParams.minRecordBufferedSize)
-				.setTransferMode(AudioTrack.MODE_STREAM)
-				.setPowerSavingPerformanceMode()
-				.build()
-	}
+    override fun make(): AudioTrack {
+        return AudioTrack.Builder()
+            .setAudioAttributes(audioAttributes)
+            .setAudioFormat(AudioParams.playAudioFormat)
+            .setBufferSizeInBytes(AudioParams.minRecordBufferedSize)
+            .setTransferMode(AudioTrack.MODE_STREAM)
+            .setPowerSavingPerformanceMode()
+            .build()
+    }
 
-	private fun AudioTrack.Builder.setPowerSavingPerformanceMode(): AudioTrack.Builder = apply {
-		if (VERSION.SDK_INT >= VERSION_CODES.O) {
-			setPerformanceMode(AudioTrack.PERFORMANCE_MODE_POWER_SAVING)
-		}
-	}
+    private fun AudioTrack.Builder.setPowerSavingPerformanceMode(): AudioTrack.Builder = apply {
+        if (VERSION.SDK_INT >= VERSION_CODES.O) {
+            setPerformanceMode(AudioTrack.PERFORMANCE_MODE_POWER_SAVING)
+        }
+    }
 
 }

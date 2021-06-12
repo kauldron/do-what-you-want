@@ -9,62 +9,62 @@ import com.lockwood.automata.core.SINGLE
 import com.lockwood.automata.file.MimeTypes.WILDCARD
 
 private val <Uri> Array<Uri>.sendAction: String
-	get() {
-		return if (size == Int.SINGLE) {
-			Intent.ACTION_SEND
-		} else {
-			Intent.ACTION_SEND_MULTIPLE
-		}
-	}
+    get() {
+        return if (size == Int.SINGLE) {
+            Intent.ACTION_SEND
+        } else {
+            Intent.ACTION_SEND_MULTIPLE
+        }
+    }
 
 fun Context.composeEmail(
-		address: String,
-		subject: String,
-		body: String = String.EMPTY,
+    address: String,
+    subject: String,
+    body: String = String.EMPTY,
 ): Intent {
-	return Intent(Intent.ACTION_SENDTO, buildValidMailUri(address, subject, body)).apply {
-		startActivity(this)
-	}
+    return Intent(Intent.ACTION_SENDTO, buildValidMailUri(address, subject, body)).apply {
+        startActivity(this)
+    }
 }
 
 fun Context.composeEmail(
-		address: String,
-		subject: String,
-		vararg attachments: Uri,
+    address: String,
+    subject: String,
+    vararg attachments: Uri,
 ) {
-	composeEmail(
-			addresses = arrayOf(address),
-			subject = subject,
-			attachments = attachments,
-	)
+    composeEmail(
+        addresses = arrayOf(address),
+        subject = subject,
+        attachments = attachments,
+    )
 }
 
 fun Context.composeEmail(
-		addresses: Array<String>,
-		subject: String,
-		vararg attachments: Uri,
+    addresses: Array<String>,
+    subject: String,
+    vararg attachments: Uri,
 ) {
-	val intent: Intent = Intent(attachments.sendAction).apply {
-		type = WILDCARD
-		putExtra(Intent.EXTRA_EMAIL, addresses)
-		putExtra(Intent.EXTRA_SUBJECT, subject)
-		putExtra(Intent.EXTRA_STREAM, attachments)
-	}
+    val intent: Intent = Intent(attachments.sendAction).apply {
+        type = WILDCARD
+        putExtra(Intent.EXTRA_EMAIL, addresses)
+        putExtra(Intent.EXTRA_SUBJECT, subject)
+        putExtra(Intent.EXTRA_STREAM, attachments)
+    }
 
-	startActivity(intent)
+    startActivity(intent)
 }
 
 private fun buildValidMailUri(
-		address: String,
-		subject: String,
-		body: String = String.EMPTY,
+    address: String,
+    subject: String,
+    body: String = String.EMPTY,
 ): Uri {
-	val mailUri = StringBuilder("mailto:$address?subject=$subject")
+    val mailUri = StringBuilder("mailto:$address?subject=$subject")
 
-	if (body.isNotEmpty()) {
-		val bodyWithLines = body.replace(String.LINE_SEPARATOR, "<br>")
-		mailUri.append("&body=$bodyWithLines")
-	}
+    if (body.isNotEmpty()) {
+        val bodyWithLines = body.replace(String.LINE_SEPARATOR, "<br>")
+        mailUri.append("&body=$bodyWithLines")
+    }
 
-	return Uri.parse(mailUri.toString())
+    return Uri.parse(mailUri.toString())
 }

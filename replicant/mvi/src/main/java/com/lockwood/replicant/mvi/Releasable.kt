@@ -2,5 +2,5 @@ package com.lockwood.replicant.mvi
 
 interface Releasable {
 
-	fun release()
+    fun release()
 }

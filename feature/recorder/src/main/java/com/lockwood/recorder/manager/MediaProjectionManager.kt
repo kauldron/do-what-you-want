@@ -7,19 +7,19 @@ import com.lockwood.automata.android.ApplicationContext
 import com.lockwood.automata.android.getSystemServiceSafe
 
 internal class MediaProjectionManager(
-		@JvmField
-		private val context: ApplicationContext,
+    @JvmField
+    private val context: ApplicationContext,
 ) : IMediaProjectionManager {
 
-	private var capturedMediaProjection: MediaProjection? = null
+    private var capturedMediaProjection: MediaProjection? = null
 
-	override fun handleMediaProjectionResult(resultCode: Int, resultData: Intent) {
-		val mediaProjectionManager = context.value.getSystemServiceSafe<MediaProjectionManager>()
-		capturedMediaProjection = mediaProjectionManager.getMediaProjection(resultCode, resultData)
-	}
+    override fun handleMediaProjectionResult(resultCode: Int, resultData: Intent) {
+        val mediaProjectionManager = context.value.getSystemServiceSafe<MediaProjectionManager>()
+        capturedMediaProjection = mediaProjectionManager.getMediaProjection(resultCode, resultData)
+    }
 
-	override fun getCurrentMediaProjection(): MediaProjection? {
-		return capturedMediaProjection
-	}
+    override fun getCurrentMediaProjection(): MediaProjection? {
+        return capturedMediaProjection
+    }
 
 }

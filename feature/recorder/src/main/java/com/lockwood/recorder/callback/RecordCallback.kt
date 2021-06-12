@@ -2,10 +2,10 @@ package com.lockwood.recorder.callback
 
 interface RecordCallback {
 
-	fun onStartRecord() = Unit
+    fun onStartRecord() = Unit
 
-	fun onStopRecord() = Unit
+    fun onStopRecord() = Unit
 
-	fun onRead(byteArray: ByteArray) = Unit
+    fun onRead(byteArray: ByteArray) = Unit
 
 }

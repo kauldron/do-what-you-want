@@ -5,6 +5,6 @@ import com.lockwood.replicant.feature.Feature
 
 interface WrapperFeature : Feature {
 
-	val buildConfigWrapper: BuildConfigWrapper
+    val buildConfigWrapper: BuildConfigWrapper
 
 }

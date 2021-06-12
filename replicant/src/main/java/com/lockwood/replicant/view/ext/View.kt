@@ -1,7 +1,7 @@
 package com.lockwood.replicant.view.ext
 
 import android.app.Activity
-import androidx.fragment.app.Fragment
+import android.app.Fragment
 import com.lockwood.replicant.view.MessageView
 import com.lockwood.replicant.view.ProgressView
 import com.lockwood.replicant.view.ScreenView
@@ -25,11 +25,11 @@ fun Fragment.requireScreenView(): ScreenView = requireActivityType()
 fun Fragment.requireMessageView(): MessageView = requireActivityType()
 
 inline fun <reified T> Activity.requireActivityType(): T {
-	require(this is T) { "Activity should implement ${T::class}" }
+    require(this is T) { "Activity should implement ${T::class}" }
 
-	return this
+    return this
 }
 
 inline fun <reified T> Fragment.requireActivityType(): T {
-	return requireActivity().requireActivityType()
+    return activity.requireActivityType()
 }

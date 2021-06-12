@@ -9,31 +9,31 @@ import com.lockwood.replicant.context.ApplicationContextProvider
 
 
 class PreferenceCacheManager(
-		contextProvider: ApplicationContextProvider,
+    contextProvider: ApplicationContextProvider,
 ) : IPreferenceCacheManager {
 
-	override val appPreference: SharedPreferences by lazy {
-		contextProvider.applicationContext.application.asDefaultSharedPreferences()
-	}
+    override val appPreference: SharedPreferences by lazy {
+        contextProvider.applicationContext.application.asDefaultSharedPreferences()
+    }
 
-	override fun <T> get(key: String, default: T): T {
-		return appPreference.findPreference(key, default)
-	}
+    override fun <T> get(key: String, default: T): T {
+        return appPreference.findPreference(key, default)
+    }
 
-	override fun <T> get(key: String, default: T, context: Context): T {
-		return context.asDefaultSharedPreferences().findPreference(key, default)
-	}
+    override fun <T> get(key: String, default: T, context: Context): T {
+        return context.asDefaultSharedPreferences().findPreference(key, default)
+    }
 
-	override fun <T> put(key: String, value: T) {
-		appPreference.putPreference(key, value)
-	}
+    override fun <T> put(key: String, value: T) {
+        appPreference.putPreference(key, value)
+    }
 
-	override fun <T> put(key: String, value: T, context: Context) {
-		context.asDefaultSharedPreferences().putPreference(key, value)
-	}
+    override fun <T> put(key: String, value: T, context: Context) {
+        context.asDefaultSharedPreferences().putPreference(key, value)
+    }
 
-	private fun Context.asDefaultSharedPreferences(): SharedPreferences {
-		return PreferenceManager.getDefaultSharedPreferences(this)
-	}
+    private fun Context.asDefaultSharedPreferences(): SharedPreferences {
+        return PreferenceManager.getDefaultSharedPreferences(this)
+    }
 
 }

@@ -13,31 +13,31 @@ import com.lockwood.replicant.feature.PermissionsFeature
 import com.lockwood.replicant.feature.ReleasableFeature
 
 class RecorderFeature(
-		@JvmField
-		private val contextProvider: ApplicationContextProvider,
+    @JvmField
+    private val contextProvider: ApplicationContextProvider,
 ) : ReleasableFeature, PermissionsFeature {
 
-	override val requiredPermissions: Array<String>
-		get() = if (isEnabled) {
-			arrayOf(Manifest.permission.RECORD_AUDIO)
-		} else {
-			emptyArray()
-		}
+    override val requiredPermissions: Array<String>
+        get() = if (isEnabled) {
+            arrayOf(Manifest.permission.RECORD_AUDIO)
+        } else {
+            emptyArray()
+        }
 
-	override val isEnabled: Boolean
-		get() = VERSION.SDK_INT >= VERSION_CODES.Q
+    override val isEnabled: Boolean
+        get() = VERSION.SDK_INT >= VERSION_CODES.Q
 
-	val mediaProjectionManager: IMediaProjectionManager by notSafeLazy {
-		MediaProjectionManager(contextProvider.applicationContext)
-	}
+    val mediaProjectionManager: IMediaProjectionManager by notSafeLazy {
+        MediaProjectionManager(contextProvider.applicationContext)
+    }
 
-	val audioRecorder: IAudioRecorder by lazy {
-		AudioRecorder(mediaProjectionManager)
-	}
+    val audioRecorder: IAudioRecorder by lazy {
+        AudioRecorder(mediaProjectionManager)
+    }
 
-	override fun release() {
-		audioRecorder.release()
-		super.release()
-	}
+    override fun release() {
+        audioRecorder.release()
+        super.release()
+    }
 
 }

@@ -6,13 +6,13 @@ import android.content.Intent
 import android.net.Uri
 
 fun Context.openWebPage(url: String): Intent {
-	return Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply { startActivity(this) }
+    return Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply { startActivity(this) }
 }
 
 fun Context.searchWeb(query: String): Intent {
-	return Intent(Intent.ACTION_WEB_SEARCH).apply {
-		putExtra(SearchManager.QUERY, query)
+    return Intent(Intent.ACTION_WEB_SEARCH).apply {
+        putExtra(SearchManager.QUERY, query)
 
-		startActivity(this)
-	}
+        startActivity(this)
+    }
 }

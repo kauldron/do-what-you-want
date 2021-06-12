@@ -9,70 +9,70 @@ import com.lockwood.recorder.manager.IMediaProjectionManager
 import timber.log.Timber
 
 internal class AudioRecorder(
-		@JvmField
-		private val manager: IMediaProjectionManager,
+    @JvmField
+    private val manager: IMediaProjectionManager,
 ) : IAudioRecorder {
 
-	override var isRecording: Boolean = false
-		private set
+    override var isRecording: Boolean = false
+        private set
 
-	private val listeners: MutableList<RecordCallback> = mutableListOf()
+    private val listeners: MutableList<RecordCallback> = mutableListOf()
 
-	private val byteArray = ByteArray(AudioParams.minRecordBufferedSize)
+    private val byteArray = ByteArray(AudioParams.minRecordBufferedSize)
 
-	private val audioRecord: AudioRecord by notSafeLazy {
-		val manager = manager.getCurrentMediaProjection()
-		checkNotNull(manager)
+    private val audioRecord: AudioRecord by notSafeLazy {
+        val manager = manager.getCurrentMediaProjection()
+        checkNotNull(manager)
 
-		AudioRecordFactory.make(manager)
-	}
+        AudioRecordFactory.make(manager)
+    }
 
-	override fun read() {
-		try {
-			audioRecord.read(byteArray, 0, AudioParams.minRecordBufferedSize)
-		} catch (e: IllegalStateException) {
-			Timber.e(e)
-			return
-		}
+    override fun read() {
+        try {
+            audioRecord.read(byteArray, 0, AudioParams.minRecordBufferedSize)
+        } catch (e: IllegalStateException) {
+            Timber.e(e)
+            return
+        }
 
-		listeners.forEach { recordCallback -> recordCallback.onRead(byteArray) }
-	}
+        listeners.forEach { recordCallback -> recordCallback.onRead(byteArray) }
+    }
 
-	override fun start() {
-		if (!isRecording) {
-			audioRecord.startRecording()
-			isRecording = true
+    override fun start() {
+        if (!isRecording) {
+            audioRecord.startRecording()
+            isRecording = true
 
-			listeners.forEach(RecordCallback::onStartRecord)
-		}
-	}
+            listeners.forEach(RecordCallback::onStartRecord)
+        }
+    }
 
-	override fun stop() {
-		if (isRecording) {
-			isRecording = false
-			audioRecord.stop()
+    override fun stop() {
+        if (isRecording) {
+            isRecording = false
+            audioRecord.stop()
 
-			listeners.forEach(RecordCallback::onStopRecord)
-		}
-	}
+            listeners.forEach(RecordCallback::onStopRecord)
+        }
+    }
 
-	override fun addRecordCallback(callback: RecordCallback) {
-		listeners.add(callback)
-	}
+    override fun addRecordCallback(callback: RecordCallback) {
+        listeners.add(callback)
+    }
 
-	override fun removeRecordCallback(callback: RecordCallback) {
-		listeners.remove(callback)
-	}
+    override fun removeRecordCallback(callback: RecordCallback) {
+        listeners.remove(callback)
+    }
 
-	override fun release() {
-		stop()
-		listeners.clear()
+    override fun release() {
+        stop()
+        listeners.clear()
 
-		try {
-			audioRecord.release()
-		} catch (e: Exception) {
-			Timber.e(e)
-		}
-	}
+        try {
+            audioRecord.release()
+        } catch (e: Exception) {
+            Timber.e(e)
+        }
+    }
 
 }

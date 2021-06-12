@@ -6,16 +6,16 @@ import com.lockwood.connections.model.EndpointId
 
 interface IAdvertisingConnectionsManager {
 
-	fun startAdvertising(name: String): Task<Void>
+    fun startAdvertising(name: String): Task<Void>
 
-	fun sendPayload(byteArray: ByteArray)
+    fun sendPayload(byteArray: ByteArray)
 
-	fun requestConnection(name: String, endpointId: EndpointId): Task<Void>
+    fun requestConnection(name: String, endpointId: EndpointId): Task<Void>
 
-	fun addConnectionCallback(callback: ConnectionCallback)
+    fun addConnectionCallback(callback: ConnectionCallback)
 
-	fun removeConnectionCallback(callback: ConnectionCallback)
+    fun removeConnectionCallback(callback: ConnectionCallback)
 
-	fun stopAdvertising()
+    fun stopAdvertising()
 
 }

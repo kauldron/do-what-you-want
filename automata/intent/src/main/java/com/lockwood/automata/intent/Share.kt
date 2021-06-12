@@ -4,13 +4,13 @@ import android.content.Context
 import android.content.Intent
 
 fun Context.shareText(
-		text: String,
+    text: String,
 ): Intent {
-	return Intent(Intent.ACTION_SEND).apply {
-		type = "text/plain"
-		putExtra(Intent.EXTRA_TEXT, text)
+    return Intent(Intent.ACTION_SEND).apply {
+        type = "text/plain"
+        putExtra(Intent.EXTRA_TEXT, text)
 
-		val chooserIntent = Intent.createChooser(this, null)
-		startActivity(chooserIntent)
-	}
+        val chooserIntent = Intent.createChooser(this, null)
+        startActivity(chooserIntent)
+    }
 }

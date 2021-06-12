@@ -1,14 +1,14 @@
 package com.lockwood.automata.android
 
-import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
+import android.app.Activity
+import android.app.DialogFragment
+import android.app.Fragment
 import com.lockwood.automata.core.newInstance
 
 inline fun <reified T : DialogFragment> Fragment.showDialog(
-		tag: String,
-) = newInstance<T>().show(supportFragmentManager, tag)
+    tag: String,
+) = newInstance<T>().show(fragmentManager, tag)
 
-inline fun <reified T : DialogFragment> FragmentActivity.showDialog(
-		tag: String,
-) = newInstance<T>().show(supportFragmentManager, tag)
+inline fun <reified T : DialogFragment> Activity.showDialog(
+    tag: String,
+) = newInstance<T>().show(fragmentManager, tag)

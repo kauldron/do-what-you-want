@@ -5,12 +5,12 @@ import com.lockwood.connections.callback.DiscoveryCallback
 
 interface IDiscoveryConnectionsManager {
 
-	fun startDiscovery(): Task<Void>
+    fun startDiscovery(): Task<Void>
 
-	fun addDiscoveryCallback(callback: DiscoveryCallback)
+    fun addDiscoveryCallback(callback: DiscoveryCallback)
 
-	fun removeDiscoveryCallback(callback: DiscoveryCallback)
+    fun removeDiscoveryCallback(callback: DiscoveryCallback)
 
-	fun stopDiscovery()
+    fun stopDiscovery()
 
 }

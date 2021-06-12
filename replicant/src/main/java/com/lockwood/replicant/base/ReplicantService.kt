@@ -11,15 +11,15 @@ import com.lockwood.replicant.feature.ext.releaseFeature
 
 abstract class ReplicantService : Service() {
 
-	override fun onBind(intent: Intent?): IBinder? = null
+    override fun onBind(intent: Intent?): IBinder? = null
 
-	@MainThread
-	protected inline fun <reified T : Feature> getFeature(): T {
-		return application.getFeature()
-	}
+    @MainThread
+    protected inline fun <reified T : Feature> getFeature(): T {
+        return application.getFeature()
+    }
 
-	@MainThread
-	protected inline fun <reified T : ReleasableFeature> releaseFeature() {
-		application.releaseFeature<T>()
-	}
+    @MainThread
+    protected inline fun <reified T : ReleasableFeature> releaseFeature() {
+        application.releaseFeature<T>()
+    }
 }

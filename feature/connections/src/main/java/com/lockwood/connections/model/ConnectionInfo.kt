@@ -1,6 +1,7 @@
 package com.lockwood.connections.model
 
-inline class ConnectionInfo(
-		@JvmField
-		val endpointName: String,
+@JvmInline
+value class ConnectionInfo(
+    @JvmField
+    val endpointName: String
 )

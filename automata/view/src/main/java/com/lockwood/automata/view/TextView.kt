@@ -7,31 +7,31 @@ import androidx.annotation.StyleRes
 import com.lockwood.automata.text.fromHtml
 
 fun TextView.setHtmlText(
-		htmlText: String,
-		enableLinkMovement: Boolean = false,
+    htmlText: String,
+    enableLinkMovement: Boolean = false,
 ) {
-	text = htmlText.fromHtml()
-	enableLinkMovement(enableLinkMovement)
+    text = htmlText.fromHtml()
+    enableLinkMovement(enableLinkMovement)
 }
 
 fun TextView.enableLinkMovement(
-		isEnable: Boolean,
+    isEnable: Boolean,
 ) {
-	movementMethod =
-			if (isEnable) {
-				LinkMovementMethod.getInstance()
-			} else {
-				null
-			}
+    movementMethod =
+        if (isEnable) {
+            LinkMovementMethod.getInstance()
+        } else {
+            null
+        }
 }
 
 @Suppress("DEPRECATION")
 fun TextView.setAppearance(
-		@StyleRes style: Int,
+    @StyleRes style: Int,
 ) {
-	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-		setTextAppearance(style)
-	} else {
-		setTextAppearance(context, style)
-	}
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        setTextAppearance(style)
+    } else {
+        setTextAppearance(context, style)
+    }
 }

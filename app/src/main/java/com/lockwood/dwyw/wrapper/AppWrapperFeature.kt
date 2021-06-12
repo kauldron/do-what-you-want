@@ -6,8 +6,8 @@ import com.lockwood.dwyw.core.wrapper.BuildConfigWrapper
 
 class AppWrapperFeature : WrapperFeature {
 
-	override val buildConfigWrapper: BuildConfigWrapper by notSafeLazy {
-		BuildConfigWrapperImpl()
-	}
+    override val buildConfigWrapper: BuildConfigWrapper by notSafeLazy {
+        BuildConfigWrapperImpl()
+    }
 
 }

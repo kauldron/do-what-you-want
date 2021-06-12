@@ -7,14 +7,14 @@ import com.lockwood.connections.model.EndpointId
 
 interface INearbyConnectionsManager : IAdvertisingConnectionsManager, IDiscoveryConnectionsManager {
 
-	fun acceptConnection(endpointId: EndpointId)
+    fun acceptConnection(endpointId: EndpointId)
 
-	fun rejectConnection(endpointId: EndpointId)
+    fun rejectConnection(endpointId: EndpointId)
 
-	fun disconnectFromEndpoint(endpointId: EndpointId)
+    fun disconnectFromEndpoint(endpointId: EndpointId)
 
-	fun addPayloadCallback(callback: PayloadCallback)
+    fun addPayloadCallback(callback: PayloadCallback)
 
-	fun removePayloadCallback(callback: PayloadCallback)
+    fun removePayloadCallback(callback: PayloadCallback)
 
 }

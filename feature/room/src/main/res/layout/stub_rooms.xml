@@ -1,64 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:orientation="vertical"
-	android:padding="32dp"
-	>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="32dp">
 
-	<ImageView
-		android:id="@+id/stub_image_view"
-		android:layout_width="match_parent"
-		android:layout_height="0dp"
-		android:layout_weight="0.75"
-		android:src="@drawable/ic_alien"
-		/>
+    <ImageView
+        android:id="@+id/stub_image_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.75"
+        android:src="@drawable/ic_alien" />
 
-	<TextView
-		android:id="@+id/stub_title_text_view"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:gravity="center"
-		android:text="Oops"
-		android:textAlignment="center"
-		android:textAppearance="@style/Title"
-		/>
+    <TextView
+        android:id="@+id/stub_title_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Oops"
+        android:textAlignment="center"
+        android:textAppearance="@style/Title" />
 
-	<TextView
-		android:id="@+id/stub_subtitle_text_view"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:gravity="center"
-		android:paddingTop="16dp"
-		android:paddingBottom="16dp"
-		android:text="Looks like there's nothing here"
-		android:textAlignment="center"
-		android:textAppearance="@style/Regular"
-		/>
+    <TextView
+        android:id="@+id/stub_subtitle_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:text="Looks like there's nothing here"
+        android:textAlignment="center"
+        android:textAppearance="@style/Regular" />
 
 
-	<Space
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_weight="0.1"
-		/>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.1" />
 
-	<Button
-		android:id="@+id/start_discovery_button"
-		style="@style/Button"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:text="Retry"
-		/>
+    <Button
+        android:id="@+id/start_discovery_button"
+        style="@style/Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Retry" />
 
-	<Button
-		android:id="@+id/start_broadcasting_button"
-		style="?android:attr/borderlessButtonStyle"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:text="Start broadcasting "
-		android:textColor="#ff79c6"
-		/>
+    <Button
+        android:id="@+id/start_broadcasting_button"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Start broadcasting "
+        android:textColor="#ff79c6" />
 
 </LinearLayout>

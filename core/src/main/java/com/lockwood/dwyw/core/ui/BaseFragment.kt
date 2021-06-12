@@ -11,39 +11,39 @@ import com.lockwood.replicant.feature.Releasable
 
 abstract class BaseFragment<Store : Any> : ReplicantFragment() {
 
-	protected var store: Store by fakeNotNull()
-		private set
+    protected var store: Store by fakeNotNull()
+        private set
 
-	@CallSuper
-	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-		super.onViewCreated(view, savedInstanceState)
-		store = initStore(savedInstanceState)
-	}
+    @CallSuper
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        store = initStore(savedInstanceState)
+    }
 
-	@CallSuper
-	override fun onDestroyView() {
-		releaseStore()
-		super.onDestroyView()
-	}
+    @CallSuper
+    override fun onDestroyView() {
+        releaseStore()
+        super.onDestroyView()
+    }
 
-	protected abstract fun initStore(savedInstanceState: Bundle?): Store
+    protected abstract fun initStore(savedInstanceState: Bundle?): Store
 
-	protected inline fun showDialog(
-			onBuild: MaterialAlertDialogBuilder.() -> MaterialAlertDialogBuilder,
-	) {
-		MaterialAlertDialogBuilder(requireContext()).setCancelable(false).apply {
-			onBuild(this)
-		}.show()
-	}
+    protected inline fun showDialog(
+        onBuild: MaterialAlertDialogBuilder.() -> MaterialAlertDialogBuilder,
+    ) {
+        MaterialAlertDialogBuilder(context).setCancelable(false).apply {
+            onBuild(this)
+        }.show()
+    }
 
-	private fun releaseStore() {
-		// TODO: Test this
+    private fun releaseStore() {
+        // TODO: Test this
 
-		if (store is Releasable) {
-			(store as Releasable).release()
-		}
+        if (store is Releasable) {
+            (store as Releasable).release()
+        }
 
-		(store as FakeNotNullVar<*>).resetToNull()
-	}
+        (store as FakeNotNullVar<*>).resetToNull()
+    }
 
 }

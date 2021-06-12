@@ -1,27 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	package="com.lockwood.room"
-	>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.lockwood.room">
 
-	<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-
-	<application>
-
-		<activity
-			android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
-			android:launchMode="singleInstance"
-			android:screenOrientation="portrait"
-			android:theme="@style/AppTheme.License"
-			/>
-
-		<activity
-			android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
-			android:launchMode="singleInstance"
-			android:screenOrientation="portrait"
-			android:theme="@style/AppTheme.License"
-			/>
-
-	</application>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
 </manifest>

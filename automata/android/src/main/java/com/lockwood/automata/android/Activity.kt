@@ -7,31 +7,31 @@ import android.os.Bundle
 
 @kotlin.jvm.Throws(ActivityNotFoundException::class)
 fun Context.launchActivity(
-		className: String,
-		options: Bundle? = null,
-		init: Intent.() -> Unit = {},
+    className: String,
+    options: Bundle? = null,
+    init: Intent.() -> Unit = {},
 ) {
-	val intent = newIntent(this, className)
-	intent.init()
+    val intent = newIntent(this, className)
+    intent.init()
 
-	if (options != null) {
-		intent.putExtras(options)
-	}
+    if (options != null) {
+        intent.putExtras(options)
+    }
 
-	startActivity(intent)
+    startActivity(intent)
 }
 
 @kotlin.jvm.Throws(ActivityNotFoundException::class)
 inline fun <reified T : Any> Context.launchActivity(
-		options: Bundle? = null,
-		init: Intent.() -> Unit = {},
+    options: Bundle? = null,
+    init: Intent.() -> Unit = {},
 ) {
-	val intent = newIntent<T>(this)
-	intent.init()
+    val intent = newIntent<T>(this)
+    intent.init()
 
-	if (options != null) {
-		intent.putExtras(options)
-	}
+    if (options != null) {
+        intent.putExtras(options)
+    }
 
-	startActivity(intent)
+    startActivity(intent)
 }

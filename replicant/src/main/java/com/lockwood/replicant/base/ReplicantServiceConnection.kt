@@ -10,32 +10,32 @@ import com.lockwood.automata.android.newIntent
 
 abstract class ReplicantServiceConnection : ServiceConnection {
 
-	protected var isBound = false
+    protected var isBound = false
 
-	@CallSuper
-	override fun onServiceConnected(className: ComponentName, service: IBinder) {
-		isBound = true
-	}
+    @CallSuper
+    override fun onServiceConnected(className: ComponentName, service: IBinder) {
+        isBound = true
+    }
 
-	@CallSuper
-	override fun onServiceDisconnected(name: ComponentName?) {
-		isBound = false
-	}
+    @CallSuper
+    override fun onServiceDisconnected(name: ComponentName?) {
+        isBound = false
+    }
 
-	fun unbindService(context: ApplicationContext) = with(context.value) {
-		if (isBound) {
-			unbindService(this@ReplicantServiceConnection)
-		}
-	}
+    fun unbindService(context: ApplicationContext) = with(context.value) {
+        if (isBound) {
+            unbindService(this@ReplicantServiceConnection)
+        }
+    }
 
-	protected inline fun <reified T : Service> bindService(
-			context: ApplicationContext,
-			flags: Int,
-	) = with(context.value) {
-		if (!isBound) {
-			val intent = newIntent<T>(this)
-			bindService(intent, this@ReplicantServiceConnection, flags)
-		}
-	}
+    protected inline fun <reified T : Service> bindService(
+        context: ApplicationContext,
+        flags: Int,
+    ) = with(context.value) {
+        if (!isBound) {
+            val intent = newIntent<T>(this)
+            bindService(intent, this@ReplicantServiceConnection, flags)
+        }
+    }
 
 }

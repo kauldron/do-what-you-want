@@ -4,5 +4,5 @@ import com.lockwood.automata.android.ApplicationContext
 
 interface ApplicationContextProvider {
 
-	val applicationContext: ApplicationContext
+    val applicationContext: ApplicationContext
 }

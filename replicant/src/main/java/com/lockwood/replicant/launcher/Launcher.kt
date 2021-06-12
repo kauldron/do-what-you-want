@@ -5,5 +5,5 @@ import com.lockwood.replicant.launcher.args.LaunchArgs
 
 interface Launcher<T : LaunchArgs> {
 
-	fun launch(context: Context, launchArgs: T)
+    fun launch(context: Context, launchArgs: T)
 }

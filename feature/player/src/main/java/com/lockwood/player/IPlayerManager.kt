@@ -4,12 +4,12 @@ import com.lockwood.replicant.feature.Releasable
 
 interface IPlayerManager : Releasable {
 
-	val isPlaying: Boolean
+    val isPlaying: Boolean
 
-	fun play()
+    fun play()
 
-	fun stop()
+    fun stop()
 
-	fun write(byteArray: ByteArray)
+    fun write(byteArray: ByteArray)
 
 }

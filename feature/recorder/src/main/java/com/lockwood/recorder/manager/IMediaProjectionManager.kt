@@ -8,17 +8,17 @@ import com.lockwood.automata.android.getSystemServiceSafe
 
 interface IMediaProjectionManager {
 
-	fun handleMediaProjectionResult(resultCode: Int, resultData: Intent)
+    fun handleMediaProjectionResult(resultCode: Int, resultData: Intent)
 
-	fun getCurrentMediaProjection(): MediaProjection?
+    fun getCurrentMediaProjection(): MediaProjection?
 
-	companion object {
+    companion object {
 
-		@JvmStatic
-		fun createScreenCaptureIntent(context: Context): Intent {
-			val projectionManager = context.getSystemServiceSafe<MediaProjectionManager>()
-			return projectionManager.createScreenCaptureIntent()
-		}
-	}
+        @JvmStatic
+        fun createScreenCaptureIntent(context: Context): Intent {
+            val projectionManager = context.getSystemServiceSafe<MediaProjectionManager>()
+            return projectionManager.createScreenCaptureIntent()
+        }
+    }
 
 }

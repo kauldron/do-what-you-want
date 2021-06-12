@@ -6,10 +6,10 @@ import com.lockwood.replicant.cache.CacheStore
 
 interface IPreferenceCacheManager : CacheStore {
 
-	val appPreference: SharedPreferences
+    val appPreference: SharedPreferences
 
-	fun <T> get(key: String, default: T, context: Context): T
+    fun <T> get(key: String, default: T, context: Context): T
 
-	fun <T> put(key: String, value: T, context: Context)
+    fun <T> put(key: String, value: T, context: Context)
 
 }

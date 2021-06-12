@@ -5,6 +5,6 @@ import android.media.projection.MediaProjection
 
 interface IAudioRecordFactory {
 
-	fun make(projection: MediaProjection): AudioRecord
+    fun make(projection: MediaProjection): AudioRecord
 
 }

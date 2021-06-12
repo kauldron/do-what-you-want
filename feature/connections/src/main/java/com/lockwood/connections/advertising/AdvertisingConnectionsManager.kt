@@ -11,57 +11,67 @@ import com.lockwood.connections.model.ConnectionStatus
 import com.lockwood.connections.model.EndpointId
 
 class AdvertisingConnectionsManager(
-		@JvmField
-		private val client: ConnectionsClient,
+    @JvmField
+    private val client: ConnectionsClient,
 ) : IAdvertisingConnectionsManager {
 
-	private val connectedEndpoints = mutableListOf<EndpointId>()
+    private val connectedEndpoints = mutableListOf<EndpointId>()
 
-	private val lifecycleCallback = ConnectionCallbackAdapter()
+    private val lifecycleCallback = ConnectionCallbackAdapter()
 
-	private val connectedEndpointsCallback = object : ConnectionCallback {
-		override fun onConnectionResult(endpointId: EndpointId, connectionStatus: ConnectionStatus) {
-			if (connectionStatus is ConnectionStatus.Success) {
-				connectedEndpoints.add(endpointId)
-			}
-		}
+    private val connectedEndpointsCallback = object : ConnectionCallback {
+        override fun onConnectionResult(
+            endpointId: EndpointId,
+            connectionStatus: ConnectionStatus
+        ) {
+            if (connectionStatus is ConnectionStatus.Success) {
+                connectedEndpoints.add(endpointId)
+            }
+        }
 
-		override fun onDisconnected(endpointId: EndpointId) {
-			connectedEndpoints.remove(endpointId)
-		}
-	}
+        override fun onDisconnected(endpointId: EndpointId) {
+            connectedEndpoints.remove(endpointId)
+        }
+    }
 
-	override fun startAdvertising(name: String): Task<Void> {
-		addConnectionCallback(connectedEndpointsCallback)
+    override fun startAdvertising(name: String): Task<Void> {
+        addConnectionCallback(connectedEndpointsCallback)
 
-		val options = AdvertisingOptions.Builder().setStrategy(NearbyConnectionsManager.CONNECTION_STRATEGY).build()
-		return client.startAdvertising(name, NearbyConnectionsManager.SERVICE_ID, lifecycleCallback, options)
-	}
+        val options =
+            AdvertisingOptions.Builder().setStrategy(NearbyConnectionsManager.CONNECTION_STRATEGY)
+                .build()
+        return client.startAdvertising(
+            name,
+            NearbyConnectionsManager.SERVICE_ID,
+            lifecycleCallback,
+            options
+        )
+    }
 
-	override fun sendPayload(byteArray: ByteArray) {
-		if (connectedEndpoints.isNotEmpty()) {
-			val streamPayload = Payload.fromBytes(byteArray)
-			val endpoints = connectedEndpoints.map(EndpointId::toString)
+    override fun sendPayload(byteArray: ByteArray) {
+        if (connectedEndpoints.isNotEmpty()) {
+            val streamPayload = Payload.fromBytes(byteArray)
+            val endpoints = connectedEndpoints.map(EndpointId::toString)
 
-			client.sendPayload(endpoints, streamPayload)
-		}
-	}
+            client.sendPayload(endpoints, streamPayload)
+        }
+    }
 
-	override fun requestConnection(name: String, endpointId: EndpointId): Task<Void> {
-		return client.requestConnection(name, endpointId.toString(), lifecycleCallback)
-	}
+    override fun requestConnection(name: String, endpointId: EndpointId): Task<Void> {
+        return client.requestConnection(name, endpointId.toString(), lifecycleCallback)
+    }
 
-	override fun stopAdvertising() {
-		client.stopAdvertising()
-		connectedEndpoints.clear()
-	}
+    override fun stopAdvertising() {
+        client.stopAdvertising()
+        connectedEndpoints.clear()
+    }
 
-	override fun addConnectionCallback(callback: ConnectionCallback) {
-		lifecycleCallback.addListener(callback)
-	}
+    override fun addConnectionCallback(callback: ConnectionCallback) {
+        lifecycleCallback.addListener(callback)
+    }
 
-	override fun removeConnectionCallback(callback: ConnectionCallback) {
-		lifecycleCallback.removeListener(callback)
-	}
+    override fun removeConnectionCallback(callback: ConnectionCallback) {
+        lifecycleCallback.removeListener(callback)
+    }
 
 }

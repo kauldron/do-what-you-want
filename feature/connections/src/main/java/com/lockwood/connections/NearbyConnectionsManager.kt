@@ -9,44 +9,44 @@ import com.lockwood.connections.discovery.IDiscoveryConnectionsManager
 import com.lockwood.connections.model.EndpointId
 
 internal class NearbyConnectionsManager(
-		@JvmField
-		private val client: ConnectionsClient,
-		@JvmField
-		private val advertisingManager: IAdvertisingConnectionsManager,
-		@JvmField
-		private val discoveryManager: IDiscoveryConnectionsManager,
+    @JvmField
+    private val client: ConnectionsClient,
+    @JvmField
+    private val advertisingManager: IAdvertisingConnectionsManager,
+    @JvmField
+    private val discoveryManager: IDiscoveryConnectionsManager,
 ) :
-		INearbyConnectionsManager,
-		IAdvertisingConnectionsManager by advertisingManager,
-		IDiscoveryConnectionsManager by discoveryManager {
+    INearbyConnectionsManager,
+    IAdvertisingConnectionsManager by advertisingManager,
+    IDiscoveryConnectionsManager by discoveryManager {
 
-	internal companion object {
+    internal companion object {
 
-		internal const val SERVICE_ID = "com.lockwood.dwyw"
+        internal const val SERVICE_ID = "com.lockwood.dwyw"
 
-		internal val CONNECTION_STRATEGY = Strategy.P2P_STAR
-	}
+        internal val CONNECTION_STRATEGY = Strategy.P2P_STAR
+    }
 
-	private val payloadCallbackAdapter = PayloadCallbackAdapter()
+    private val payloadCallbackAdapter = PayloadCallbackAdapter()
 
-	override fun acceptConnection(endpointId: EndpointId) {
-		client.acceptConnection(endpointId.toString(), payloadCallbackAdapter)
-	}
+    override fun acceptConnection(endpointId: EndpointId) {
+        client.acceptConnection(endpointId.toString(), payloadCallbackAdapter)
+    }
 
-	override fun rejectConnection(endpointId: EndpointId) {
-		client.rejectConnection(endpointId.toString())
-	}
+    override fun rejectConnection(endpointId: EndpointId) {
+        client.rejectConnection(endpointId.toString())
+    }
 
-	override fun disconnectFromEndpoint(endpointId: EndpointId) {
-		client.disconnectFromEndpoint(endpointId.toString())
-	}
+    override fun disconnectFromEndpoint(endpointId: EndpointId) {
+        client.disconnectFromEndpoint(endpointId.toString())
+    }
 
-	override fun addPayloadCallback(callback: PayloadCallback) {
-		payloadCallbackAdapter.addListener(callback)
-	}
+    override fun addPayloadCallback(callback: PayloadCallback) {
+        payloadCallbackAdapter.addListener(callback)
+    }
 
-	override fun removePayloadCallback(callback: PayloadCallback) {
-		payloadCallbackAdapter.removeListener(callback)
-	}
+    override fun removePayloadCallback(callback: PayloadCallback) {
+        payloadCallbackAdapter.removeListener(callback)
+    }
 
 }

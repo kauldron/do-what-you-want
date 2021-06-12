@@ -7,8 +7,8 @@ import com.lockwood.replicant.releasable.notSafeReleasableLazy
 
 class CoreFeature : Feature {
 
-	val executorProvider: ExecutorProvider by notSafeReleasableLazy {
-		AndroidExecutorProvider()
-	}
+    val executorProvider: ExecutorProvider by notSafeReleasableLazy {
+        AndroidExecutorProvider()
+    }
 
 }

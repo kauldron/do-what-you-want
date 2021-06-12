@@ -4,6 +4,6 @@ import android.media.AudioTrack
 
 internal interface IAudioTrackFactory {
 
-	fun make(): AudioTrack
+    fun make(): AudioTrack
 
 }

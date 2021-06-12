@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-	<style name="AppTheme.License" parent="AppTheme">
-		<item name="colorPrimary">#282a36</item>
-		<item name="backgroundColor">#17181f</item>
-		<item name="android:colorBackground">#17181f</item>
-	</style>
+    <style name="AppTheme.License" parent="AppTheme">
+        <item name="colorPrimary">#282a36</item>
+        <item name="backgroundColor">#17181f</item>
+        <item name="android:colorBackground">#17181f</item>
+    </style>
 
 </resources>

@@ -1,7 +1,6 @@
 plugins {
     id "com.android.application"
     id "kotlin-android"
-    id "com.google.android.gms.oss-licenses-plugin"
 }
 
 apply from: rootProject.file("gradle/android/config.gradle")
@@ -25,6 +24,7 @@ android {
 }
 
 dependencies {
+
     implementation project(":core")
     implementation project(":core:ui")
 
@@ -34,15 +34,16 @@ dependencies {
     implementation project(":replicant")
     implementation project(":replicant:executor")
     implementation project(":replicant:feature")
+    implementation project(":replicant:permission")
 
-    implementation project(":feature:connections")
-    implementation project(":feature:room")
-    implementation project(":feature:player")
-    implementation project(":feature:recorder")
+//    implementation project(":feature:connections")
+//    implementation project(":feature:room")
+//    implementation project(":feature:player")
+//    implementation project(":feature:recorder")
 
     implementation "com.jakewharton.timber:timber:4.7.1"
 
-    implementation "com.google.android.material:material:1.4.0-beta01"
+    implementation 'com.google.android.material:material:1.4.0-rc01'
 
     // https://square.github.io/leakcanary/
     debugImplementation "com.squareup.leakcanary:leakcanary-android:2.7"

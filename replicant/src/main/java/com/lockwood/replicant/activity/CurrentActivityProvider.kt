@@ -5,5 +5,5 @@ import com.lockwood.replicant.delegate.weakReference
 
 class CurrentActivityProvider : ICurrentActivityProvider {
 
-	override var currentActivity: Activity? by weakReference { null }
+    override var currentActivity: Activity? by weakReference { null }
 }

@@ -6,10 +6,10 @@ import timber.log.Timber.DebugTree
 
 object Logger {
 
-	@JvmStatic
-	fun plantDebugTree() {
-		if (BuildConfig.DEBUG) {
-			Timber.plant(DebugTree())
-		}
-	}
+    @JvmStatic
+    fun plantDebugTree() {
+        if (BuildConfig.DEBUG) {
+            Timber.plant(DebugTree())
+        }
+    }
 }

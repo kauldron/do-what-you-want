@@ -4,10 +4,10 @@ import java.util.concurrent.ExecutorService
 
 interface ExecutorFactory {
 
-	fun io(): ExecutorService
+    fun io(): ExecutorService
 
-	fun network(): ExecutorService
+    fun network(): ExecutorService
 
-	fun cpu(): ExecutorService
+    fun cpu(): ExecutorService
 
 }

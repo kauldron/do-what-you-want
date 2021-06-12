@@ -7,6 +7,7 @@ apply from: rootProject.file("gradle/android/config.gradle")
 apply from: rootProject.file("gradle/android/kotlin.gradle")
 
 dependencies {
+
     implementation project(":automata:core")
     implementation project(":automata:android")
 
@@ -14,9 +15,9 @@ dependencies {
     implementation project(":replicant:feature")
 
     implementation "com.jakewharton.timber:timber:4.7.1"
-    implementation "com.google.android.gms:play-services-nearby:17.0.0"
+    implementation 'com.google.android.gms:play-services-nearby:18.0.0'
 
-    compileOnly "com.google.android.material:material:1.4.0-beta01"
+    implementation 'com.google.android.material:material:1.4.0-rc01'
 
 
 }
