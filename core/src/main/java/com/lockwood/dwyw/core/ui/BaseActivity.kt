@@ -41,8 +41,9 @@ abstract class BaseActivity : ScreenActivity(), RequestPermissionsResultCallback
         grantResults: IntArray
     ) {
         val isGranted = permissionsManager.isPermissionsGranted(this, requestCode, grantResults)
+        val result = permissions.zip(grantResults.toList()).toMap()
 
-        onRequestPermissionsResult(permissions = permissions, grantResults = grantResults)
+        onRequestPermissionsResult(grantResults = result)
         onRequestPermissionsResult(isAllPermissionsGranted = isGranted)
     }
 

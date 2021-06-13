@@ -3,7 +3,6 @@ package com.lockwood.permission
 import android.app.Activity
 import android.content.pm.PackageManager
 import android.os.Process
-import android.util.Log
 import com.lockwood.automata.android.ApplicationContext
 
 class PermissionManager(
@@ -11,7 +10,6 @@ class PermissionManager(
 ) : IPermissionManager {
 
     override fun requestPermissions(activity: Activity, vararg permissions: String) {
-        Log.d("PermissionManager", "requestPermissions[${activity.hashCode()}]: $permissions")
         activity.requestPermissions(permissions, activity.hashCode())
     }
 
@@ -19,15 +17,10 @@ class PermissionManager(
         activity: Activity,
         requestCode: Int,
         grantResults: IntArray
-    ): Boolean {
-        val isGranted = if (requestCode == activity.hashCode()) {
-            !grantResults.contains(PackageManager.PERMISSION_DENIED)
-        } else {
-            true
-        }
-
-        Log.d("PermissionManager", "isPermissionsGranted: $isGranted")
-        return isGranted
+    ): Boolean = if (requestCode == activity.hashCode()) {
+        !grantResults.contains(PackageManager.PERMISSION_DENIED)
+    } else {
+        true
     }
 
     override fun hasPermissions(vararg permissions: String): Boolean {
@@ -39,6 +32,5 @@ class PermissionManager(
 
         return !grantResult.contains(PackageManager.PERMISSION_DENIED)
     }
-
 
 }
