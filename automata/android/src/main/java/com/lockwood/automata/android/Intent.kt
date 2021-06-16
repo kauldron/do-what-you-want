@@ -2,7 +2,6 @@ package com.lockwood.automata.android
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 
 fun newIntent(
     context: Context,
@@ -13,9 +12,3 @@ fun newIntent(
 inline fun <reified T : Any> newIntent(
     context: Context,
 ): Intent = Intent(context, T::class.java)
-
-inline fun buildIntent(
-    action: String,
-    uri: Uri? = null,
-    onBuild: Intent.() -> Unit = {},
-): Intent = Intent(action, uri).apply(onBuild)

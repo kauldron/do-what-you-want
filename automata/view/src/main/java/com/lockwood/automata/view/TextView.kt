@@ -1,10 +1,20 @@
 package com.lockwood.automata.view
 
 import android.os.Build
+import android.text.Html
+import android.text.Spanned
 import android.text.method.LinkMovementMethod
 import android.widget.TextView
 import androidx.annotation.StyleRes
-import com.lockwood.automata.text.fromHtml
+
+@Suppress("DEPRECATION")
+fun String.fromHtml(): Spanned {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        Html.fromHtml(this, Html.FROM_HTML_MODE_COMPACT)
+    } else {
+        Html.fromHtml(this)
+    }
+}
 
 fun TextView.setHtmlText(
     htmlText: String,
@@ -17,12 +27,11 @@ fun TextView.setHtmlText(
 fun TextView.enableLinkMovement(
     isEnable: Boolean,
 ) {
-    movementMethod =
-        if (isEnable) {
-            LinkMovementMethod.getInstance()
-        } else {
-            null
-        }
+    movementMethod = if (isEnable) {
+        LinkMovementMethod.getInstance()
+    } else {
+        null
+    }
 }
 
 @Suppress("DEPRECATION")

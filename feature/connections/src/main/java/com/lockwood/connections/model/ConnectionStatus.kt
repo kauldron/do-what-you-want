@@ -3,7 +3,6 @@ package com.lockwood.connections.model
 import com.google.android.gms.common.api.Status
 
 sealed class ConnectionStatus(
-    @JvmField
     private val status: Status,
 ) {
 

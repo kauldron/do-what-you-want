@@ -7,11 +7,8 @@ import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
 class Preference<T>(
-    @JvmField
     private val prefs: SharedPreferences,
-    @JvmField
     private val name: String,
-    @JvmField
     private val default: T,
 ) : ReadWriteProperty<Any?, T> {
 

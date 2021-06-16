@@ -5,7 +5,6 @@ import android.content.Context
 
 @JvmInline
 value class ApplicationContext(
-    @JvmField
     private val context: Context,
 ) {
 

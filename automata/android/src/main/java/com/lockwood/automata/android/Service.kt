@@ -4,7 +4,6 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import androidx.core.content.ContextCompat
 
 inline fun <reified T : Service> Context.startService() {
     val intent = newIntent<T>(this)

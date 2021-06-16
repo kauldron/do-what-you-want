@@ -15,7 +15,6 @@ dependencies {
     implementation project(":automata:core")
     implementation project(":automata:android")
     implementation project(":automata:recycler")
-    implementation project(":automata:intent")
 
     implementation project(":replicant")
     implementation project(":replicant:delegate")
@@ -23,6 +22,7 @@ dependencies {
     implementation project(":replicant:inflater")
     implementation project(":replicant:feature")
     implementation project(":replicant:mvi")
+    implementation project(":replicant:permission")
 
     implementation project(":feature:connections")
     implementation project(":feature:player")

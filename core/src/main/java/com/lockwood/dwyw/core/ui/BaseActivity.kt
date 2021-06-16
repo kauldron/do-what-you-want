@@ -68,3 +68,4 @@ abstract class BaseActivity : ScreenActivity(), RequestPermissionsResultCallback
     }
 
 }
+

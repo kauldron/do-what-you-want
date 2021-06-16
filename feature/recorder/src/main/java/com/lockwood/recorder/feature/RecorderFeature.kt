@@ -13,7 +13,6 @@ import com.lockwood.replicant.feature.PermissionsFeature
 import com.lockwood.replicant.feature.ReleasableFeature
 
 class RecorderFeature(
-    @JvmField
     private val contextProvider: ApplicationContextProvider,
 ) : ReleasableFeature, PermissionsFeature {
 

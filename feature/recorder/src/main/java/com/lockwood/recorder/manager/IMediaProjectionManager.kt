@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.media.projection.MediaProjection
 import android.media.projection.MediaProjectionManager
-import com.lockwood.automata.android.getSystemServiceSafe
 
 interface IMediaProjectionManager {
 
@@ -16,7 +15,7 @@ interface IMediaProjectionManager {
 
         @JvmStatic
         fun createScreenCaptureIntent(context: Context): Intent {
-            val projectionManager = context.getSystemServiceSafe<MediaProjectionManager>()
+            val projectionManager = context.getSystemService(MediaProjectionManager::class.java)
             return projectionManager.createScreenCaptureIntent()
         }
     }

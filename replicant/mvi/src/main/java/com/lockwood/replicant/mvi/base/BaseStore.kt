@@ -9,9 +9,7 @@ import com.lockwood.replicant.mvi.`typealias`.StateChangeListener
 
 abstract class BaseStore<State, Action, Effect>(
     initialState: State,
-    @JvmField
     private val reducer: Reducer<State, Action, Effect>,
-    @JvmField
     private val middlewares: List<Middleware<State, Action>> = emptyList(),
 ) : ImpureStore<State, Action, Effect>, Releasable {
 

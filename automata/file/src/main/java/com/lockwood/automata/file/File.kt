@@ -1,6 +1,6 @@
 package com.lockwood.automata.file
 
-import com.lockwood.automata.core.NotEmptyString
+import com.lockwood.automata.core.wrappers.NotEmptyString
 import java.io.File
 
 val File.notExist: Boolean

@@ -5,7 +5,7 @@ import java.util.*
 
 interface LocaleManager {
 
-    val currentLocale: Locale
+    var locale: Locale
 
     fun createLocaleContext(context: Context, locale: Locale): Context
 }

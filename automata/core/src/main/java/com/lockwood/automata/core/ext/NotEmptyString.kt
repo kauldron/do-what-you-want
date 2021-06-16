@@ -1,7 +1,13 @@
 package com.lockwood.automata.core.ext
 
-import com.lockwood.automata.core.NotEmptyString
+import com.lockwood.automata.core.wrappers.NotEmptyString
 import kotlin.random.Random
+
+@kotlin.jvm.Throws(IllegalArgumentException::class)
+fun CharSequence.notEmptyString(): NotEmptyString = NotEmptyString(toString())
+
+@kotlin.jvm.Throws(IllegalArgumentException::class)
+fun Any.toNotEmptyString(): NotEmptyString = toString().notEmptyString()
 
 fun NotEmptyString.isNotEmpty(): Boolean = true
 
@@ -23,5 +29,4 @@ fun NotEmptyString.maxOrNull(): Char = (this as CharSequence).maxOrNull()!!
 
 fun NotEmptyString.randomOrNull(): Char = (this as CharSequence).randomOrNull()!!
 
-fun NotEmptyString.randomOrNull(random: Random): Char =
-    (this as CharSequence).randomOrNull(random)!!
+fun NotEmptyString.randomOrNull(random: Random): Char = (this as CharSequence).randomOrNull(random)!!

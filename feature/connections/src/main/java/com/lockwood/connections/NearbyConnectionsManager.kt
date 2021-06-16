@@ -9,11 +9,8 @@ import com.lockwood.connections.discovery.IDiscoveryConnectionsManager
 import com.lockwood.connections.model.EndpointId
 
 internal class NearbyConnectionsManager(
-    @JvmField
     private val client: ConnectionsClient,
-    @JvmField
     private val advertisingManager: IAdvertisingConnectionsManager,
-    @JvmField
     private val discoveryManager: IDiscoveryConnectionsManager,
 ) :
     INearbyConnectionsManager,

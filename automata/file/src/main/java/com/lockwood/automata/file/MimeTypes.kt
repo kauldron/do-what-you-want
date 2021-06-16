@@ -1,8 +1,8 @@
 package com.lockwood.automata.file
 
 import android.webkit.MimeTypeMap
-import com.lockwood.automata.core.NotEmptyString
-import com.lockwood.automata.core.notEmptyString
+import com.lockwood.automata.core.ext.notEmptyString
+import com.lockwood.automata.core.wrappers.NotEmptyString
 
 object MimeTypes {
 

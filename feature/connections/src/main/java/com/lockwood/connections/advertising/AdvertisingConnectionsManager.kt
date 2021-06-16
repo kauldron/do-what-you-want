@@ -11,7 +11,6 @@ import com.lockwood.connections.model.ConnectionStatus
 import com.lockwood.connections.model.EndpointId
 
 class AdvertisingConnectionsManager(
-    @JvmField
     private val client: ConnectionsClient,
 ) : IAdvertisingConnectionsManager {
 

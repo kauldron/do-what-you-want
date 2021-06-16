@@ -1,15 +1,8 @@
 package com.lockwood.dwyw.activity
 
-import android.os.Bundle
-import com.lockwood.dwyw.R
 import com.lockwood.dwyw.core.ui.BaseActivity
 
 class MainActivity : BaseActivity() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.test)
-    }
 
 //	override fun onCreate(savedInstanceState: Bundle?) {
 //		super.onCreate(savedInstanceState)

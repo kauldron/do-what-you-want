@@ -5,7 +5,7 @@ inline fun <reified T : Any> newInstance(): T {
 }
 
 fun <T> calculateHashCode(vararg data: T): Int {
-    var result = data.first().hashCode()
+    var result = data.first().safeHashCode()
 
     if (data.size > Int.SINGLE) {
         data.sliceArray(IntRange(Int.SINGLE, data.size - Int.SINGLE)).forEach {
@@ -14,4 +14,11 @@ fun <T> calculateHashCode(vararg data: T): Int {
     }
 
     return result
+}
+
+fun <T> T.safeHashCode(): Int = when (this) {
+    is Array<*> -> contentHashCode()
+    is List<*> -> contentHashCode()
+    is Collection<*> -> toTypedArray().contentHashCode()
+    else -> hashCode()
 }

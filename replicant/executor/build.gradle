@@ -5,6 +5,7 @@ plugins {
 apply from: rootProject.file("gradle/kotlin.gradle")
 
 dependencies {
+    implementation project(":automata:android")
 
     compileOnly androidJar
 }

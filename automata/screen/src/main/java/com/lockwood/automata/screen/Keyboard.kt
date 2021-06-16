@@ -1,10 +1,10 @@
 package com.lockwood.automata.screen
 
 import android.app.Activity
+import android.app.Fragment
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import androidx.fragment.app.Fragment
-import com.lockwood.automata.android.getSystemServiceSafe
+import com.lockwood.automata.android.getSystemService
 import com.lockwood.automata.core.ZERO
 
 fun Fragment.hideKeyboard() {
@@ -26,7 +26,7 @@ fun Activity.hideKeyboard() {
 }
 
 private fun View.hideKeyboard() {
-    val inputMethodManager = requireNotNull(context.getSystemServiceSafe<InputMethodManager>())
+    val inputMethodManager = requireNotNull(context.getSystemService<InputMethodManager>())
     inputMethodManager.hideSoftInputFromWindow(windowToken, Int.ZERO)
 
     clearFocus()

@@ -4,7 +4,6 @@ import android.media.AudioTrack
 import timber.log.Timber
 
 internal class PlayerManager(
-    @JvmField
     private val audioTrack: AudioTrack,
 ) : IPlayerManager {
 

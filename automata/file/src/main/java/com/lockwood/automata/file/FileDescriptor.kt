@@ -2,8 +2,8 @@ package com.lockwood.automata.file
 
 import android.content.ContentResolver
 import android.net.Uri
-import com.lockwood.automata.core.NotEmptyString
-import com.lockwood.automata.core.notEmptyString
+import com.lockwood.automata.core.ext.notEmptyString
+import com.lockwood.automata.core.wrappers.NotEmptyString
 import java.io.FileDescriptor
 
 inline fun ContentResolver.openFileDescriptor(

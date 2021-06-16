@@ -13,7 +13,6 @@ import com.lockwood.replicant.context.ApplicationContextProvider
 import com.lockwood.replicant.feature.Feature
 
 class ConnectionsFeature(
-    @JvmField
     private val contextProvider: ApplicationContextProvider,
 ) : Feature {
 

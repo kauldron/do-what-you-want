@@ -8,11 +8,8 @@ import com.lockwood.room.data.repostiory.IRoomsRepository
 import com.lockwood.room.model.Room
 
 internal class RoomsInteractor(
-    @JvmField
     private val repository: IRoomsRepository,
-    @JvmField
     private val playerManager: IPlayerManager,
-    @JvmField
     private val buildConfigWrapper: BuildConfigWrapper,
 ) :
     IRoomsInteractor,

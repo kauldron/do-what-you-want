@@ -3,7 +3,8 @@ package com.lockwood.automata.file
 import android.content.Context
 import android.os.Build
 import android.os.Environment
-import com.lockwood.automata.core.NotEmptyString
+import com.lockwood.automata.core.ext.notEmptyString
+import com.lockwood.automata.core.wrappers.NotEmptyString
 import com.lockwood.automata.core.ioError
 import com.lockwood.automata.core.notEmptyString
 import java.io.File

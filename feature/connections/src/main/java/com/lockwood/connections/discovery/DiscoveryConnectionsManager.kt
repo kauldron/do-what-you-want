@@ -8,7 +8,6 @@ import com.lockwood.connections.callback.DiscoveryCallback
 import com.lockwood.connections.callback.adapter.DiscoveryCallbackAdapter
 
 class DiscoveryConnectionsManager(
-    @JvmField
     private val client: ConnectionsClient
 ) : IDiscoveryConnectionsManager {
 
