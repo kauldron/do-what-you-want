@@ -1,11 +1,16 @@
 package com.lockwood.player
 
 import android.media.AudioTrack
-import timber.log.Timber
+import android.util.Log
 
 internal class PlayerManager(
     private val audioTrack: AudioTrack,
 ) : IPlayerManager {
+
+    private companion object {
+
+        private const val TAG = "PlayerManager"
+    }
 
     override var isPlaying: Boolean = false
         private set
@@ -28,7 +33,7 @@ internal class PlayerManager(
         try {
             audioTrack.write(byteArray, 0, byteArray.size)
         } catch (e: IllegalStateException) {
-            Timber.e(e)
+            Log.e(TAG, e.message.toString())
         }
     }
 
@@ -38,7 +43,7 @@ internal class PlayerManager(
         try {
             audioTrack.release()
         } catch (e: Exception) {
-            Timber.e(e)
+            Log.e(TAG, e.message.toString())
         }
     }
 

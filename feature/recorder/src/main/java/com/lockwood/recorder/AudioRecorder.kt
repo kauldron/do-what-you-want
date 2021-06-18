@@ -1,16 +1,21 @@
 package com.lockwood.recorder
 
 import android.media.AudioRecord
+import android.util.Log
 import com.lockwood.automata.core.notSafeLazy
 import com.lockwood.dwyw.core.media.AudioParams
 import com.lockwood.recorder.callback.RecordCallback
 import com.lockwood.recorder.factory.AudioRecordFactory
 import com.lockwood.recorder.manager.IMediaProjectionManager
-import timber.log.Timber
 
 internal class AudioRecorder(
     private val manager: IMediaProjectionManager,
 ) : IAudioRecorder {
+
+    private companion object {
+
+        private const val TAG = "AudioRecorder"
+    }
 
     override var isRecording: Boolean = false
         private set
@@ -30,7 +35,7 @@ internal class AudioRecorder(
         try {
             audioRecord.read(byteArray, 0, AudioParams.minRecordBufferedSize)
         } catch (e: IllegalStateException) {
-            Timber.e(e)
+            Log.e(TAG, e.message.toString())
             return
         }
 
@@ -51,8 +56,8 @@ internal class AudioRecorder(
             isRecording = false
             try {
                 audioRecord.stop()
-            } catch (exception: IllegalStateException) {
-                Timber.w("AudioRecord called before capture")
+            } catch (e: IllegalStateException) {
+                Log.w(TAG, "AudioRecord called before capture")
             }
 
             listeners.forEach(RecordCallback::onStopRecord)
@@ -74,9 +79,9 @@ internal class AudioRecorder(
         try {
             audioRecord.release()
         } catch (exception: IllegalStateException) {
-            Timber.w("AudioRecord called before capture")
+            Log.w(TAG, "AudioRecord called before capture")
         } catch (e: Exception) {
-            Timber.e(e)
+            Log.e(TAG, e.message.toString())
         }
     }
 
