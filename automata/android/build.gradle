@@ -9,5 +9,5 @@ dependencies {
     implementation project(":automata:core")
 
     compileOnly androidJar
-    compileOnly "androidx.annotation:annotation:1.3.0-alpha01"
+    compileOnly "androidx.annotation:annotation:1.2.0"
 }

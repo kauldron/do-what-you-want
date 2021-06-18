@@ -1,4 +1,4 @@
-package com.lockwood.replicant.base
+package com.lockwood.replicant.recycler
 
 import android.view.LayoutInflater
 import android.view.View

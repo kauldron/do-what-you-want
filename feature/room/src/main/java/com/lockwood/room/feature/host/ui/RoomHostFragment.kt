@@ -11,7 +11,6 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.ColorInt
-import androidx.core.content.ContextCompat.getDrawable
 import androidx.core.widget.ImageViewCompat.setImageTintList
 import androidx.core.widget.ImageViewCompat.setImageTintMode
 import androidx.fragment.app.viewModels
@@ -165,10 +164,11 @@ internal class RoomHostFragment : BaseFragment<RoomHostViewState>(), IHostView {
             setImageTintMode(this, PorterDuff.Mode.SRC_IN)
             setImageTintList(this, ColorStateList.valueOf(tintColor))
             setImageDrawable(
-                getDrawable(
-                    context,
-                    com.lockwood.dwyw.ui.core.R.drawable.ic_broadcast
-                )
+                getDrawable
+                        getDrawable (
+                        context,
+                com.lockwood.dwyw.ui.core.R.drawable.ic_broadcast
+            )
             )
         }
     }

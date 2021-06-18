@@ -10,4 +10,5 @@ interface ImageLoader {
     fun <V : View> execute(request: Request, view: V)
 
     fun <T : View> buildViewTarget(view: T, callbacks: Array<Target>): ViewTarget<T>
+
 }

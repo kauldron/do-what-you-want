@@ -1,12 +1,13 @@
 package com.lockwood.replicant.imageloader.options
 
 class ImageOptions {
+
     @JvmField
     var data: Any? = null
 
     @JvmField
-    var size: Int? = null
+    var size: Size = DpSize.UNDEFINED
 
     @JvmField
-    var tint: Int? = null
+    var cropType: CropType = CropType.DEFAULT
 }

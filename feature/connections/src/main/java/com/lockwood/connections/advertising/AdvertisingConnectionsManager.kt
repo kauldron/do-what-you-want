@@ -21,7 +21,7 @@ class AdvertisingConnectionsManager(
     private val connectedEndpointsCallback = object : ConnectionCallback {
         override fun onConnectionResult(
             endpointId: EndpointId,
-            connectionStatus: ConnectionStatus
+            connectionStatus: ConnectionStatus,
         ) {
             if (connectionStatus is ConnectionStatus.Success) {
                 connectedEndpoints.add(endpointId)

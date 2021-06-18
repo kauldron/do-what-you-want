@@ -35,6 +35,8 @@ dependencies {
     implementation project(":replicant:executor")
     implementation project(":replicant:feature")
     implementation project(":replicant:permission")
+    implementation project(":replicant:delegate")
+    implementation project(":replicant:imageloader")
 
     implementation project(":feature:connections")
 //    implementation project(":feature:room")

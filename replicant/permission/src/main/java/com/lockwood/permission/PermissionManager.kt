@@ -6,7 +6,7 @@ import android.os.Process
 import com.lockwood.automata.android.ApplicationContext
 
 class PermissionManager(
-    private val applicationContext: ApplicationContext
+    private val applicationContext: ApplicationContext,
 ) : IPermissionManager {
 
     override fun requestPermissions(activity: Activity, vararg permissions: String) {
@@ -16,7 +16,7 @@ class PermissionManager(
     override fun isPermissionsGranted(
         activity: Activity,
         requestCode: Int,
-        grantResults: IntArray
+        grantResults: IntArray,
     ): Boolean = if (requestCode == activity.hashCode()) {
         !grantResults.contains(PackageManager.PERMISSION_DENIED)
     } else {

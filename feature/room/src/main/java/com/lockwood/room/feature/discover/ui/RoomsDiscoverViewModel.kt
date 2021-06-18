@@ -59,7 +59,7 @@ internal class RoomsDiscoverViewModel(
         object : ConnectionCallback {
             override fun onConnectionInitiated(
                 endpointId: EndpointId,
-                connectionInfo: ConnectionInfo
+                connectionInfo: ConnectionInfo,
             ) {
                 val room = Room(endpointId = endpointId, name = connectionInfo.endpointName)
 
@@ -68,7 +68,7 @@ internal class RoomsDiscoverViewModel(
 
             override fun onConnectionResult(
                 endpointId: EndpointId,
-                connectionStatus: ConnectionsStatus
+                connectionStatus: ConnectionsStatus,
             ) {
                 val statusEvent = when (connectionStatus) {
                     is ConnectionSuccess -> navigateToConnectedRoom()

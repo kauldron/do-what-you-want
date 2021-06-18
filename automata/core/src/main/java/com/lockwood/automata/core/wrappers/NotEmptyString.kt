@@ -2,7 +2,7 @@ package com.lockwood.automata.core.wrappers
 
 @JvmInline
 value class NotEmptyString(
-    private val value: String
+    private val value: String,
 ) : Comparable<String>, CharSequence {
 
     init {

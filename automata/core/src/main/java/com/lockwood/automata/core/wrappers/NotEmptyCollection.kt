@@ -2,7 +2,7 @@ package com.lockwood.automata.core.wrappers
 
 @JvmInline
 value class NotEmptyCollection<T>(
-    private val value: Collection<T>
+    private val value: Collection<T>,
 ) : Collection<T> {
 
     init {

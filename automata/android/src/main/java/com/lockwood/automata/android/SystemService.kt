@@ -116,7 +116,7 @@ inline fun <reified T> Context.getSystemService(): T {
 }
 
 fun Context.getCompatSystemServiceName(
-    serviceClass: Class<*>
+    serviceClass: Class<*>,
 ): String? {
     return if (Build.VERSION.SDK_INT >= 23) {
         getSystemServiceName(serviceClass)

@@ -5,5 +5,5 @@ import com.lockwood.room.model.Room
 @JvmInline
 internal value class RoomsArray(
     @JvmField
-    val value: Array<Room>
+    val value: Array<Room>,
 )

@@ -1,8 +1,18 @@
-package com.lockwood.automata.recycler
+package com.lockwood.replicant.recycler.ext
 
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+
+fun <V : RecyclerView.ViewHolder> RecyclerView.applyAdapter(
+    listAdapter: RecyclerView.Adapter<V>,
+) {
+    listAdapter.apply {
+        setHasStableIds(true)
+        setHasFixedSize(true)
+    }
+    adapter = listAdapter
+}
 
 inline fun RecyclerView.applyLayoutManager(
     @RecyclerView.Orientation orientation: Int,

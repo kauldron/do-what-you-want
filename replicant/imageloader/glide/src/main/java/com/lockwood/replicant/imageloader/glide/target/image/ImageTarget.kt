@@ -6,4 +6,5 @@ import android.widget.ImageView
 internal typealias GlideImageCustomTarget =
         com.bumptech.glide.request.target.CustomViewTarget<ImageView, Drawable>
 
-internal typealias GlideDrawableTarget = com.bumptech.glide.request.target.Target<Drawable>
+internal typealias GlideDrawableTarget =
+        com.bumptech.glide.request.target.Target<Drawable>

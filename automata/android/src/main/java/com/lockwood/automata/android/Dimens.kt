@@ -12,7 +12,7 @@ private val Context.densityScale: Float
     get() = densityDpi / DisplayMetrics.DENSITY_DEFAULT
 
 @Px
-fun Context.dpToPx(@Dimension dp: Int): Float = dp * densityScale
+fun Context.dpToPx(@Dimension dp: Int): Int = (dp * densityScale).toInt()
 
 @Dimension
-fun Context.pxToDp(@Px px: Int): Float = px / densityScale
+fun Context.pxToDp(@Px px: Int): Int = (px / densityScale).toInt()

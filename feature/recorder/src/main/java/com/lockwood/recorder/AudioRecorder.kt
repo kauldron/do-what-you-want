@@ -49,7 +49,11 @@ internal class AudioRecorder(
     override fun stop() {
         if (isRecording) {
             isRecording = false
-            audioRecord.stop()
+            try {
+                audioRecord.stop()
+            } catch (exception: IllegalStateException) {
+                Timber.w("AudioRecord called before capture")
+            }
 
             listeners.forEach(RecordCallback::onStopRecord)
         }
@@ -69,6 +73,8 @@ internal class AudioRecorder(
 
         try {
             audioRecord.release()
+        } catch (exception: IllegalStateException) {
+            Timber.w("AudioRecord called before capture")
         } catch (e: Exception) {
             Timber.e(e)
         }

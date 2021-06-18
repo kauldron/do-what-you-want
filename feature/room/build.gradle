@@ -14,7 +14,6 @@ dependencies {
 
     implementation project(":automata:core")
     implementation project(":automata:android")
-    implementation project(":automata:recycler")
 
     implementation project(":replicant")
     implementation project(":replicant:delegate")

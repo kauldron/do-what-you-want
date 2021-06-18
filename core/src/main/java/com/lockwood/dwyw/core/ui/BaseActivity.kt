@@ -1,10 +1,10 @@
 package com.lockwood.dwyw.core.ui
 
+import android.app.AlertDialog
 import android.app.Fragment
 import android.widget.Toast
 import androidx.annotation.CallSuper
 import androidx.annotation.IdRes
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.lockwood.automata.android.asApplication
 import com.lockwood.automata.android.showFragment
 import com.lockwood.automata.core.notSafeLazy
@@ -38,7 +38,7 @@ abstract class BaseActivity : ScreenActivity(), RequestPermissionsResultCallback
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
-        grantResults: IntArray
+        grantResults: IntArray,
     ) {
         val isGranted = permissionsManager.isPermissionsGranted(this, requestCode, grantResults)
         val result = permissions.zip(grantResults.toList()).toMap()
@@ -56,9 +56,9 @@ abstract class BaseActivity : ScreenActivity(), RequestPermissionsResultCallback
     }
 
     protected inline fun showDialog(
-        onBuild: MaterialAlertDialogBuilder.() -> MaterialAlertDialogBuilder,
+        onBuild: AlertDialog.Builder.() -> AlertDialog.Builder,
     ) {
-        MaterialAlertDialogBuilder(this).setCancelable(false).apply {
+        AlertDialog.Builder(this).setCancelable(false).apply {
             onBuild(this)
         }.show()
     }
@@ -68,4 +68,3 @@ abstract class BaseActivity : ScreenActivity(), RequestPermissionsResultCallback
     }
 
 }
-

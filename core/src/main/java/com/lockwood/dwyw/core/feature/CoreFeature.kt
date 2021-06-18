@@ -7,7 +7,7 @@ import com.lockwood.replicant.feature.Feature
 import com.lockwood.replicant.releasable.notSafeReleasableLazy
 
 class CoreFeature(
-    private val contextProvider: ApplicationContextProvider
+    private val contextProvider: ApplicationContextProvider,
 ) : Feature {
 
     val executorProvider: ExecutorFactory by notSafeReleasableLazy {

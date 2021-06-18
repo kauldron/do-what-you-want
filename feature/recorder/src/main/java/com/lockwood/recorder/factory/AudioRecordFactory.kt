@@ -4,6 +4,7 @@ import android.media.AudioAttributes
 import android.media.AudioPlaybackCaptureConfiguration
 import android.media.AudioRecord
 import android.media.projection.MediaProjection
+import android.os.Build
 import com.lockwood.dwyw.core.media.AudioParams
 
 internal object AudioRecordFactory : IAudioRecordFactory {
@@ -19,10 +20,14 @@ internal object AudioRecordFactory : IAudioRecordFactory {
     private fun AudioRecord.Builder.setAudioPlaybackCaptureConfig(
         projection: MediaProjection,
     ): AudioRecord.Builder = apply {
-        val config = AudioPlaybackCaptureConfiguration.Builder(projection)
-            .addMatchingUsage(AudioAttributes.USAGE_MEDIA)
-            .addMatchingUsage(AudioAttributes.USAGE_UNKNOWN)
-            .build()
+        val config = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            AudioPlaybackCaptureConfiguration.Builder(projection)
+                .addMatchingUsage(AudioAttributes.USAGE_MEDIA)
+                .addMatchingUsage(AudioAttributes.USAGE_UNKNOWN)
+                .build()
+        } else {
+            error("${Build.VERSION.SDK_INT} < ${Build.VERSION_CODES.Q}")
+        }
 
         setAudioPlaybackCaptureConfig(config)
     }

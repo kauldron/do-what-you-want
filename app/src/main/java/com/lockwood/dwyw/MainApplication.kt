@@ -19,10 +19,9 @@ class MainApplication : Application(), DoWhatYouWantApplication {
 
     override val recorderFeature = RecorderFeature(contextProvider = this)
 
-    override val wrapperFeature = AppWrapperFeature()
-
     override val playerFeature = PlayerFeature()
 
+    override val wrapperFeature = AppWrapperFeature()
 
     override fun onCreate() {
         super.onCreate()

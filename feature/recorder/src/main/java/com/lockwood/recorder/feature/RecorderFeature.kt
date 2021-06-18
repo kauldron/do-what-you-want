@@ -34,9 +34,4 @@ class RecorderFeature(
         AudioRecorder(mediaProjectionManager)
     }
 
-    override fun release() {
-        audioRecorder.release()
-        super.release()
-    }
-
 }

@@ -1,20 +1,22 @@
 package com.lockwood.replicant.imageloader.request
 
 import com.lockwood.replicant.imageloader.options.ImageOptions
+import com.lockwood.replicant.imageloader.options.RequestOptions
 import com.lockwood.replicant.imageloader.target.Target
 
 class RequestBuilder {
 
-    private var imageOptions: ImageOptions? = null
+    private var imageOptions: ImageOptions = ImageOptions()
+    private var requestOptions: RequestOptions = RequestOptions()
 
     private val imageCallback: MutableList<Target> = mutableListOf()
 
     fun image(init: ImageOptions.() -> Unit) {
-        imageOptions = ImageOptions().apply { init() }
+        imageOptions = imageOptions.apply(init)
     }
 
-    fun image(init: Any?) {
-        image { data = init }
+    fun request(init: RequestOptions.() -> Unit) {
+        requestOptions = requestOptions.apply(init)
     }
 
     fun addCallback(target: Target) {
@@ -23,7 +25,8 @@ class RequestBuilder {
 
     fun build(): Request {
         return Request(
-            imageOptions = checkNotNull(imageOptions),
+            imageOptions = imageOptions,
+            requestOptions = requestOptions,
             imageCallback = imageCallback.toTypedArray()
         )
     }
@@ -31,8 +34,4 @@ class RequestBuilder {
 
 fun buildImageRequest(init: RequestBuilder.() -> Unit): Request {
     return RequestBuilder().apply(init).build()
-}
-
-fun buildImageRequest(data: String, init: RequestBuilder.() -> Unit = {}): Request {
-    return RequestBuilder().apply(init).apply { image(data) }.build()
 }

@@ -29,4 +29,5 @@ fun NotEmptyString.maxOrNull(): Char = (this as CharSequence).maxOrNull()!!
 
 fun NotEmptyString.randomOrNull(): Char = (this as CharSequence).randomOrNull()!!
 
-fun NotEmptyString.randomOrNull(random: Random): Char = (this as CharSequence).randomOrNull(random)!!
+fun NotEmptyString.randomOrNull(random: Random): Char =
+    (this as CharSequence).randomOrNull(random)!!

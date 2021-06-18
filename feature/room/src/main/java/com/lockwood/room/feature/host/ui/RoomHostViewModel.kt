@@ -39,7 +39,7 @@ internal class RoomHostViewModel(
         object : ConnectionCallback {
             override fun onConnectionInitiated(
                 endpointId: EndpointId,
-                connectionInfo: ConnectionInfo
+                connectionInfo: ConnectionInfo,
             ) {
                 val room = Room(endpointId = endpointId, name = connectionInfo.endpointName)
 
@@ -48,7 +48,7 @@ internal class RoomHostViewModel(
 
             override fun onConnectionResult(
                 endpointId: EndpointId,
-                connectionStatus: ConnectionsStatus
+                connectionStatus: ConnectionsStatus,
             ) {
                 offerEvent { MessageEvent("Connection result with $endpointId: $connectionStatus") }
             }

@@ -2,7 +2,7 @@ package com.lockwood.automata.core.wrappers
 
 @JvmInline
 value class NotEmptyList<T>(
-    private val value: List<T>
+    private val value: List<T>,
 ) : List<T> {
 
     init {

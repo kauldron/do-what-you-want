@@ -29,7 +29,7 @@ class RoomsFeature(
     connectionsManager: INearbyConnectionsManager,
     playerManager: IPlayerManager,
     buildConfigWrapper: BuildConfigWrapper,
-    executorProvider: ExecutorProvider
+    executorProvider: ExecutorProvider,
 ) : Feature {
 
     val roomsInteractor: IRoomsInteractor by lazy {

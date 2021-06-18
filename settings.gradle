@@ -1,11 +1,13 @@
 rootProject.name = "do-what-you-want"
 include ":app"
 include ":core", ":core:ui"
-include "feature:connections", "feature:player", "feature:recorder", ":feature:room"
+include "feature:connections", "feature:player", "feature:recorder"
+//include "feature:connections", "feature:player", "feature:recorder", ":feature:room"
 // will be moved to https://github.com/ScornfulBirch/nier
 include ":automata:android", ":automata:core", ":automata:file",
         ":automata:notification", ":automata:view",
-        ":automata:screen", ":automata:recycler"
-include ":replicant", ":replicant:delegate", ":replicant:executor", ":replicant:imageloader",
+        ":automata:screen"
+include ":replicant", ":replicant:delegate", ":replicant:executor",
+        ":replicant:imageloader", ":replicant:imageloader:glide",
         ":replicant:inflater", ":replicant:locale", ":replicant:feature", ":replicant:permission",
-        ":replicant:mvi"
+        ":replicant:recycler", ":replicant:mvi"

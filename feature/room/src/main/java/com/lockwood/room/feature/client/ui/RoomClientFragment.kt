@@ -11,7 +11,6 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.ColorInt
-import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat.setImageTintList
 import androidx.core.widget.ImageViewCompat.setImageTintMode
 import androidx.fragment.app.viewModels
@@ -131,10 +130,11 @@ internal class RoomClientFragment : BaseFragment<RoomClientViewState>() {
     }
 
     private fun renderImage(@ColorInt tint: Int) {
+        // TODO: Use image loader
         requireImageView().apply {
             setImageTintMode(this, PorterDuff.Mode.SRC_IN)
             setImageTintList(this, ColorStateList.valueOf(tint))
-            setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_headset))
+            setImageDrawable(context.getDrawable(R.drawable.ic_headset))
         }
     }
 

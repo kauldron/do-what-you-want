@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.res.Configuration
 import android.os.Build
 import com.lockwood.automata.android.ApplicationContext
-import java.util.Locale
+import java.util.*
 
 class AndroidLocaleManager(
     private val context: ApplicationContext,

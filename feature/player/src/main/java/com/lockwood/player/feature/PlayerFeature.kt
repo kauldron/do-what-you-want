@@ -22,9 +22,4 @@ class PlayerFeature : ReleasableFeature, PermissionsFeature {
         AudioTrackFactory.make()
     }
 
-    override fun release() {
-        playerManager.release()
-        super.release()
-    }
-
 }

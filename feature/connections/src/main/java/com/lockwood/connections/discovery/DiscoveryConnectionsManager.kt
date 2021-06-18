@@ -8,7 +8,7 @@ import com.lockwood.connections.callback.DiscoveryCallback
 import com.lockwood.connections.callback.adapter.DiscoveryCallbackAdapter
 
 class DiscoveryConnectionsManager(
-    private val client: ConnectionsClient
+    private val client: ConnectionsClient,
 ) : IDiscoveryConnectionsManager {
 
     private val discoveryCallback = DiscoveryCallbackAdapter()

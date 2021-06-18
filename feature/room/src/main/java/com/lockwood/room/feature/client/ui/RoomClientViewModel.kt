@@ -38,7 +38,7 @@ internal class RoomClientViewModel(
         object : ConnectionCallback {
             override fun onConnectionInitiated(
                 endpointId: EndpointId,
-                connectionInfo: ConnectionInfo
+                connectionInfo: ConnectionInfo,
             ) {
                 val room = Room(endpointId = endpointId, name = connectionInfo.endpointName)
 
@@ -47,7 +47,7 @@ internal class RoomClientViewModel(
 
             override fun onConnectionResult(
                 endpointId: EndpointId,
-                connectionStatus: ConnectionsStatus
+                connectionStatus: ConnectionsStatus,
             ) = when (connectionStatus) {
                 is ConnectionSuccess -> onConnected()
                 else -> offerEvent { MessageEvent("Connection result with $endpointId: $connectionStatus") }
