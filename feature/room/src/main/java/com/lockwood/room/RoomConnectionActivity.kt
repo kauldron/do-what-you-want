@@ -1,42 +1,42 @@
 package com.lockwood.room
 
+import android.app.Fragment
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toolbar
-import androidx.fragment.app.Fragment
-import com.lockwood.automata.intent.openWebPage
 import com.lockwood.dwyw.core.feature.wrapper.WrapperFeature
 import com.lockwood.dwyw.core.ui.BaseActivity
 import com.lockwood.player.feature.PlayerFeature
+import com.lockwood.recorder.ext.createScreenCaptureIntent
 import com.lockwood.recorder.feature.RecorderFeature
 import com.lockwood.recorder.manager.IMediaProjectionManager
 import com.lockwood.replicant.feature.ext.mergePermissions
 import com.lockwood.replicant.inflater.ext.setContentViewAsync
-import com.lockwood.replicant.view.MessageView
 import com.lockwood.replicant.view.ProgressView
 import com.lockwood.room.data.interactor.IRoomsInteractor
 import com.lockwood.room.feature.RoomsFeature
-import com.lockwood.room.feature.host.ui.IHostView
+import com.lockwood.room.feature.host.ui.HostView
 import com.lockwood.room.navigation.launcher.RoomArgs.IS_SHOW_ADVERTISING
 import com.lockwood.room.navigation.launcher.RoomArgs.ROOM_TO_SHOW
 
 internal class RoomConnectionActivity : BaseActivity(),
-    MessageView,
-    ProgressView,
-    IHostView {
+    ProgressView, HostView {
 
     private companion object {
 
-        private const val MENU_ITEM_LICENSE_ID = 0
         private const val MENU_ITEM_ABOUT_ID = 1
+
+        private const val CAPTURE_REQUEST_CODE = 1
 
         private const val SOURCE_URL = "https://github.com/kauldron/do-what-you-want"
     }
 
-    private val roomsInteractor: IRoomsInteractor
-        get() = getFeature<RoomsFeature>().roomsInteractor
+//    private val roomsInteractor: IRoomsInteractor
+//        get() = getFeature<RoomsFeature>().roomsInteractor
 
     private val mediaProjectionManager: IMediaProjectionManager
         get() = getFeature<RecorderFeature>().mediaProjectionManager
@@ -48,7 +48,7 @@ internal class RoomConnectionActivity : BaseActivity(),
             return mergePermissions(payerFeature, recorderFeature)
         }
 
-//	private val requestPermissionLauncher: PermissionsResultLauncher = registerForActivityResult(
+    //	private val requestPermissionLauncher: PermissionsResultLauncher = registerForActivityResult(
 //			ActivityResultContracts.RequestMultiplePermissions(),
 //			this::onActivityResult
 //	)
@@ -72,13 +72,12 @@ internal class RoomConnectionActivity : BaseActivity(),
         setContentViewAsync(R.layout.activity_rooms) {
             initActionBar()
 
-            handleIntent()
-            requestPermissions()
+//            handleIntent()
+            requestPermissions(*requiredPermissions)
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean = with(menu) {
-        add(0, MENU_ITEM_LICENSE_ID, MENU_ITEM_LICENSE_ID, "Licenses")
         add(0, MENU_ITEM_ABOUT_ID, MENU_ITEM_ABOUT_ID, "About")
 
         return super.onCreateOptionsMenu(this)
@@ -86,22 +85,17 @@ internal class RoomConnectionActivity : BaseActivity(),
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            MENU_ITEM_LICENSE_ID -> showLicense()
             MENU_ITEM_ABOUT_ID -> showAboutDialog()
         }
 
         return true
     }
 
-//	override fun onActivityResult(result: Map<String, Boolean>) {
-//		val isGranted = !result.containsValue(false)
-//
-//		if (isGranted) {
-//			navigateToScreen()
-//		} else {
-//			showToast("Not all permissions granted ( ｰ̀εｰ́ )")
-//		}
-//	}
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        onActivityCaptureResult(requestCode, resultCode, data)
+    }
 
 //	override fun showScreen(screen: Screen) = when (screen) {
 //		is RoomsDiscoveryScreen -> showFragment { RoomsDiscoverFragment.newInstance() }
@@ -110,24 +104,9 @@ internal class RoomConnectionActivity : BaseActivity(),
 //		else -> super.showScreen(screen)
 //	}
 
-    override fun showProgress() {
-        findViewById<View>(com.lockwood.replicant.R.id.progress_bar)?.visibility = View.VISIBLE
-    }
-
-    override fun hideProgress() {
-        findViewById<View>(com.lockwood.replicant.R.id.progress_bar)?.visibility = View.GONE
-    }
-
-    override fun showMessage(message: String) {
-        showToast(message)
-    }
-
-    override fun showError(message: String) {
-        showToast(message)
-    }
-
     override fun requestCapture() {
-//		requestScreenCaptureLauncher.launch(Unit)
+        val captureIntent = createScreenCaptureIntent()
+        startActivityForResult(captureIntent, CAPTURE_REQUEST_CODE)
     }
 
     override fun onCaptureGranted(isGranted: Boolean) {
@@ -139,36 +118,50 @@ internal class RoomConnectionActivity : BaseActivity(),
 //		hostFragment.onCaptureGranted(isGranted)
     }
 
-    private fun handleIntent() = with(intent) {
-//		checkNotNull(extras) {
-//			roomsInteractor.resetCacheState()
-//			return
-//		}
+    private fun onActivityCaptureResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
-        when {
-            hasExtra(ROOM_TO_SHOW) -> updateConnectedRoom()
-            hasExtra(IS_SHOW_ADVERTISING) -> updateAdvertising()
-            else -> Unit
+        if (requestCode != CAPTURE_REQUEST_CODE) {
+            return
         }
+
+//        val isGranted = !result.containsValue(false)
+//
+//        if (isGranted) {
+//            navigateToScreen()
+//        } else {
+//            showError("Not all permissions granted ( ｰ̀εｰ́ )")
+//        }
     }
 
-    private fun updateAdvertising() = with(roomsInteractor) {
-        isBroadcasting = true
+    override fun showProgress() {
+        findViewById<View>(com.lockwood.dwyw.ui.core.R.id.progress_bar)?.visibility = View.VISIBLE
     }
 
-    private fun updateConnectedRoom() = with(roomsInteractor) {
-        isConnected = true
-//		connectedRoom = requireNotNull(intent.getParcelableExtra(ROOM_TO_SHOW))
+    override fun hideProgress() {
+        findViewById<View>(com.lockwood.dwyw.ui.core.R.id.progress_bar)?.visibility = View.GONE
     }
 
-    private fun navigateToScreen() {
-        val screenToShow = getFeature<RoomsFeature>().roomsRouter.getScreenToShow()
-        showScreen(screenToShow)
-    }
+//    private fun handleIntent() = with(intent) {
+//        when {
+//            hasExtra(ROOM_TO_SHOW) -> updateConnectedRoom()
+//            hasExtra(IS_SHOW_ADVERTISING) -> updateAdvertising()
+//            else -> Unit
+//        }
+//    }
 
-    private fun requestPermissions() {
-//		requestPermissionLauncher.launch(requiredPermissions)
-    }
+//    private fun updateAdvertising() = with(roomsInteractor) {
+//        isBroadcasting = true
+//    }
+//
+//    private fun updateConnectedRoom() = with(roomsInteractor) {
+//        isConnected = true
+////		connectedRoom = requireNotNull(intent.getParcelableExtra(ROOM_TO_SHOW))
+//    }
+
+//    private fun navigateToScreen() {
+//        val screenToShow = getFeature<RoomsFeature>().roomsRouter.getScreenToShow()
+//        showScreen(screenToShow)
+//    }
 
     private inline fun <reified T : Fragment> showFragment(
         initializer: () -> T,
@@ -181,18 +174,20 @@ internal class RoomConnectionActivity : BaseActivity(),
         setActionBar(toolbar)
     }
 
-    private fun showLicense() {
-        getFeature<RoomsFeature>().thirdPartyLicenseLauncher.launch(this)
-    }
-
     private fun showAboutDialog() {
         val appInfo = getFeature<WrapperFeature>().buildConfigWrapper.appInfo
 
         showDialog {
             setTitle("Do what you want")
             setMessage(appInfo)
-            setNeutralButton("Source") { _, _ -> openWebPage(SOURCE_URL) }
+            setNeutralButton("Source") { _, _ -> openSourceWebPage() }
             setPositiveButton("Ok") { dialog, _ -> dialog.dismiss() }
         }
     }
+
+    private fun openSourceWebPage() {
+        val viewIntent = Intent(Intent.ACTION_VIEW, Uri.parse(SOURCE_URL))
+        startActivity(viewIntent)
+    }
+
 }

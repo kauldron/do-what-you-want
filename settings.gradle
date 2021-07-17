@@ -1,8 +1,7 @@
 rootProject.name = "do-what-you-want"
 include ":app"
 include ":core", ":core:ui"
-include "feature:connections", "feature:player", "feature:recorder"
-//include "feature:connections", "feature:player", "feature:recorder", ":feature:room"
+include "feature:connections", "feature:player", "feature:recorder", ":feature:room"
 // will be moved to https://github.com/ScornfulBirch/nier
 include ":automata:android", ":automata:core", ":automata:file",
         ":automata:notification", ":automata:view",

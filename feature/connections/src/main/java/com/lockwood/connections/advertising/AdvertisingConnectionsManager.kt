@@ -3,7 +3,6 @@ package com.lockwood.connections.advertising
 import com.google.android.gms.nearby.connection.AdvertisingOptions
 import com.google.android.gms.nearby.connection.ConnectionsClient
 import com.google.android.gms.nearby.connection.Payload
-import com.google.android.gms.tasks.Task
 import com.lockwood.connections.NearbyConnectionsManager
 import com.lockwood.connections.callback.ConnectionCallback
 import com.lockwood.connections.callback.adapter.ConnectionCallbackAdapter
@@ -33,13 +32,14 @@ class AdvertisingConnectionsManager(
         }
     }
 
-    override fun startAdvertising(name: String): Task<Void> {
+    override fun startAdvertising(name: String) {
         addConnectionCallback(connectedEndpointsCallback)
 
-        val options =
-            AdvertisingOptions.Builder().setStrategy(NearbyConnectionsManager.CONNECTION_STRATEGY)
-                .build()
-        return client.startAdvertising(
+        val options = AdvertisingOptions.Builder()
+            .setStrategy(NearbyConnectionsManager.CONNECTION_STRATEGY)
+            .build()
+
+        client.startAdvertising(
             name,
             NearbyConnectionsManager.SERVICE_ID,
             lifecycleCallback,
@@ -56,8 +56,8 @@ class AdvertisingConnectionsManager(
         }
     }
 
-    override fun requestConnection(name: String, endpointId: EndpointId): Task<Void> {
-        return client.requestConnection(name, endpointId.toString(), lifecycleCallback)
+    override fun requestConnection(name: String, endpointId: EndpointId) {
+        client.requestConnection(name, endpointId.toString(), lifecycleCallback)
     }
 
     override fun stopAdvertising() {

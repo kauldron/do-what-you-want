@@ -1,16 +1,15 @@
 package com.lockwood.connections.advertising
 
-import com.google.android.gms.tasks.Task
 import com.lockwood.connections.callback.ConnectionCallback
 import com.lockwood.connections.model.EndpointId
 
 interface IAdvertisingConnectionsManager {
 
-    fun startAdvertising(name: String): Task<Void>
+    fun startAdvertising(name: String)
 
     fun sendPayload(byteArray: ByteArray)
 
-    fun requestConnection(name: String, endpointId: EndpointId): Task<Void>
+    fun requestConnection(name: String, endpointId: EndpointId)
 
     fun addConnectionCallback(callback: ConnectionCallback)
 

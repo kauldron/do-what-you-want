@@ -6,7 +6,6 @@ interface ProgressView {
 
     fun hideProgress()
 
-    @JvmDefault
     fun updateProgressVisibility(isVisible: Boolean) {
         if (isVisible) {
             showProgress()

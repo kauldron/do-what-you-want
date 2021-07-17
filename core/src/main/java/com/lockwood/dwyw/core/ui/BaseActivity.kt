@@ -12,8 +12,10 @@ import com.lockwood.permission.IPermissionManager
 import com.lockwood.permission.PermissionManager
 import com.lockwood.permission.callback.RequestPermissionsResultCallback
 import com.lockwood.replicant.base.ScreenActivity
+import com.lockwood.replicant.view.MessageView
 
-abstract class BaseActivity : ScreenActivity(), RequestPermissionsResultCallback {
+abstract class BaseActivity : ScreenActivity(),
+    MessageView, RequestPermissionsResultCallback {
 
     private val permissionsManager: IPermissionManager by notSafeLazy {
         PermissionManager(applicationContext.asApplication())
@@ -63,7 +65,15 @@ abstract class BaseActivity : ScreenActivity(), RequestPermissionsResultCallback
         }.show()
     }
 
-    protected fun showToast(string: String) {
+    override fun showMessage(message: String) {
+        showToast(message)
+    }
+
+    override fun showError(message: String) {
+        showToast(message)
+    }
+
+    private fun showToast(string: String) {
         Toast.makeText(this, string, Toast.LENGTH_SHORT).show()
     }
 

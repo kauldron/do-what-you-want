@@ -5,32 +5,47 @@ import android.content.Intent
 import android.widget.Toast
 import androidx.annotation.MainThread
 import androidx.annotation.WorkerThread
-import com.google.android.gms.common.api.ApiException
+import com.lockwood.automata.android.ApplicationContext
+import com.lockwood.automata.android.startForegroundService
+import com.lockwood.automata.android.startService
 import com.lockwood.dwyw.core.feature.CoreFeature
 import com.lockwood.dwyw.core.feature.wrapper.WrapperFeature
 import com.lockwood.recorder.IAudioRecorder
 import com.lockwood.recorder.callback.RecordCallback
 import com.lockwood.recorder.feature.RecorderFeature
-import com.lockwood.replicant.executor.provider.ExecutorProvider
+import com.lockwood.replicant.executor.ExecutorFactory
+import com.lockwood.room.base.BaseRoomService
 import com.lockwood.room.data.interactor.IRoomsInteractor
 import com.lockwood.room.feature.RoomsFeature
+import java.util.concurrent.Executor
 import java.util.concurrent.ExecutorService
-
 
 internal class HostForegroundService : BaseRoomService() {
 
-    private companion object {
+    companion object {
 
         private const val NOTIFICATION_ID = 720
         private const val STATUS_ALREADY_ADVERTISING = 8001
+
+        fun startService(context: ApplicationContext) {
+            context.application.startForegroundService<HostForegroundService>()
+        }
+
+        fun stopService(context: ApplicationContext) {
+            context.application.startService<HostForegroundService> { action = STOP_SERVICE }
+        }
     }
 
     private val recorderExecutor: ExecutorService by lazy {
-        executorProvider.io()
+        executorFactory.io()
     }
 
     private val payloadExecutor: ExecutorService by lazy {
-        executorProvider.io()
+        executorFactory.io()
+    }
+
+    private val mainThreadExecutor: Executor by lazy {
+        executorFactory.main()
     }
 
     private val recordCallback = object : RecordCallback {
@@ -49,14 +64,14 @@ internal class HostForegroundService : BaseRoomService() {
     private val deviceName: String
         get() = getFeature<WrapperFeature>().buildConfigWrapper.deviceModel
 
-    private val roomsInteractor: IRoomsInteractor
-        get() = getFeature<RoomsFeature>().roomsInteractor
+//    private val roomsInteractor: IRoomsInteractor
+//        get() = getFeature<RoomsFeature>().roomsInteractor
 
     private val audioRecorder: IAudioRecorder
         get() = getFeature<RecorderFeature>().audioRecorder
 
-    private val executorProvider: ExecutorProvider
-        get() = getFeature<CoreFeature>().executorProvider
+    private val executorFactory: ExecutorFactory
+        get() = getFeature<CoreFeature>().executorFactory
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         return if (isStopService(intent)) {
@@ -72,14 +87,14 @@ internal class HostForegroundService : BaseRoomService() {
     }
 
     private fun startAdvertising() {
-        roomsInteractor.startAdvertising(deviceName)
-            .addOnFailureListener {
-                if (it is ApiException && it.statusCode == STATUS_ALREADY_ADVERTISING) {
-                    return@addOnFailureListener
-                }
-
-                showToast(it.message.toString())
-            }
+//        roomsInteractor.startAdvertising(deviceName)
+//            .addOnFailureListener {
+//                if (it is ApiException && it.statusCode == STATUS_ALREADY_ADVERTISING) {
+//                    return@addOnFailureListener
+//                }
+//
+//                showToast(it.message.toString())
+//            }
     }
 
     override fun onCreate() {
@@ -104,29 +119,29 @@ internal class HostForegroundService : BaseRoomService() {
     }
 
     private fun releaseSelf() {
-        roomsInteractor.stopAdvertising()
+//        roomsInteractor.stopAdvertising()
         audioRecorder.removeRecordCallback(recordCallback)
+
+        releaseFeature<RecorderFeature>()
 
         recorderExecutor.shutdown()
         payloadExecutor.shutdown()
-
-        releaseFeature<RecorderFeature>()
     }
 
     @WorkerThread
     private fun recordData() = recorderExecutor.execute {
-        while (audioRecorder.getIsRecording()) {
+        while (audioRecorder.isRecording) {
             audioRecorder.read()
         }
     }
 
     @WorkerThread
     private fun shareData(byteArray: ByteArray) = payloadExecutor.execute {
-        roomsInteractor.sendPayload(byteArray)
+//        roomsInteractor.sendPayload(byteArray)
     }
 
     @MainThread
-    private fun showToast(string: String) = executorProvider.main().execute {
+    private fun showToast(string: String) = mainThreadExecutor.execute {
         Toast.makeText(this, string, Toast.LENGTH_SHORT).show()
     }
 

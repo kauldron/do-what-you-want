@@ -22,17 +22,12 @@ dependencies {
     implementation project(":replicant:feature")
     implementation project(":replicant:mvi")
     implementation project(":replicant:permission")
+    implementation project(":replicant:recycler")
 
     implementation project(":feature:connections")
     implementation project(":feature:player")
     implementation project(":feature:recorder")
 
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
-    implementation "com.jakewharton.timber:timber:4.7.1"
-    implementation "com.google.android.gms:play-services-oss-licenses:17.0.0"
 
-    implementation 'com.google.android.material:material:1.4.0-rc01'
-    implementation 'com.google.android.gms:play-services-tasks:17.2.1'
-
-    implementation "com.google.android.gms:play-services-oss-licenses:17.0.0"
 }

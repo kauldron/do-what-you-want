@@ -1,8 +1,8 @@
 package com.lockwood.replicant.executor
 
+import android.content.Context
 import android.os.Build
 import android.os.Handler
-import com.lockwood.automata.android.ApplicationContext
 import com.lockwood.replicant.executor.Runtime.CORE_POOL_SIZE
 import com.lockwood.replicant.executor.Runtime.CPU_COUNT
 import com.lockwood.replicant.executor.Runtime.IO_MAX_POOL_SIZE
@@ -15,10 +15,10 @@ import java.util.concurrent.ThreadPoolExecutor
 import java.util.concurrent.TimeUnit.MINUTES
 
 class AndroidExecutorFactory(
-    private val context: ApplicationContext,
+    private val context: Context,
 ) : ExecutorFactory {
 
-    override fun main(): Executor = with(context.value) {
+    override fun main(): Executor = with(context) {
         return if (Build.VERSION.SDK_INT >= 28) {
             mainExecutor
         } else {

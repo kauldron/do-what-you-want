@@ -16,8 +16,8 @@ class ConnectionsFeature(
     private val contextProvider: ApplicationContextProvider,
 ) : Feature {
 
-    val nearbyConnectionsManager: INearbyConnectionsManager by notSafeLazy {
-        NearbyConnectionsManager(client, advertisingConnectionsManager, discoveryConnectionsManager)
+    private val client: ConnectionsClient by notSafeLazy {
+        Nearby.getConnectionsClient(contextProvider.applicationContext.value)
     }
 
     private val advertisingConnectionsManager: IAdvertisingConnectionsManager by notSafeLazy {
@@ -28,8 +28,8 @@ class ConnectionsFeature(
         DiscoveryConnectionsManager(client)
     }
 
-    private val client: ConnectionsClient by notSafeLazy {
-        Nearby.getConnectionsClient(contextProvider.applicationContext.value)
+    val nearbyConnectionsManager: INearbyConnectionsManager by notSafeLazy {
+        NearbyConnectionsManager(client, advertisingConnectionsManager, discoveryConnectionsManager)
     }
 
 }

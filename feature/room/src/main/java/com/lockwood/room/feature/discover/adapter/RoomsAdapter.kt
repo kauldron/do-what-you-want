@@ -1,8 +1,8 @@
 package com.lockwood.room.feature.discover.adapter
 
 import android.view.ViewGroup
-import com.lockwood.replicant.base.ReplicantAdapter
-import com.lockwood.replicant.base.ReplicantViewHolder
+import com.lockwood.replicant.recycler.ReplicantAdapter
+import com.lockwood.replicant.recycler.ReplicantViewHolder
 import com.lockwood.replicant.view.listener.ItemClickListener
 import com.lockwood.room.R
 import com.lockwood.room.model.Room

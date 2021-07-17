@@ -27,7 +27,7 @@ class RecorderFeature(
         get() = VERSION.SDK_INT >= VERSION_CODES.Q
 
     val mediaProjectionManager: IMediaProjectionManager by notSafeLazy {
-        MediaProjectionManager(contextProvider.applicationContext)
+        MediaProjectionManager(contextProvider.applicationContext.value)
     }
 
     val audioRecorder: IAudioRecorder by lazy {

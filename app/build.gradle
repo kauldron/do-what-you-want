@@ -39,7 +39,7 @@ dependencies {
     implementation project(":replicant:imageloader")
 
     implementation project(":feature:connections")
-//    implementation project(":feature:room")
+    implementation project(":feature:room")
     implementation project(":feature:player")
     implementation project(":feature:recorder")
 

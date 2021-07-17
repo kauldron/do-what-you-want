@@ -1,6 +1,6 @@
 package com.lockwood.room.feature.host.ui
 
-internal interface IHostView {
+internal interface HostView {
 
     fun requestCapture()
 

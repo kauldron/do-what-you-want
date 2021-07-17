@@ -1,6 +1,5 @@
 package com.lockwood.room.data.interactor
 
-import com.google.android.gms.tasks.Task
 import com.lockwood.connections.model.EndpointId
 import com.lockwood.dwyw.core.wrapper.BuildConfigWrapper
 import com.lockwood.player.IPlayerManager
@@ -16,8 +15,8 @@ internal class RoomsInteractor(
     IPlayerManager by playerManager,
     IRoomsRepository by repository {
 
-    override fun requestConnection(endpointId: EndpointId): Task<Void> {
-        return repository.requestConnection(buildConfigWrapper.deviceModel, endpointId)
+    override fun requestConnection(endpointId: EndpointId) {
+        repository.requestConnection(buildConfigWrapper.deviceModel, endpointId)
     }
 
     override fun isSameHostRoom(room: Room): Boolean {

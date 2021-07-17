@@ -3,25 +3,37 @@ package com.lockwood.room.feature.client.service
 import android.app.Notification
 import android.content.Intent
 import androidx.annotation.WorkerThread
+import com.lockwood.automata.android.ApplicationContext
+import com.lockwood.automata.android.startForegroundService
+import com.lockwood.automata.android.startService
 import com.lockwood.connections.callback.PayloadCallback
 import com.lockwood.connections.model.EndpointId
 import com.lockwood.dwyw.core.feature.CoreFeature
 import com.lockwood.player.IPlayerManager
 import com.lockwood.player.feature.PlayerFeature
-import com.lockwood.replicant.executor.provider.ExecutorProvider
+import com.lockwood.replicant.executor.ExecutorFactory
+import com.lockwood.room.base.BaseRoomService
 import com.lockwood.room.data.interactor.IRoomsInteractor
 import com.lockwood.room.feature.RoomsFeature
 import java.util.concurrent.ExecutorService
 
 internal class ClientForegroundService : BaseRoomService() {
 
-    private companion object {
+    companion object {
 
         private const val NOTIFICATION_ID = 1080
+
+        fun startService(context: ApplicationContext) {
+            context.application.startForegroundService<ClientForegroundService>()
+        }
+
+        fun stopService(context: ApplicationContext) {
+            context.application.startService<ClientForegroundService> { action = STOP_SERVICE }
+        }
     }
 
     private val readerExecutor: ExecutorService by lazy {
-        executorProvider.io()
+        executorFactory.io()
     }
 
     private val payloadCallback = object : PayloadCallback {
@@ -33,11 +45,11 @@ internal class ClientForegroundService : BaseRoomService() {
     private val channelId: String
         get() = ClientForegroundService::class.java.simpleName
 
-    private val roomsInteractor: IRoomsInteractor
-        get() = getFeature<RoomsFeature>().roomsInteractor
+//    private val roomsInteractor: IRoomsInteractor
+//        get() = getFeature<RoomsFeature>().roomsInteractor
 
-    private val executorProvider: ExecutorProvider
-        get() = getFeature<CoreFeature>().executorProvider
+    private val executorFactory: ExecutorFactory
+        get() = getFeature<CoreFeature>().executorFactory
 
     private val playerManager: IPlayerManager
         get() = getFeature<PlayerFeature>().playerManager
@@ -57,7 +69,7 @@ internal class ClientForegroundService : BaseRoomService() {
 
     override fun onCreate() {
         super.onCreate()
-        roomsInteractor.addPayloadCallback(payloadCallback)
+//        roomsInteractor.addPayloadCallback(payloadCallback)
     }
 
     override fun onDestroy() {
@@ -65,7 +77,10 @@ internal class ClientForegroundService : BaseRoomService() {
         releaseSelf()
     }
 
-    private fun startForeground() = with(roomsInteractor.connectedRoom) {
+    private fun startForeground() {
+        // TODO: Change to connected room name
+        val name = "STUB"
+
         val notification: Notification = buildNotification(channelId) {
             setContentTitle("Connected to $name")
             setTicker("Connected to $name")
@@ -76,14 +91,14 @@ internal class ClientForegroundService : BaseRoomService() {
     }
 
     private fun releaseSelf() {
-        with(roomsInteractor) {
-            stopDiscovery()
-            removePayloadCallback(payloadCallback)
-        }
-
-        readerExecutor.shutdown()
+//        with(roomsInteractor) {
+//            stopDiscovery()
+//            removePayloadCallback(payloadCallback)
+//        }
 
         releaseFeature<PlayerFeature>()
+
+        readerExecutor.shutdown()
     }
 
     @WorkerThread

@@ -10,8 +10,8 @@ class CoreFeature(
     private val contextProvider: ApplicationContextProvider,
 ) : Feature {
 
-    val executorProvider: ExecutorFactory by notSafeReleasableLazy {
-        AndroidExecutorFactory(contextProvider.applicationContext)
+    val executorFactory: ExecutorFactory by notSafeReleasableLazy {
+        AndroidExecutorFactory(contextProvider.applicationContext.value)
     }
 
 }

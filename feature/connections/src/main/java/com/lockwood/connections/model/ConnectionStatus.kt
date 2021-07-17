@@ -11,7 +11,7 @@ sealed class ConnectionStatus(
     class Error(status: Status) : ConnectionStatus(status)
     class Unknown(status: Status) : ConnectionStatus(status)
 
-    override fun toString(): String = status.statusMessage.toString()
+    override fun toString(): String = requireNotNull(status.statusMessage).toString()
 }
 
 
